@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>『科学哲学的兴起』读书批注</title>
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/basicStyle.css">
+        <link rel="icon"
+        href="../../../../Module-Images/favicon.ico"
+        type="image/x-icon"/>
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/topNavBar.css">
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/markedContent.css">
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/titleContent.css">
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/sideNavBar.css">
+        <link rel="stylesheet"
+        href="../../../../Module-Sheets/siteInfo.css">
+        <link rel="stylesheet" 
+        href="../../../../Module-Scripts/Highlight/styles/default.min.css">
+    </head>
+    <body>
+        
+        <!--顶部导航栏内容-->
+        <div class="topNavBar">
+            <ul>
+                <li class="topNavBarList"><a href="../../../../index.html">首页</a></li>
+                <li class="topNavBarList"><a href="../../../../ConUpdate/con.html">内容更新</a></li>
+                <li class="topNavBarList"><a href="../../../../CodeUpdate/code.html">代码更新</a></li>
+                <li class="topNavBarList"><a href="../../../../Babel/babel.html">知识</a></li>
+                <li class="topNavBarList"><a href="../../../../Projects/projects.html">项目</a></li>
+                <li class="topNavBarList"><a href="../../../../Thinkings/thinkings.html">思考</a></li>
+            </ul>
+        </div>
+
+        <!--文章标题与说明-->
+        <div class="titleContent">
+            <h1>『科学哲学的兴起』读书批注</h1>
+        </div>
+        <div class="firstRow">
+            <object data="../../../../Module-Images/writeDown.svg" type="image/svg+xml"></object>
+            <p>发表于2023.7.26|    |</p>
+            <object data="../../../../Module-Images/update.svg" type="image/svg+xml"></object>
+            <p>更新于2023.7.26</p>
+        </div>
+        <div class="secondRow">
+            <object data="../../../../Module-Images/knowledgeWeb.svg" type="image/svg+xml"></object>
+            <p>人文社科知识-个人思考-哲学</p>
+        </div>
+
+        <!--侧边栏内容-->
+        <div class="sideNavBarBox">
+            <div class="sideNavBar">
+                <div class="selfIntro">
+                    <div class="introImage"><img src="../../../../Module-Images/sagiri.jpg" alt="AshGrey"></div>
+                    <div class="introContent">
+                        <h2>AshGrey</h2>
+                        <p>Love Sagiri🍭🍭🍭</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--文章内容生成区域-->
+        <div class="contentBox">
+            <div class="contentCard">
+                <div id="markedContent"></div>
+            </div>
+        </div>
+
+        <!--网站信息-->
+        <div class="siteInfo">
+            <ul>
+                <li class="infoList" id="hostedSite">
+                    <a href="https://vercel.com/dashboard" target="_blank">
+                    <img src="../../../../Module-Images/Hosted-Vercel.svg">
+                    </a>
+                </li>
+                <li class="infoList" id="icpMoe">
+                    <a href="https://icp.gov.moe/?keyword=20230312" target="_blank">
+                    <img src="../../../../Module-Images/萌ICP备-20230312.svg">
+                    </a>
+                </li>
+                <li class="infoList" id="sourceSite">
+                    <a href="https://github.com/AshGreyG/github.io" target="_blank">
+                    <img src="../../../../Module-Images/Source-Github.svg">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <script src="../../../../Module-Scripts/Marked.min.js"></script>
+        <script>
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '『科学哲学的兴起』读书批注.md');
+            xhr.onload = function() {
+                var html = marked.parse(xhr.responseText);
+                document.getElementById('markedContent').innerHTML = html;
+            };
+            xhr.send();
+        </script>  
+        <script src="../../../../Module-Scripts/Highlight/highlight.min.js"></script>
+        <script>
+            hljs.highlightAll();
+        </script>        
+    </body>
+</html>
