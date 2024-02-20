@@ -17,6 +17,8 @@ excerpt: 本文章所属领域：实践产业知识 - 工业产业 - 计算机�
 > 本文章所需前置知识：
 >
 > - [C++基础知识]({% post_url /Computer Science/Language/2024-02-08-C++基础知识笔记 %})
+>
+> 本文章更类似wxWidgets的中文文档😀
 {: .prompt-info}
 
 <br>
@@ -41,7 +43,7 @@ excerpt: 本文章所属领域：实践产业知识 - 工业产业 - 计算机�
 class MyApp : public wxApp {
 	public:
 		virtual bool OnInit() wxOVERRIDE;
-		std::string mAppname{ "X-chi" };
+		std::string mAppname{ "MyApp" };
 };
 wxIMPLEMENT_APP(MyApp);
 wxDECLARE_APP(MyApp);
@@ -57,7 +59,7 @@ wxDECLARE_APP(MyApp);
 bool MyApp::OnInit() {
 	if (!wxApp::OnInit())
 		return false;
-	MyFrame* frame = new MyFrame(wxT("X-chi"));
+	MyFrame* frame = new MyFrame(wxT("MyApp"));
 	frame->Show(true);
 	return true;
 }
@@ -107,8 +109,8 @@ wxEND_EVENT_TABLE()
 ``` cpp
 void MyFrame::OnAbout(wxCommandEvent& event) {
 	wxString msg;
-	msg.Printf(wxT("Hello and welcome to X-chi %s"), wxVERSION_STRING);
-	wxMessageBox(msg, wxT("About X-chi"), wxOK | wxICON_INFORMATION, this);
+	msg.Printf(wxT("Hello and welcome to MyApp %s"), wxVERSION_STRING);
+	wxMessageBox(msg, wxT("About MyApp"), wxOK | wxICON_INFORMATION, this);
 }
 
 void MyFrame::OnQuit(wxCommandEvent& event) {
@@ -131,17 +133,17 @@ MyFrame::MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
 	wxMenu* fileMenu = new wxMenu;
 	wxMenu* helpMenu = new wxMenu;
 	(*helpMenu).Append(wxID_ABOUT, 
-					   wxT("&About...\tF1"),
-					   wxT("Show about dialog"));
+	                   wxT("&About...\tF1"),
+	                   wxT("Show about dialog"));
 	(*fileMenu).Append(wxID_EXIT,
-					   wxT("E&xit\tAlt-X"),
-					   wxT("Quit this program"));
+	                   wxT("E&xit\tAlt-X"),
+	                   wxT("Quit this program"));
 	wxMenuBar* menuBar = new wxMenuBar();
 	(*menuBar).Append(fileMenu, wxT("&File"));
 	(*menuBar).Append(helpMenu, wxT("&Help"));
 	SetMenuBar(menuBar);
 	CreateStatusBar(3);
-	SetStatusText(wxT("Welcome to X-chi!"));
+	SetStatusText(wxT("Welcome to MyApp!"));
 }
 ```
 
@@ -193,9 +195,9 @@ class MyCustomEventHandler : public wxEvtHandler {
 
 
 wxButton* clickButton = new wxButton(this,
-									 wxID_OK,
-									 wxT("OK!"),
-									 wxPoint(200, 200));
+                                     wxID_OK,
+                                     wxT("OK!"),
+                                     wxPoint(200, 200));
 (*clickButton).PushEventHandler(new MyCustomEventHandler);
 ```
 
@@ -214,7 +216,7 @@ wxButton* clickButton = new wxButton(this,
 <br>
 
 ``` cpp
-mBindButton->Bind(wxEVT_BUTTON, &MyFrame::OnBindBtn, this);
+(*mBindButton).Bind(wxEVT_BUTTON, &MyFrame::OnBindBtn, this);
 ```
 
 <br>
@@ -227,35 +229,7 @@ mBindButton->Bind(wxEVT_BUTTON, &MyFrame::OnBindBtn, this);
 
 <br>
 
-### 3.1 窗口的组成部分与基本行为
-
-<br>
-
-窗口可以被改变大小、自我刷新、可以被显示或者隐藏，它还可以包含别的窗口，也可以不包含任何子窗口。在使用`wxWidgets`生成的窗口，基本都和一个`wxWindow`类或者它的派生类对应。窗口的基本组成部分与基本行为如下：
-
-- **客户区**：指的是窗口中那些能被绘制或者它的子窗口能被放置的子区域，不包括菜单栏、状态栏、工具栏等区域（这些是用于修饰的边框的非客户区）；
-- **滚动条**：大部分窗口具有滚动条，这些滚动条通常是窗口自己增加的而不是由应用程序手动增加的。为了优化性能，只有拥有`wxHSCROLL`和`wxVSCROLL`类型的窗口才会自动生成自己的滚动条；
-- **光标和鼠标指针**：一个窗口可以拥有一个光标（`wxCaret`，用来显示当前的输入文本的位置）和一个鼠标指针（`wxCursor`，用来显示当前鼠标指针的位置）。当鼠标移入窗口时，`wxWidegts`将自动显示鼠标指针；当一个窗口成为**焦点窗口**时，光标将会显示当前文本的输入位置，或者如果这个焦点是由于鼠标点击造成的，光标将会显示在鼠标指针对应的位置；
-- **顶层窗口**：窗口分为顶层窗口（`wxFrame`、`wxDialog`、`wxPopup`等）和其他窗口，只有顶层窗口创建的时候才可以使用`NULL`作为其父窗口，只有顶层窗口是延迟删除的，即当所有的事件处理完毕之后才会被删除。除了`wxPopup`窗口外，所有的顶层窗口都具有一个标题栏和一个关闭按钮；
-- **坐标**：窗口的坐标体系通常以左上角为原点，单位是像素。在某个用于窗口绘制的特定的上下文中，原点和比例允许被改变；
-- **窗口绘制**：当一个窗口需要重绘的时候，它将接收到两个事件：`wxEVT_ERASE_BACKGROUND`事件用于通知应用程序重新绘制背景，`wxEVT_PAINT`则用于通知重新绘制前景；
-- **大小改变**：当一个窗口的大小发生改变时，无论是来自用户的还是来自应用程序的，它都将接收到一个`wxEVT_SIZE`事件。如果这个窗口拥有子窗口，它们可能需要被重新放置和重新计算大小。大多数已经确定的窗口类都有一个默认的大小和位置，这两个值的修改可以在创建窗口的时候修改`wxDefalutSize`和`wxDefaultPosition`实现。每一个控件都实现了`DoGetBestSize`函数，这个函数会返回这个窗口基于其内容、当前字体以及其他因素来说最合理的大小；
-- **输入**：任何窗口在任何时候都可以接收鼠标事件，除非这个窗口被禁止使用或者临时限制了鼠标事件的区域；只有当前处于活动状态的窗口才可以收到键盘事件。正在活动状态的窗口会收到`wxEVT_SET_FOCUS`事件，失去焦点的窗口会收到`wxEVT_KILL_FOCUS`事件；
-- **窗口的创建与删除**：一般来说，窗口都是在堆上使用`new`分配内存的。大多数窗口可以通过单步创建或双步创建：
-
-	``` cpp
-	// One step:
-	wxButton* saveButton = new wxButton(this, 100, wxT("Button!"), wxPoint(200, 225));
-	// Two steps:
-	wxButton* changeButton = new wxButton;
-	changeButton->Create(this, 110, wxT("Button?"), wxPoint(200, 250));
-	```
-
-	当创建一个窗口类，或者其他任何非顶层的派生类的时候，如果它的父窗口是可见的，那么它也总是可见的，可以使用`Show(false)`使其不可见。顶层窗口在创建的时候通常是不可见的，需要使用`Show(true)`使其可见。窗口是通过调用其`Destroy`函数（对于顶层窗口）或者调用`delete`释放其内存（很少直接调用）。
-
-<br>
-
-### 3.2 基础窗口类
+### 3.1 基础窗口类
 
 <br>
 
@@ -265,11 +239,11 @@ mBindButton->Bind(wxEVT_BUTTON, &MyFrame::OnBindBtn, this);
 
 ``` cpp
 wxWindow(wxWindow* parent,
-	wxWindowID id,
-	const wxPoint& pos = wxDefaultPosition,
-	const wxSize& size = wxDefalutSize,
-	long style = 0,
-	const wxString& name = wxT("panel"))
+         wxWindowID id,
+         const wxPoint& pos = wxDefaultPosition,
+         const wxSize& size = wxDefalutSize,
+         long style = 0,
+         const wxString& name = wxT("panel"))
 ```
 
 <br>
@@ -280,10 +254,10 @@ wxWindow(wxWindow* parent,
 
 ``` cpp
 wxDialog(parent,
-	wxID_ANY,
-	wxT("Create New File"),
-	wxPoint(200, 200),
-	wxSize(500, 300));
+         wxID_ANY,
+         wxT("Create New File"),
+         wxPoint(200, 200),
+         wxSize(500, 300));
 ```
 
 <br>
@@ -296,11 +270,11 @@ wxDialog(parent,
 
 <br>
 
-### 3.3 顶层窗口类
+### 3.2 顶层窗口类
 
 <br>
 
-#### 3.4.1 `wxFrame`类
+#### 3.2.1 `wxFrame`类
 
 <br>
 
@@ -320,91 +294,80 @@ wxFrame(wxWindow *parent,
 
 <br>
 
-`wxFrame`需要使用显式调用`Show(true)`才能显示，要删除一个`Frame`窗口，应该使用`Destroy`方法或者`Close`方法而不是`delete`操作符。
+`wxFrame`类能够产生的事件：
 
 <br>
 
----
+|事件类型|说明|
+|:---:|:---:|
+|`wxEVT_SIZE`|事件类型常量，用于表示窗口大小改变事件。在wxWidgets中，<br>当用户调整窗口的大小时，会触发`wxEVT_SIZE`事件|
+|`wxEVT_MENU_HIGHLIGHT`|事件类型常量，用于表示菜单项高亮事件。在wxWidgets中，<br>当用户将鼠标悬停在菜单项上时，会触发`wxEVT_MENU_HIGHLIGHT`事件|
 
 <br>
 
-`wxFrame`类中的菜单的类为`wxMenu`，其相关的事件类型有`wxCommandEvent`，`wxUpdateUIEvent`、`wxMenuEvent`和`wxContentMenuEvent`。其中`wxCommandEvent`用于处理菜单命令，无论是弹出菜单命令还是主菜单命令。这种事件宏和工具条上的事件映射宏是一致的，这使得菜单和工具条上的按钮产生的事件可以通过同一个处理函数进行处理。`wxUpdateUIEvent`是在系统空闲的时候产生的，以便给程序一个更新用户界面的机会，例如允许或者禁止一个菜单项，与之相关的事件为`EVT_UPDATE_UI(id, func)`和`EVT_UPDATE_UI_RANGE(id1, id2, func)`。
+`wxFrame`具体的静态事件处理名称：
 
 <br>
 
-`wxMenu`的点击事件为`EVT_MENU(id, func)`和`EVT_MENU_RANGE(id1. id2, func)`。前者在某个菜单项被选中的时候产生，后者在某个范围内菜单项被选中的时候产生。其他事件列举如下：
-- `EVT_CONTEXT_MENU(func)`用来处理用户或者通过某个特殊按键或者通过单击鼠标右键产生的弹出一个上下文菜单的请求，关联的处理函数的参数类型为`wxContextMenuEvent`；
-- `EVT_COMMAND_CONTEXT_MENU(id, func)`和前者是类似的，多了一个窗口标识符参数；
-- `EVT_MENU_OPEN(func)`在菜单即将被打开时产生，`EVT_MENU_CLOSE(func)`在菜单被关闭时产生；
-- `EVT_MENU_HIGHLIGHT(id, func)`在某个菜单项被高亮显示时产生，通常用于在主程序的状态栏上产生关于这个菜单项的帮助信息；
-- `EVT_MENU_HIGHLIGHT_ALL(func)`在任何一个菜单项被高亮显示的时候产生。
-  
-<br>
-
-`wxMenu`的成员函数如下：
-- `Append`增加一个菜单项，参数为标识符、菜单项标签、帮助信息、菜单项类型（其中有`wxITEM_NORMAL`、`wxITEM_SEPERATOR`、`wxITEM_CHECK`和`wxITEM_RADIO`），也可以使用`AppendSeparator`、`AppendCheckItem`和`AppendRadioItem`来避免手动选择菜单项类型，还有一种`Append`的重载函数支持直接使用`wxMenuItem`来增加一个菜单项，这是在菜单中增加图片或者使用自定义字体的唯一方式； 
-	``` cpp
-	wxMenuItem* pictureItemExit = new wxMenuItem(mainFrameFileMenu, MyID_EXIT, wxT("E&xit\tAlt+X"));
-	pictureItemExit->SetBitmaps(bmpEnaled, bmpDisabled);
-	pictureItemExit->SetFont(fontLarge);
-	mainFrameFileMenu->Append(pictureItemExit);
-	```
-- **`AppendSubMenu`用于添加一个子菜单，参数为子菜单变量、子菜单标签；**
-- `Insert`在特定的位置插入一个菜单项；
-- `Prehend`在菜单最开始的地方插入一个菜单项；
-- `Break`在菜单里插入一个中断点，导致下一个插入的菜单项出现在另外一栏，整体效果就是菜单栏变成两倍宽了；
-- `Check`标记复选框或者单选框的状态，参数是菜单项标识和一个`Bool`值；
-- `Delete`删除并释放一个菜单项，使用菜单项标识符或者`wxMenuItem`指针，如果这个菜单项是一个子菜单，则子菜单不会被删除，释放一个子菜单需要通过`Destroy`函数；
-- `Remove`函数移除一个菜单项但是不释放它，而是返回指向它的指针；
-- `Enabled`允许或者禁止一个菜单项，`IsEnabled`返回当前的可用状态；
-- `FindItem`根据标签或者标识符找到一个菜单项，`FindItemByPosition`根据位置找到一个菜单项；
-- `Get`系函数主要用于访问菜单项显示出的一些信息。
+|事件处理函数|说明|
+|:---:|:---:|
+|`EVT_CLOSE(func)`|窗口被关闭的时候将产生事件`wxEVT_CLOSE_WINDOW`|
+|`EVT_ICONIZE(func)`|窗口被最小化的时候将产生事件`wxEVT_ICONIZE`|
+|`EVT_MENU_OPEN(func)`|菜单条打开时产生的事件|
+|`EVT_MENU_CLOSE(func)`|菜单条关闭时产生的事件|
+|`EVT_MENU_HIGHLIGHT(id, func)`|ID值为`id`的菜单条选项被鼠标高亮选中时产生的事件|
+|`EVT_MENU_HIGHLIGHT_ALL(func)`|所有菜单条中有一个选项被鼠标高亮选中时产生的事件|
 
 <br>
 
----
+`wxFrame`的构造函数以及`Create`函数中`style`参数可选的值：
 
 <br>
 
-`wxFrame`类中的菜单条的类为`wxMenuBar`，其行为类似`wxMenu`。
+|可选值|说明|
+|:---:|:---:|
+|`wxDEFAULT_FRAME_STYLE`|定义为`wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN`|
+|`wxICONIZE`|显示窗口最小化（图标化）的按钮，只对Windows系统有效|
+|`wxMINIMIZE`|等同于`wxICONIZE`，也是只对Windows系统有效|
+|`wxMINIMIZE_BOX`|显示窗口最小化按钮，对所有系统都有效|
+|`wxMAXIMIZE`|显示窗口最大化按钮，只对Windows和GTK+系统有效|
+|`wxMAXIMIZE_BOX`|显示窗口最大化按钮，当在使用`wxGTK`的情况下，必须同时包含`wxRESIZED_BORDER`|
+|`wxCLOSE_BOX`|显示窗口关闭按钮|
+|`wxRESIZE_BORDER`|可以通过鼠标拖拽窗口边缘重新设置窗口的大小|
+|`wxCAPTION`|在窗口显示一个标签，注意在大多数系统上，这个选项需要`wxMINIMIZE_BOX`<br>`wxMAXMIZE_BOX`以及`wxCLOSE_BOX`同时开启|
+|`wxSYSTEM_MENU`|在窗口的标题栏显示一个系统默认的操作菜单（一般是用右键点击开启）|
+|`wxSTAY_ON_TOP`|悬浮显示在所有窗口之上，不被其他窗口遮挡|
+|`wxFRAME_FLOAT_ON_PARENT`|悬浮显示在其父窗口上，不被其父窗口遮挡，其父窗口不得是`NULL`|
+|`wxFRAME_SHAPED`|窗口大小可以被函数`SetShape()`改变|
+|`wxFRAME_NO_TASKBAR`|窗口图标将不会显示在任务栏中|
 
 <br>
 
-`wxFrame`类中的工具条的类为`wxToolBar`，使用`SetToolBar`和当前`Frame`窗口绑定，则`Frame`窗口将会管理这个工具条的的位置和大小以及释放。例如下面就是一个创建工具条的示例：
+`wxFrame`类的非继承公有成员函数：
 
 <br>
 
-``` cpp
-wxSize STANDARD(24, 24);
-
-wxImage saveImage;
-saveImage.LoadFile(wxT("resource/xpmImage/save.xpm"), wxBITMAP_TYPE_XPM);
-saveImage.Rescale(STANDARD.GetWidth(), STANDARD.GetHeight());
-
-wxBitmap saveBitmap(saveImage);
-
-wxToolBar* editToolBar = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-
-editToolBar->AddTool(wxID_SAVE, wxT("Save"), saveBitmap, wxT("Save"));
-editToolBar->Realize();
-SetToolBar(editToolBar);
-```
-
-<br>
-
-可以看到对于工具条上的图标按钮，我们需要将导入的`xpm`位图文件的大小设置为标准大小，可以提前设置一个标准的`wxSize`对象，并使用`wxImage`实例化一个传入的位图文件，然后将其作为图标按钮的图标（以传入的位图文件对应的`wxImage`对象作为参数创建一个`wxBitmap`对象）。最后将这个`wxBitmap`绑定到工具栏上。**注意，在VS中，以上`LoadFile`方法中的文件路径不仅需要相对于生成的`.exe`可执行程序，还需要一份拷贝相对于源码的位置**。
-
-<br>
-
-工具条的事件映射宏和菜单条是一样的，既可以使用`EVT_MENU`宏也可以使用`EVT_TOOL`宏，它们的事件处理函数的参数都是`wxCommandEvent`。
-
-<br>
-
-`wxToolBar`的成员函数如下：
-- `AddTool`增加一个控件，`InsertTool`在某个位置插入一个控件；
-- `AddSeparator`增加一个分割线，基于实现的不同，它可能显示为一条线或者一段空白；
-- `AddControl`增加一个控件，`InsertControl`在某个位置插入一个控件；
-- `Realize`显示工具栏；
+|公有成员函数|说明|
+|:---:|:---:|
+|`void Centre(int direction = wxBOTH)`|在显示器上将窗口中心化|
+|`bool Create(wxWindow *parent, `<br>`wxWindowID id, `<br>`const wxString &title, `<br>`const wxPoint &pos=wxDefaultPosition, `<br>`const wxSize &size=wxDefaultSize, `<br>`long style=wxDEFAULT_FRAME_STYLE, `<br>`const wxString &name=wxFrameNameStr)`|创建窗口，参数列表与构造函数的参数列表一致|
+|`virtual wxStatusBar* CreateStatusBar (int number=1, `<br>`long style=wxSTB_DEFAULT_STYLE, `<br>`wxWindowID id=0, `<br>`const wxString &name=wxStatusBarNameStr)`|在窗口的底部创建一个状态条|
+|`virtual wxToolBar* CreateToolBar (long style=wxTB_DEFAULT_STYLE, `<br>`wxWindowID id=wxID_ANY, `<br>`const wxString& name=wxToolBarNameStr)`|在窗口的顶部或者左侧创建一个工具条|
+|`virtual void DoGiveHelp (const wxString& text, `<br>`bool show)`|该函数在事件`wxEVT_MENU_HIGHLIGHT`发生时被调用，<br>用于在鼠标光标悬置在菜单条上时提供帮助|
+|`virtual wxPoint GetClientAreaOrigin () const`|返回用户区的原点坐标|
+|`virtual wxMenuBar* GetMenuBar () const`|返回指向窗口的菜单条的指针|
+|`virtual wxStatusBar* GetStatusBar () const`|返回指向窗口的状态栏的指针|
+|`virtual wxToolBar* GetToolBar () const`|返回指向窗口的工具栏的指针|
+|`int GetStatusBarPane () const`|返回状态条分立出来的方格数|
+|`virtual wxStatusBar* OnCreateStatusBar (int number, `<br>`long style, `<br>`wxWindowID id, `<br>`const wxString& name)`|该函数在`CreateStatusBar()`函数调用之后被调用|
+|`virtual wxToolBar* OnCreateToolBar (long style, `<br>`wxWindowID id, `<br>`const wxString& name)`|该函数在`CreateToolBar()`函数调用之后被调用|
+|`bool ProcessCommand (int id)`|模拟一个菜单条的操作命令|
+|`virtual void SetMenuBar (wxMenuBar* menuBar)`|将菜单栏绑定到窗口上|
+|`virtual void SetStatusBar (wxStatusBar* statusBar)`|将状态条绑定到窗口上|
+|`virtual void SetToolBar (wxToolBar* toolBar)`|将工具栏绑定到窗口上|
+|`void SetStatusBarPane (int n)`|设置状态栏分割栏个数|
+|`virtual void SetStatusText (const wxString& text, `<br>`int number=0)`|设置状态栏第`number`个分割栏的字符串内容为`text`|
+|`virtual void SetStatusWidths (int n, `<br>`const int *widths_field)`|设置状态栏的宽度|
 
 <br>
 
