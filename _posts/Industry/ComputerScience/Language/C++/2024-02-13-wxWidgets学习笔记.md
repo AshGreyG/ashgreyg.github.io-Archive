@@ -41,9 +41,9 @@ excerpt: 本文章所属领域：实践产业知识 - 工业产业 - 计算机�
 
 ``` cpp
 class MyApp : public wxApp {
-	public:
-		virtual bool OnInit() wxOVERRIDE;
-		std::string mAppname{ "MyApp" };
+    public:
+        virtual bool OnInit() wxOVERRIDE;
+        std::string mAppname{ "MyApp" };
 };
 wxIMPLEMENT_APP(MyApp);
 wxDECLARE_APP(MyApp);
@@ -57,11 +57,11 @@ wxDECLARE_APP(MyApp);
 
 ``` cpp
 bool MyApp::OnInit() {
-	if (!wxApp::OnInit())
-		return false;
-	MyFrame* frame = new MyFrame(wxT("MyApp"));
-	frame->Show(true);
-	return true;
+    if (!wxApp::OnInit())
+        return false;
+    MyFrame* frame = new MyFrame(wxT("MyApp"));
+    frame->Show(true);
+    return true;
 }
 ```
 
@@ -77,13 +77,13 @@ bool MyApp::OnInit() {
 
 ``` cpp
 class MyFrame : public wxFrame {
-	private:
-		void OnAbout(wxCommandEvent& event);
-		void OnQuit(wxCommandEvent& event);
-		wxDECLARE_EVENT_TABLE();
-	public:
-		MyFrame(const wxString& title);
-		~MyFrame() = default;
+    private:
+        void OnAbout(wxCommandEvent& event);
+        void OnQuit(wxCommandEvent& event);
+        wxDECLARE_EVENT_TABLE();
+    public:
+        MyFrame(const wxString& title);
+        ~MyFrame() = default;
 };
 ```
 
@@ -95,8 +95,8 @@ class MyFrame : public wxFrame {
 
 ``` cpp
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-	EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
-	EVT_MENU(wxID_EXIT, MyFrame::OnQuit)
+    EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
+    EVT_MENU(wxID_EXIT, MyFrame::OnQuit)
 wxEND_EVENT_TABLE()
 ```
 
@@ -108,13 +108,13 @@ wxEND_EVENT_TABLE()
 
 ``` cpp
 void MyFrame::OnAbout(wxCommandEvent& event) {
-	wxString msg;
-	msg.Printf(wxT("Hello and welcome to MyApp %s"), wxVERSION_STRING);
-	wxMessageBox(msg, wxT("About MyApp"), wxOK | wxICON_INFORMATION, this);
+    wxString msg;
+    msg.Printf(wxT("Hello and welcome to MyApp %s"), wxVERSION_STRING);
+    wxMessageBox(msg, wxT("About MyApp"), wxOK | wxICON_INFORMATION, this);
 }
 
 void MyFrame::OnQuit(wxCommandEvent& event) {
-	Close();
+    Close();
 }
 ```
 
@@ -130,20 +130,20 @@ void MyFrame::OnQuit(wxCommandEvent& event) {
 
 ``` cpp
 MyFrame::MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
-	wxMenu* fileMenu = new wxMenu;
-	wxMenu* helpMenu = new wxMenu;
-	(*helpMenu).Append(wxID_ABOUT, 
-	                   wxT("&About...\tF1"),
-	                   wxT("Show about dialog"));
-	(*fileMenu).Append(wxID_EXIT,
-	                   wxT("E&xit\tAlt-X"),
-	                   wxT("Quit this program"));
-	wxMenuBar* menuBar = new wxMenuBar();
-	(*menuBar).Append(fileMenu, wxT("&File"));
-	(*menuBar).Append(helpMenu, wxT("&Help"));
-	SetMenuBar(menuBar);
-	CreateStatusBar(3);
-	SetStatusText(wxT("Welcome to MyApp!"));
+    wxMenu* fileMenu = new wxMenu;
+    wxMenu* helpMenu = new wxMenu;
+    (*helpMenu).Append(wxID_ABOUT, 
+                       wxT("&About...\tF1"),
+                       wxT("Show about dialog"));
+    (*fileMenu).Append(wxID_EXIT,
+                       wxT("E&xit\tAlt-X"),
+                       wxT("Quit this program"));
+    wxMenuBar* menuBar = new wxMenuBar();
+    (*menuBar).Append(fileMenu, wxT("&File"));
+    (*menuBar).Append(helpMenu, wxT("&Help"));
+    SetMenuBar(menuBar);
+    CreateStatusBar(3);
+    SetStatusText(wxT("Welcome to MyApp!"));
 }
 ```
 
@@ -188,9 +188,9 @@ MyFrame::MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
 
 ``` cpp
 class MyCustomEventHandler : public wxEvtHandler {
-	public:
-		MyCustomEventHandler();
-		void OnCustomHandler(wxCommandEvent& event);
+    public:
+        MyCustomEventHandler();
+        void OnCustomHandler(wxCommandEvent& event);
 };
 
 
@@ -309,7 +309,7 @@ wxFrame(wxWindow *parent,
 
 <br>
 
-|事件处理函数|说明|
+|静态事件名称|说明|
 |:---:|:---:|
 |`EVT_CLOSE(func)`|窗口被关闭的时候将产生事件`wxEVT_CLOSE_WINDOW`|
 |`EVT_ICONIZE(func)`|窗口被最小化的时候将产生事件`wxEVT_ICONIZE`|
@@ -371,7 +371,7 @@ wxFrame(wxWindow *parent,
 
 <br>
 
-#### 3.3.3 `wxDialog`类
+#### 3.2.2 `wxDialog`类
 
 <br>
 
@@ -379,34 +379,48 @@ wxFrame(wxWindow *parent,
 
 <br>
 
-通常来说应该从`wxDialog`类派生出一个自定义的类，以方便处理对话框中的各种事件，一般来说应该在派生类的构造函数中构造其他控件。
+通常来说应该从`wxDialog`类派生出一个自定义的类，以方便处理对话框中的各种事件，一般来说应该在派生类的构造函数中构造其他控件。`wxDialog`类的构造函数如下：
 
 <br>
 
 ``` cpp
-class MyNewFileDialog : public wxDialog {
-	private:
-		void OnQuit(wxCommandEvent& event) {
-			Close();
-		}
-		wxDECLARE_EVENT_TABLE();
-	public:
-		MyNewFileDialog(wxWindow* parent) :
-		wxDialog(parent, wxID_ANY, wxT("Create New File"), wxPoint(200, 200), wxSize(500, 300)) {
-			wxButton* cancelButton = new wxButton(this, MyID_EXIT, wxT("Cancel"), wxPoint(10, 10), wxSize(50, 10));
-		}
-		~MyNewFileDialog() = default;
-};
+wxDialog (wxWindow* parent, 
+          wxWindowID id, 
+          const wxString& title, 
+          const wxPoint& pos = wxDefaultPosition, 
+          const wxSize& size = wxDefaultSize, 
+          long style = wxDEFAULT_DIALOG_STYLE, 
+          const wxString& name = wxDialogNameStr)
 ```
 
 <br>
 
-`wxDialog`的成员函数如下：
-- `GetTitle`和`SetTitle`用来操作对话框标题栏上的文本；
-- `Iconize`最小化或者从最小化状态恢复，可以使用`IsIconized`函数检测当前的最小化状态；
-- `Maximize`最大化或者从最大化状态恢复，可以使用`IsMaximized`函数检测当前的最大化状态；
-- `SetIcon`设置对话框的图标，图标会在对话框被最小化的时候显示；
-- `ShowModal`用来显示模式对话框，`Show`函数用来显示非模式对话框。
+`wxDialog`类具体的静态事件处理名称：
+
+<br>
+
+|静态事件名称|说明|
+|:---:|:---:|
+|`EVT_CLOSE(func)`|对话框关闭的事件|
+|`EVT_INIT_DIALOG(func)`|对话框初始化的事件|
+
+<br>
+
+`wxFrame`的构造函数以及`Create`函数中`style`参数可选的值：
+
+<br>
+
+|可选值|说明|
+|:---:|:---:|
+|`wxDEFAULT_DIALOG_STYLE`|定义为`wxCAPTION | wxCLOSE_BOX | wxSYSTEM_MENU`|
+|`wxMINIMIZE`|等同于`wxICONIZE`，也是只对Windows系统有效|
+|`wxMINIMIZE_BOX`|显示窗口最小化按钮，对所有系统都有效|
+|`wxMAXIMIZE`|显示窗口最大化按钮，只对Windows和GTK+系统有效|
+|`wxMAXIMIZE_BOX`|显示窗口最大化按钮，当在使用`wxGTK`的情况下，必须同时包含`wxRESIZED_BORDER`|
+|`wxCLOSE_BOX`|显示窗口关闭按钮|
+|`wxRESIZE_BORDER`|可以通过鼠标拖拽窗口边缘重新设置窗口的大小|
+|`wxCAPTION`|在窗口显示一个标签，注意在大多数系统上，这个选项需要`wxMINIMIZE_BOX`<br>`wxMAXMIZE_BOX`以及`wxCLOSE_BOX`同时开启|
+|`wxSYSTEM_MENU`|在窗口的标题栏显示一个系统默认的操作菜单（一般是用右键点击开启）|
 
 <br>
 
@@ -483,8 +497,8 @@ wxButton(wxWindow *parent,
 
 ``` cpp
 wxBEGIN_EVENT_TABLE(MyNewFileDialog, wxDialog)
-	EVT_BUTTON(MyID_EXIT, MyNewFileDialog::OnQuit)
-	EVT_BUTTON(MyID_OK, MyNewFileDialog::OnOk)
+    EVT_BUTTON(MyID_EXIT, MyNewFileDialog::OnQuit)
+    EVT_BUTTON(MyID_OK, MyNewFileDialog::OnOk)
 wxEND_EVENT_TABLE()
 ```
 
