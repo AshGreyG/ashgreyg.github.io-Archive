@@ -41,7 +41,7 @@ tags: [Computer Science, JavaScript]
 
 <br>
 
-包含在`<script>`元素内部的JavaScipt代码将被从上至下解释，所以包含`<script>`字符串片段的代码将导致HTML解析错误，可以使用`\`转义字符：
+包含在`<script>`元素内部的JavaScript代码将被从上至下解释，所以包含`<script>`字符串片段的代码将导致HTML解析错误，可以使用`\`转义字符：
 
 <br>
 
@@ -69,7 +69,7 @@ tags: [Computer Science, JavaScript]
 
 <br>
 
-现代Web应用程序一般都把全部JavaScriptJavaScript引用放在`<body>`元素中页面内容的后面：
+现代Web应用程序一般都把全部JavaScript引用放在`<body>`元素中页面内容的后面：
 
 <br>
 
@@ -616,4 +616,572 @@ console.log(blueColor);
 
 <br>
 
-JavaScript
+JavaScript没有块级作用域，这意味着流控制语句中的变量将被添加到当前的执行环境：
+
+<br>
+
+``` javascript
+var sum = 0;
+for (var i = 1; i <= 10; i++) {
+    sum += i;
+    console.log(sum);
+}
+console.log("Final result: " + sum);
+```
+
+<br>
+
+使用`var`声明的变量会自动被添加到最接近的环境中，如果初始化变量时没有使用关键字`var`声明，该变量会被自动添加到全局环境中。建议只使用`var`声明变量，在严格模式下，初始化未经声明的变量将导致错误。
+
+<br>
+
+### 2.3 垃圾收集
+
+<br>
+
+JavaScript具有垃圾收集机制，执行环境会负责管理代码执行过程中使用的内存。垃圾收集器会按照固定的时间间隔周期性地执行收集垃圾的操作。对于函数体内的局部变量，它们只在函数执行的过程中存在，在函数执行时，会为局部变量在栈或者堆上分配相应的空间。垃圾收集器将跟踪这些变量，对于不再有用的变量将会执行变量的销毁。垃圾收集器的实现算法如下：
+- **标记清除**：当变量进入环境时，变量被标记为「进入环境」；当变量离开环境时，则被标记为「离开环境」。垃圾收集器在运行的时候会给存储在内存中的所有变量都加上标记，接着去掉环境中的变量以及被环境中的变量引用的变量的标记，剩下的带有标记的变量就是待删除的变量；
+- **引用计数**：引用计数是指跟踪记录每个值被引用的次数。当声明了一个变量并将一个引用类型值赋给该变量时，这个引用类型值的引用次数就加一；当引用该值的变量又取得了另外一个值，则这个引用类型值的引用次数减一。当一个变量的引用次数为`0`时，说明没有办法再访问该值，可以将其占用的内存空间回收，引用计数一个重要的问题时可能存在循环引用：
+
+    ``` javascript
+    function problem() {
+        var objectA = new Object();
+        var objectB = new Object();
+        objectA.friend = objectB;
+        objectB.friend = objectA;
+    }
+    ```
+
+    此时变量`objectA`和`objectB`的引用次数永远为`2`，如果只采用引用计数的方式回收垃圾将导致即使退出了函数体，这两个变量都无法被回收。如果这个函数被大量调用，内存就会被不断占用直到浏览器崩溃。
+
+<br>
+
+<br>
+
+<br>
+
+## 3 引用类型
+
+<br>
+
+### 3.1 Object类型
+
+<br>
+
+除了使用`objectA.propertyName = `这样的添加属性或者方法的模式，还可以使用对象字面量表示法（当花括号内留空，则对象只包含默认属性和方法）：
+
+<br>
+
+``` javascript
+var wife = {
+    name : "Izumi Sagiri",
+    age  : 14
+};
+```
+
+<br>
+
+访问对象的属性和方法可以使用点表示法，也可以使用中括号表示法，中括号表示法用在对象的属性使用的是关键字或保留字，或者属性名中包含会导致语法错误的字符：
+
+<br>
+
+``` javascript
+wife["first name"] = "Izumi";
+wife["function"] = 2;
+```
+
+<br>
+
+### 3.2 Array类型
+
+<br>
+
+JavaScript中的数组是Array类型，该数组虽然是数据的有序列表，但与其他编程语言不同的地方在于JavaScript的数组的每一项可以保存任何类型的数据。创建数组主要有两种方法：
+- 使用`Array`构造函数，其中`new`关键字可用可不用。当向构造函数传递一个Number类型的参数时，数组的大小将被设定为该Number类型的值；当向构造函数传递一个非Number类型的参数或者传递多个参数时，相当于传递给数组了具体的元素；
+
+    ``` javascript
+    var names = new Array(3);           // length = 3
+    var names = new Array("Izumi");     // names[0] = "Izumi"
+    var names = new Array(3, "Izumi");  // names[0] = 3, names[1] = "Izumi"
+    ```
+
+- 使用数组字面量表示法：
+
+    ``` javascript
+    var names = [3, "Izumi"];
+    ```
+
+<br>
+
+可以通过设置数组的`length`属性动态地设置数组的大小。
+
+<br>
+
+确定一个对象是不是数组，在只有一个全局执行环境下时可以使用`instanceof`方法。但如果网页中含有多个框架，可能实际上存在多个全局执行环境，不同的执行环境之间`Array`的构造函数可能不同，使用`instanceof`方法去检测是有问题的。这时候可以使用ECMAScript 5中的`isArray()`方法，这是检测一个对象是否为数组的最终方法。
+
+<br>
+
+所有对象都具有`toLocaleString()`、`toString()`和`valueOf()`方法。
+- 调用`valueOf()`方法返回的是数组本身；
+- 调用`toString()`方法会返回数组中每个值的字符串形拼接而成的一个以逗号分隔的字符串；
+- 调用`toLocaleString()`方法返回的值与`toString()`相同，虽然过程并不一样。
+
+<br>
+
+``` javascript
+var wife = ["IzumiSagiri", "Elaina", "Charolotte Soller"];
+console.log(wife);                    // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
+console.log(wife.valueOf());          // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
+console.log(wife.toString());         // "IzumiSagiri,Elaina,Charolotte Soller"
+console.log(wife.toLocaleString());   // "IzumiSagiri,Elaina,Charolotte Soller"
+```
+
+<br>
+
+可以调用数组的`join()`方法改变`toString()`中的分隔符号，如果不给`join()`函数传递参数或者传递`undefined`，将使用逗号分隔。
+
+<br>
+
+JavaScript为数组提供了一些模仿数据结构的方法：
+- 栈方法：数组可以表现地像栈一样，栈是一种LIFO（后进先出）的数据结构，即最新添加的项最早被移除，栈中项的插入和移除都发生在栈的前端，模仿的方法是使用`push()`方法（插入或者压入项）和`pop()`方法（弹出或者移除项）；
+- 队列方法：数组可以表现地像队列方法，队列是一种FIFO（先进先出）的数据结构，队列中项的插入发生在队列后端，项的移除发生在队列前端，模仿的方法是结合使用`shift()`方法（移除数组的第一个项）和`push()`方法。数组还有一个`unshift()`方法，它与`shift`方法相反，向数组的前端插入项。
+
+<br>
+
+JavaScript为数组提供了重排序的方法，其中`reverse()`反转数组的顺序，`sort()`将数组中所有元素使用`toString()`方法然后进行比较，默认升序。
+
+<br>
+
+``` javascript
+var values = [0, 1, 5, 10, 15];
+values.sort();
+console.log(values);  // Array(5) : [0, 1, 10, 15, 5]
+```
+
+<br>
+
+`sort()`方法可以接受一个比较函数作为参数，以便指定哪个值位于哪个值的前面。比较函数接受两个参数，如果第一个参数应该位于第二个参数之前，应当返回一个负数，如果相等则应返回0，如果第一个参数应该位于第二个参数之后，应当返回一个正数。
+
+<br>
+
+``` javascript
+function compare(value1, value2) {
+    if (value1 < value2) {
+        return -1;
+    }
+    else if (value1 > value2) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+var values = [0, 10, 5, 4, 12];
+console.log(values.sort(compare));  // Array(5) : [0, 4, 5, 10, 12]
+```
+
+<br>
+
+这样就可以覆盖原来的按照字符串排序的方法，实现数字间的比较。
+
+<br>
+
+JavaScript给数组提供了一些操作方法：
+- `concat()`方法基于当前数组中的所有项创建一个新的数组，这个方法会先创建当前数组的一个副本，并将接收到的参数添加到副本的末尾，最后返回新构建的函数；
+
+    ``` javascript
+    var wifes_1 = ["Izumi", "Sagiri"];
+    var wifes_2 = wifes_1.concat("Elaina", ["Charolotte", "Soller"]);
+    console.log(wifes_1.toString());  // "Izumi,Sagiri"
+    console.log(wifes_2.toString());  // "Izumi,Sagiri,Elaina,Charolotte,Soller"
+    ```
+
+- `slice()`方法基于当前数组的一个或多个项创建一个新数组：
+    - 接受1个参数时，`slice()`方法返回从参数指定位置（注意都是索引值）开始到当前数组末尾的所有项；
+    - 接受2个参数时，`slice()`方法返回起始和结束位置之间的项，但不包括结束位置的项，该操作方法不会修改原始数组。
+
+    ``` javascript
+    var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    var wifes_2 = wifes_1.slice(1);
+    var wifes_3 = wifes_1.slice(2, 4);
+    console.log(wifes_2.toString());  // "Sagiri,Elaina,Charolotte,Soller"
+    console.log(wifes_3.toString());  // "Elaina,Charolotte"
+    ```
+
+- `splice()`方法有多种用法，主要用途是向数组的中部插入项：
+    - 删除：可以删除任意数量的项，需要指定2个参数，第一个是要删除的第一项的位置，第二个是要删除的项数；
+    - 插入：可以向指定位置插入任意数量的项，第一个参数为起始位置，第二个参数为删除的项数（这里要选择0），后续参数就是要插入的项；
+    - 替换：可以向指定位置插入任意数量的项，且同时删除任意数量的项，用这种方法可以做到项的替换。
+
+    ```javascript
+    var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    var wifes_2 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    var wifes_3 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    wifes_1.splice(1, 2);
+    wifes_2.splice(1, 0, "AshGrey");
+    wifes_3.splice(1, 2, "AshGrey", "Helix");
+    console.log(wifes_1.toString());  // "Izumi,Charolotte,Soller"
+    console.log(wifes_2.toString());  // "Izumi,AshGrey,Sagiri,Elaina,Charolotte,Soller"
+    console.log(wifes_3.toString());  // "Izumi,AshGrey,Helix,Charolotte,Soller"
+    ```
+
+<br>
+
+JavaScript还为数组提供了位置的方法：`indexOf()`和`lastIndexOf()`方法，两个方法都接受两个参数：要查找的项和（可选的）表示查找起点位置的索引。`indexOf()`方法从数组的开头往后查找，`lastIndexOf()`方法从数组的末尾往前查找。这两个函数都会返回查找参数在数列中的索引值，未查找到时两个函数都会返回-1，注意这两个函数在查找过程中的比较方法都是全等：
+
+<br>
+
+``` javascript
+var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller", "Sagiri"];
+console.log(wifes_1.indexOf("Sagiri"));       // 1
+console.log(wifes_1.lastIndexOf("Sagiri"));   // 5
+console.log(wifes_1.indexOf(1));              // -1
+```
+
+<br>
+
+JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个参数，要在每一项上运行的函数和（可选的）运行该函数的作用域对象。传入这些方法的函数会接受三个参数：数组的项、该项在数组中的位置和数组对象本身：
+- `every()`方法：对数组的每一项都执行给定的函数，如果给定函数对每一项都返回`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`；
+
+    ``` javascript
+    var wifeAge = [12, 14, 9, 13, 15];
+    var result = wifeAge.every(function(item, index, array) {
+	      if (item >= 14)
+            return true;
+        else 
+            return false;
+    });
+    console.log(result);  // false
+    ```
+
+- `some()`方法：迭代执行，如果给定函数对某一项返回了`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`：
+
+    ``` javascript
+     var wifeAge = [12, 14, 9, 13, 15];
+    var result = wifeAge.some(function(item, index, array) {
+	      if (item >= 14)
+            return true;
+        else 
+            return false;
+    });
+    console.log(result);  // true
+    ```
+
+- `filter()`方法：迭代执行，函数返回的是一个数组，数组内只包含使给定函数返回`true`（或者返回值经过强制类型转换得到`true`）的数组元素：
+
+    ``` javascript
+    var wifeAge = [12, 14, 9, 13, 15];
+    var result = wifeAge.filter(function(item, index, array) {
+	      if (item >= 14)
+            return true;
+        else 
+            return false;
+    });
+    console.log(result);  // Array(2) : [14, 15]
+    ```
+
+- `forEach()`方法：迭代执行，该函数没有返回值：
+
+    ``` javascript
+    var wifeAge = [12, 14, 9, 13, 15];
+    var result = new Array();
+    wifeAge.forEach(function(item, index, array) {
+        function format(n) {
+            if (n === 0)
+        	      return 1;
+            else
+                return n;
+        }
+        if (item >= 14)
+            result.splice(format(result.length), 0, "Hentai!");
+        else 
+            result.splice(format(result.length), 0, "Law!");
+    });
+    console.log(result);  // Array(5) : ["Law!", "Hentai!", "Law!", "Law!", "Hentai!"]
+    ```
+
+- `map`方法：迭代执行，返回每次函数调用的结果组成的数组：
+
+    ``` javascript
+    var wifeAge = [12, 14, 9, 13, 15];
+    var result = wifeAge.map(function(item, index, array) {
+        if (item >= 14)
+            return "Hentai!";
+        else
+            return "Law!";
+    });
+    console.log(result);  // Array(5) : ["Law!", "Hentai!", "Law!", "Law!", "Hentai!"]
+    ```
+
+<br>
+
+### 3.3 Date类型
+
+<br>
+
+JavaScript中的Date类型是在早期Java中的`java.util.Date`类基础上构建的，因此Date类型使用自UTC（国际协调时间）1970年1月1日0时开始经过的毫秒数来保存日期，Date类型保存的日期能够精确到1970年1月1日前后的`1e8`年。创建Date类型对象和其他创建对象的方法相似：
+
+<br>
+
+``` javascript
+var Today = new Date();
+```
+
+<br>
+
+调用Date构造函数而不传递参数的情况下，新创建的对象将自动获取当前的日期和时间。如果想根据特定的日期和时间创建对象，必须传入表示该日期的毫秒数。JavaScript提供两种方法：
+- `parse()`方法：接受一个表示日期的字符串参数，然后尝试根据这个字符串返回相应日期的毫秒数，接受的字符串参数因实现的不同而不同（如果字符串参数无法表示日期，函数将返回`NaN`）；
+
+    ``` javascript
+    var day_1 = new Date(Date.parse("6/13/2004"));
+    var day_2 = new Date(Date.parse("January 12,2006"));
+    var day_3 = new Date(Date.parse("Tue May 25 2004 23:21:09 GMT+0800"));
+    var day_4 = new Date(Date.parse("2022-02-03T23:09:00"));
+    ```
+
+- `UTC()`方法：UTC的参数分别是年份、基于0的月份（一月份是0，二月份是1）、月中的哪一天、小时数、分钟、秒及毫秒。
+
+<br>
+
+### 3.4 RegExp类型
+
+<br>
+
+JavaScript支持通RegExp类型来支持正则表达式。其语法如下：
+
+<br>
+
+``` plaintext
+var expression = / pattern / flags
+```
+
+<br>
+
+其中`pattern`指的是任何正则表达式，`flags`表示一个或多个标志用以表明正则表达式的行为，正则表达式的匹配模式支持下列三种标志：
+- `g`：表示全局模式，即模式将被应用于所有字符串，而非在发现第一个匹配项时立即停止；
+- `i`：表示不区分大小写模式，在确定匹配项时忽略模式与字符串的大小写；
+- `m`：表示多行模式，即在到达一行文本末尾时还会继续查找下一行中是否存在与模式匹配的项。
+
+<br>
+
+#### 3.4.1 正则表达式的语法
+
+<br>
+
+正则表达式的元字符如下（普通字符通过字面意思理解，元字符是特殊的功能字符）：
+- 量词：
+  - `*`：匹配前面的模式零次或多次；
+  - `+`：匹配前面的模式一次或多次；
+  - `?`：匹配前面的模式零次或一次；
+  - `{n}`：匹配前面的模式恰好`n`次；
+  - `{n,}`：匹配前面的模式至少`n`次；
+  - `{n,m}`：匹配前面的模式至少`n`次且不超过`m`次。
+- 字符类：
+  - `[]`：匹配中括号内的任意一个字符；
+  - `[^]`：匹配除了括号内的字符以外的任意一个字符；
+  - `[0-9]`：匹配任意一个数字；
+  - `[a-z]`与`[A-Z]`：匹配任意一个小写字母，匹配任意一个大写字母；
+  - `.`：匹配除了换行符`\n`、`\r`之外的任何单个字符；
+  - `\s`：匹配所有空白字符；
+  - `\S`：匹配所有非空白字符；
+  - `\w`：匹配字母、数字、下划线；
+  - `\d`：匹配任意一个阿拉伯数字，等价于`[0-9]`；
+  - `()`：用圆括号将所有选择项括起来，相邻的选择项之间用`|`分隔，`()`表示捕获分组，会把每个分组里匹配的值保存起来，多个匹配值可以通过数字`n`来查看，`n`表示第`n`个捕获组的内容。圆括号的这种功能使得相关的匹配被缓存，可以使用`?:`放在第一个选项前消除这种副作用，它是非捕获元之一；
+    - `?:`：消除圆括号将匹配的字符缓存的副作用；
+    - `?=`：表达式`exp1(?=exp2)`用以查找紧跟在`exp2`前面的`exp1`；
+    - `?<=`：表达式`(?<=exp2)exp1`用以查找紧跟在`exp2`后面的`exp1`；
+    - `?!`：表达式`exp1(?!exp2)`用以查找后面不是`exp2`的`exp1`；
+    - `?<!`：表达式`(?<!exp2)exp1`用以查找前面不是`exp2`的`exp1`。
+
+    圆括号缓存的缓冲区最多能存储99个捕获的子表达式，可以通过`\`加一个一位或两位十进制数字访问缓存的子表达式：
+
+    ``` javascript
+    var str = "Is is the cost of gasoline going up up";
+    var pattern1 = /\b([a-z]+) \1\b/igm;
+    console.log(str.match(pattern1));
+    // Array(3) : ["Is is", "of of", "up up"]
+    ```
+
+- 边界匹配：
+  - `^`：匹配字符串的开头；
+  - `$`：匹配字符串的结尾；
+  - `\b`：匹配单词的边界；
+  - `\B`：匹配非单词的边界
+
+<br>
+
+`*`和`+`量词符都是贪婪的，它们会尽可能多的匹配文字，只要在它们后面加上一个`?`就可以实现最小匹配，例如：
+
+<br>
+
+``` plaintext
+Text     : <h1>AshGrey Blog</h1>
+pattern1 : /<.*>/   =>  <h1>AshGrey Blog</h1>
+pattern2 : /<.*?>/  =>  <h1>
+pattern3 : /<\w+?>/ =>  <h1>
+```
+
+<br>
+
+#### 3.4.2 JavaScript中的正则表达式
+
+<br>
+
+以上是用字面量形式定义的正则表达式，另一种创建正则表达式的方法是是用RegExp构造函数，它接受两个参数：第一个是匹配的字符串模式，第二个是可选的标志。
+
+<br>
+
+``` javascript
+var pattern1 = /[bc]at/i;
+var pattern2 = new RegExp("[bc]at", "i");
+```
+
+<br>
+
+需要注意的是由于RegExp构造函数的参数是字符串，所以需要对元字符双重转义（因为字符`\`需要被转义，所以会变成`\\`），又因为`\`在正则表达式中需要被转义成`\\`，所以在RegExp构造函数中的字符串又被转义为`\\\\`。如下：
+
+<br>
+
+``` javascript
+var pattern1 = /\[bc\]at/;  // RegExp("\\[bc\\]at")
+var pattern2 = /\.at/;      // RegExp("\\.at")
+var pattern3 = /name\/age/; // RegExp("name\\/age")
+var pattern4 = /\d.\d{1,2}/;// RegExp("\\d.\\d{1,2}")
+```
+
+<br>
+
+RegExp类型的每个实例都具有下列属性：
+- `global`：Boolean类型，表示是否设置了g标志；
+- `ignoreCase`：Boolean类型，表示是否设置了i标志；
+- `multiline`：Boolean类型，表示是否设置了m标志；
+- `lastIndex`：Number中的整数类型，表示开始搜索下一个匹配项的字符位置，从0算起；
+- `source`：正则表达式的字符串形式，按照字面量形式而不是传入构造函数中的字符串模式。
+
+<br>
+
+RegExp类型的每个实例都具有下列方法：
+- `exec()`：该方法接受一个参数，即要应用模式的字符串，然后返回包含第一个匹配项信息的数组，在没有匹配项的情况下返回`null`，返回的数组虽然是Array的实例，但包含两个额外的属性：`index`和`input`。其中`index`表示匹配项在字符串的位置，`input`表示应用正则表达式的字符串；
+
+    ``` javascript
+    var str = "67root@123root12-90";
+    var pattern = /(?<=\d+)root/igm;
+    var matches1 = pattern.exec(str);
+    console.log(matches1.index);
+    var matches2 = pattern.exec(str);
+    console.log(matches2.index); 
+    ```
+
+    即使正则表达式设置了g标志，`exec()`方法每次也只能返回一个匹配项。在不设置g标志时，`exec()`方法每次调用都只能返回第一个匹配项；在设置g标志时，`exec()`方法每次调用都会继续查找新的匹配项；
+- `test()`：该方法接受一个字符串参数，当与正则表达式匹配时，返回`true`，不匹配时返回`false`。
+
+<br>
+
+### 3.5 Function类型
+
+<br>
+
+在JavaScript中，函数实际是一种对象。每个函数都是Function类型的实例，函数名实际上也是一个指向函数对象的指针，不会与某个函数绑定，于是函数的定义也可以这么写：
+
+<br>
+
+``` javascript
+var sum = function(num1, num2) {
+    return num1 + num2;
+};
+
+// var sum = new Function("num1", "num2", "return num1 + num2");
+var result1 = sum(1, 2);
+var anotherSum = sum;
+sum = null;
+var result2 = anotherSum(1,2);
+```
+
+<br>
+
+函数表达式与函数声明是有区别的，解析器在向执行环境中加载数据时，对函数声明和函数表达式的加载顺序是有先后的。解析器会率先读取函数声明，并使其在执行任何代码之前可用；而函数表达式则必须等到解析器执行到它所在的代码行才会被真正解析：
+
+<br>
+
+``` javascript
+haveHoisted();
+function haveHoisted() {
+    console.log("I love Sagiri!");
+}
+
+notHoisted();   // TypeError: notHoisted is not a function
+var notHoisted() {
+    console.log("I love Sagiri!");
+};
+```
+
+<br>
+
+在代码开始执行之前，解析器就已经通过一个名为函数声明提升的过程，读取并将函数声明添加到执行环境中。对代码求值时，JavaScript引擎会首先声明函数并将它们放在源代码树的顶端。对于函数表达式，引擎就不会做出这样的函数声明提升。
+
+<br>
+
+由于函数本身是一种对象，函数也能作为参数传入别的函数中。例如有`object1`和`object2`是一个类的两个对象，现在要根据两个对象的某个属性进行排序：
+
+<br>
+
+``` javascript
+function createComparisonFunction(propertyName) {
+    return function(object1, object2) {
+        var value1 = object1[propertyName];
+        var value2 = object2[propertyName];
+        if (value1 < value2) {
+            return -1;
+        }
+        else if (value1 > value2) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    };
+}
+
+var data = [
+    { name : "AshGrey", age : 19},
+    { name : "Sagiri" , age : 14}
+];
+data.sort(createComparisonFunction("name"));
+console.log(data[0].name);  // AshGrey
+data.sort(createComparisonFunction("age"));
+console.log(data[0].name);  // Sagiri
+```
+
+<br>
+
+函数内部有三个特殊的对象：
+- `arguments`对象：是特殊的类数组对象，这个对象还具有一个属性`callee`，该属性是一个指针，指向拥有这个`arguments`对象的函数。例如下面的使用到递归的阶乘函数，如果使用注释里的语句，函数的执行将与该函数的名`factorial`紧密耦合在一起，使用`arguments.callee`则可避免这种问题：
+
+    ``` javascript
+    function factorial(num) {
+        if (num <= 1) {
+            return 1;
+        }
+        else {
+            return num * arguments.callee(num - 1);
+            // return num * factorial(num - 1);
+        }
+    }
+    var anotherFactorial = factorial;
+    factorial = null;
+    console.log(anotherFactorial(5));
+    ```
+- `this`对象：引用的是函数执行的环境对象，例如在网页中全局作用域调用函数时`this`对象引用的是`window`对象：
+
+    ``` javascript
+    window.color  = "red";
+    var object = { color : "blue"};
+    function colorOutput() {
+        console.log(this.color);
+    }
+    colorOutput();  // "red"
+    object.colorOutput = colorOutput;
+    object.colorOutput();   // "blue"
+    ```
+- `caller`对象：这个对象中保存着调用当前函数的函数的引用，如果在全局作用域调用当前函数，`caller`的值为`null`

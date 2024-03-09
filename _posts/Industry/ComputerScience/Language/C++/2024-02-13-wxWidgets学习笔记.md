@@ -153,6 +153,10 @@ MyFrame::MyFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title) {
 
 <br>
 
+### 1.3 wxWidgets的数据结构类
+
+<br>
+
 <br>
 
 <br>
@@ -243,7 +247,7 @@ wxWindow(wxWindow* parent,
          const wxPoint& pos = wxDefaultPosition,
          const wxSize& size = wxDefalutSize,
          long style = 0,
-         const wxString& name = wxT("panel"))
+         const wxString& name = wxASCII_STR(wxFrameNameStr))
 ```
 
 <br>
@@ -289,7 +293,7 @@ wxFrame(wxWindow *parent,
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
         long style = wxDEFAULT_FRAME_STYLE,
-        const wxString& name = wxASCII_STR(wxFrameNameStr))
+        const wxString& name = wxASCII_STR(wxFrameNameStr));
 ```
 
 <br>
@@ -347,27 +351,79 @@ wxFrame(wxWindow *parent,
 
 <br>
 
-|公有成员函数|说明|
-|:---:|:---:|
-|`void Centre(int direction = wxBOTH)`|在显示器上将窗口中心化|
-|`bool Create(wxWindow *parent, `<br>`wxWindowID id, `<br>`const wxString &title, `<br>`const wxPoint &pos=wxDefaultPosition, `<br>`const wxSize &size=wxDefaultSize, `<br>`long style=wxDEFAULT_FRAME_STYLE, `<br>`const wxString &name=wxFrameNameStr)`|创建窗口，参数列表与构造函数的参数列表一致|
-|`virtual wxStatusBar* CreateStatusBar (int number=1, `<br>`long style=wxSTB_DEFAULT_STYLE, `<br>`wxWindowID id=0, `<br>`const wxString &name=wxStatusBarNameStr)`|在窗口的底部创建一个状态条|
-|`virtual wxToolBar* CreateToolBar (long style=wxTB_DEFAULT_STYLE, `<br>`wxWindowID id=wxID_ANY, `<br>`const wxString& name=wxToolBarNameStr)`|在窗口的顶部或者左侧创建一个工具条|
-|`virtual void DoGiveHelp (const wxString& text, `<br>`bool show)`|该函数在事件`wxEVT_MENU_HIGHLIGHT`发生时被调用，<br>用于在鼠标光标悬置在菜单条上时提供帮助|
-|`virtual wxPoint GetClientAreaOrigin () const`|返回用户区的原点坐标|
-|`virtual wxMenuBar* GetMenuBar () const`|返回指向窗口的菜单条的指针|
-|`virtual wxStatusBar* GetStatusBar () const`|返回指向窗口的状态栏的指针|
-|`virtual wxToolBar* GetToolBar () const`|返回指向窗口的工具栏的指针|
-|`int GetStatusBarPane () const`|返回状态条分立出来的方格数|
-|`virtual wxStatusBar* OnCreateStatusBar (int number, `<br>`long style, `<br>`wxWindowID id, `<br>`const wxString& name)`|该函数在`CreateStatusBar()`函数调用之后被调用|
-|`virtual wxToolBar* OnCreateToolBar (long style, `<br>`wxWindowID id, `<br>`const wxString& name)`|该函数在`CreateToolBar()`函数调用之后被调用|
-|`bool ProcessCommand (int id)`|模拟一个菜单条的操作命令|
-|`virtual void SetMenuBar (wxMenuBar* menuBar)`|将菜单栏绑定到窗口上|
-|`virtual void SetStatusBar (wxStatusBar* statusBar)`|将状态条绑定到窗口上|
-|`virtual void SetToolBar (wxToolBar* toolBar)`|将工具栏绑定到窗口上|
-|`void SetStatusBarPane (int n)`|设置状态栏分割栏个数|
-|`virtual void SetStatusText (const wxString& text, `<br>`int number=0)`|设置状态栏第`number`个分割栏的字符串内容为`text`|
-|`virtual void SetStatusWidths (int n, `<br>`const int *widths_field)`|设置状态栏的宽度|
+``` cpp
+void Centre(int direction = wxBOTH);
+// 在显示器上将窗口中心化
+
+bool Create(wxWindow* parent, 
+            wxWindowID id, 
+            const wxString& title, 
+            const wxPoint& pos = wxDefaultPosition, 
+            const wxSize& size=wxDefaultSize, 
+            long style = wxDEFAULT_FRAME_STYLE, 
+            const wxString& name = wxFrameNameStr);
+// 创建窗口，参数列表与构造函数的参数列表一致
+
+virtual wxStatusBar* CreateStatusBar (int number = 1, 
+                                      long style = wxSTB_DEFAULT_STYLE, 
+                                      wxWindowID id = 0, 
+                                      const wxString& name = wxStatusBarNameStr);
+// 在窗口的底部创建一个状态条
+
+virtual wxToolBar* CreateToolBar (long style = wxTB_DEFAULT_STYLE, 
+                                  wxWindowID id = wxID_ANY, 
+                                  const wxString& name = wxToolBarNameStr);
+// 在窗口的顶部或者左侧创建一个工具条
+
+virtual void DoGiveHelp (const wxString& text, bool show);
+// 该函数在事件`wxEVT_MENU_HIGHLIGHT`发生时被调用，用于在鼠标光标悬置在菜单条上时提供帮助
+
+virtual wxPoint GetClientAreaOrigin () const;
+// 返回用户区的原点坐标
+
+virtual wxMenuBar* GetMenuBar () const;
+// 返回指向窗口的菜单条的指针
+
+virtual wxStatusBar* GetStatusBar () const;
+// 返回指向窗口的状态栏的指针
+
+virtual wxToolBar* GetToolBar () const;
+// 返回指向窗口的工具栏的指针
+
+int GetStatusBarPane () const;
+// 返回状态条分立出来的方格数
+
+virtual wxStatusBar* OnCreateStatusBar (int number, 
+                                        long style, 
+                                        wxWindowID id, 
+                                        const wxString& name);
+// 该函数在`CreateStatusBar()`函数调用之后被调用，基本不用手动管理它
+
+virtual wxToolBar* OnCreateToolBar (long style, 
+                                    wxWindowID id, 
+                                    const wxString& name);
+// 该函数在`CreateToolBar()`函数调用之后被调用，基本不用手动管理它
+
+bool ProcessCommand (int id);
+// 模拟一个菜单条的操作命令
+
+virtual void SetMenuBar (wxMenuBar* menuBar);
+// 将菜单栏绑定到窗口上
+
+virtual void SetStatusBar (wxStatusBar* statusBar);
+// 将状态条绑定到窗口上
+
+virtual void SetToolBar (wxToolBar* toolBar);
+// 将状态条绑定到窗口上
+
+virtual void SetStatusText (const wxString& text, 
+                            int number = 0);
+// 设置状态栏第`number`个分割栏的字符串内容为`text`
+
+virtual void SetStatusWidths (int n, 
+                              const int *widths_field);
+// 设置状态栏的宽度
+```
 
 <br>
 
@@ -384,13 +440,13 @@ wxFrame(wxWindow *parent,
 <br>
 
 ``` cpp
-wxDialog (wxWindow* parent, 
-          wxWindowID id, 
-          const wxString& title, 
-          const wxPoint& pos = wxDefaultPosition, 
-          const wxSize& size = wxDefaultSize, 
-          long style = wxDEFAULT_DIALOG_STYLE, 
-          const wxString& name = wxDialogNameStr)
+wxDialog(wxWindow* parent, 
+         wxWindowID id, 
+         const wxString& title, 
+         const wxPoint& pos = wxDefaultPosition, 
+         const wxSize& size = wxDefaultSize, 
+         long style = wxDEFAULT_DIALOG_STYLE, 
+         const wxString& name = wxDialogNameStr);
 ```
 
 <br>
@@ -406,29 +462,68 @@ wxDialog (wxWindow* parent,
 
 <br>
 
-`wxFrame`的构造函数以及`Create`函数中`style`参数可选的值：
+`wxFrame`的构造函数以及`Create`函数中`style`参数可选的值（代码块中的为和前面某种控件一致的属性，含义基本相同；表格中为前面所有控件都没有的属性，以下不再复述）：
+
+<br>
+
+``` plaintext
+wxDEFAULT_DIALOG_STYLE = wxCAPTION | wxCLOSE_BOX | wxSYSTEM_MENU
+
+wxMINIMIZE_BOX      wxMAXIMIZE_BOX      wxCLOSE_BOX
+wxSYSTEM_MENU       wxRESIZE_BORDER     wxSTAY_ON_TOP
+wxCAPTION
+```
 
 <br>
 
 |可选值|说明|
 |:---:|:---:|
-|`wxDEFAULT_DIALOG_STYLE`|定义为`wxCAPTION | wxCLOSE_BOX | wxSYSTEM_MENU`|
-|`wxMINIMIZE`|等同于`wxICONIZE`，也是只对Windows系统有效|
-|`wxMINIMIZE_BOX`|显示窗口最小化按钮，对所有系统都有效|
-|`wxMAXIMIZE`|显示窗口最大化按钮，只对Windows和GTK+系统有效|
-|`wxMAXIMIZE_BOX`|显示窗口最大化按钮，当在使用`wxGTK`的情况下，必须同时包含`wxRESIZED_BORDER`|
-|`wxCLOSE_BOX`|显示窗口关闭按钮|
-|`wxRESIZE_BORDER`|可以通过鼠标拖拽窗口边缘重新设置窗口的大小|
-|`wxCAPTION`|在窗口显示一个标签，注意在大多数系统上，这个选项需要`wxMINIMIZE_BOX`<br>`wxMAXMIZE_BOX`以及`wxCLOSE_BOX`同时开启|
-|`wxSYSTEM_MENU`|在窗口的标题栏显示一个系统默认的操作菜单（一般是用右键点击开启）|
+|`wxDIALOG_NO_PARENT`|一个父窗口为`NULL`的对话框会被wxWidgets强制绑定到顶层窗口上，此时<br>对话框的父窗口变成该顶层窗口，这个可选值是阻止这一过程的，使对话<br>框强制为一个没有父窗口的孤立窗口|
 
 <br>
 
-### 3.4 容器窗口
+`wxDialog`类的成员函数（功能和前面介绍过的类的成员函数相近时不再有注释）：
 
 <br>
 
-#### 3.4.1 `wxPanel`类
+``` cpp
+void Centre(int direction = wxBOTH);
+bool Create(wxWindow* parent, 
+            wxWindowID id, 
+            const wxString& title, 
+            const wxPoint& pos = wxDefaultPosition, 
+            const wxSize& size = wxDefaultSize, 
+            long style = wxDEFAULT_DIALOG_STYLE, 
+            const wxString& name = wxDialogNameStr);
+
+void AddMainButtonId(wxWindowID id);
+// 设定一个非滚动的对话框中的按钮为默认确定按钮
+
+virtual bool CanDoLayoutAdaptation();
+// 当一个对话框可以使用函数`DoLayoutAdaptaion()`时返回`true`，这常常是在对话框尺寸较大时发生的
+
+wxSizer* CreateButtonSizer(long flags);
+// 创建一个由标准按钮组成的窗口布局控件，其中`flag`的值可以是以下几个值的组合：
+// wxOK | wxCANCEL | wxYES | wxNO | wxAPPLY | wxCLOSE | wxHELP | wxNO_DEFAULT
+
+wxSizer* CreateSeparatedButtonSizer(long flags);
+// 同样是创建一个由标准按钮组成的窗口布局控件，但是它和对话框其他部分之间会用静态的分割线隔开
+
+wxSizer* CreateSeparatedSizer(wxSizer* sizer);
+// 将给定的窗口布局控件与对话框其他部分隔开，生成一条静态的分割线，这个窗口布局控件不得是`null`
+
+wxSizer* CreateTextSizer(const wxString& message,
+                         int widthMax = -1);
+// 创建一个由标准静态文本标签组成的窗口布局控件，
+```
+
+<br>
+
+### 3.3 容器窗口类
+
+<br>
+
+#### 3.3.1 `wxPanel`类
 
 <br>
 
@@ -437,7 +532,7 @@ wxDialog (wxWindow* parent,
 <br>
 
 ``` cpp
-wxPanel(wxWindow *parent,
+wxPanel(wxWindow* parent,
         wxWindowID winid = wxID_ANY,
         const wxPoint& pos = wxDefaultPosition,
         const wxSize& size = wxDefaultSize,
@@ -447,22 +542,37 @@ wxPanel(wxWindow *parent,
 
 <br>
 
-#### 3.4.2 `wxNotebook`类
+#### 3.3.2 `wxNotebook`类
 
 <br>
 
-`wxNotebook`类提供一个有多个页面的窗口，页面之间可以通过边上的TAB按钮来切换，每个页面通常是一个普通的`wxPanel`窗口或者其衍生类。使用`wxNotebook`的方法是创建一个`wxNotebook`对象，并使用`AddPage`以及`InsertPage`传递一个用来作为页面的窗口指针，或者使用`DeletePage`来删除某个页面。
+`wxNotebook`类提供一个有多个页面的窗口，页面之间可以通过边上的TAB按钮来切换，每个页面通常是一个普通的`wxPanel`窗口或者其衍生类。其构造函数如下：
 
 <br>
 
-`wxNotebook`的窗口类型如下：
-- `wxNB_TOP`让标签放在顶部，`wxNB_BOTTOM`让标签放在底部，`wxNB_LEFT`让标签放在左侧，`wxNB_RIGHT`让标签放在右侧；
-- `wxNB_FIXEDWIDTH`使所有的标签宽度都相同；
-- `wxNB_MULTILINE`可以具有多行标签。
+``` cpp
+wxNotebook(wxWindow* parent, 
+           wxWindowID id, 
+           const wxPoint& pos = wxDefaultPosition, 
+           const wxSize& size = wxDefaultSize, 
+           long style = 0, 
+           const wxString& name = wxNotebookNameStr);
+```
 
 <br>
 
-`wxNotebook`的相关事件有两个：`EVT_NOTEBOOK_PAGE_CHANGED`表示当前页面已经发生改变，`EVT_NOTEBOOK_PAGE_CHANGING`表示当前页面正在发生改变，可以使用`Veto`函数阻止这种变化。
+`wxNotebook`类具体的静态事件处理名称：
+
+<br>
+
+|静态事件处理名称|说明|
+|:---:|:---:|
+|`EVT_NOTEBOOK_PAGE_CHANGED(id, func)`|`wxNotebook`的选中页面发生了变化|
+|`EVT_NOTEBOOK_PAGE_CHANGING(id, func)`|`wxNotebook`的选中页面正要发生变化|
+
+<br>
+
+`wxNotebook`
 
 <br>
 
