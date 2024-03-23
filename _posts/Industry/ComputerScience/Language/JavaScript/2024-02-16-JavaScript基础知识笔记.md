@@ -183,15 +183,17 @@ message = 100;
 
 <br>
 
-JavaScript中有五种简单数据类型：
+JavaScript中有六种简单数据类型：
 - Undefined
 - Null
 - Boolean
 - Number
+- BigInt
 - String
 
-一种复杂类型：
+两种复杂类型：
 - Object
+- Symbol
 
 <br>
 
@@ -288,11 +290,30 @@ JavaScript中有三个可以将非数值转换为数值的函数：
 
 <br>
 
-#### 1.4.5 String类型
+#### 1.4.5 BigInt
 
 <br>
 
-String类型用于表示由零或多个16位Unicode字符的字符序列，字符串可以用双引号也可以用单引号括起。JavaScript中的字符串是不可变的，字符串一旦创建，它们的值就不能变化，要改变某个字符串的值，则必须先销毁原来的值再用一个包含新值的字符串填充该字符串。
+在JavaScript中，Number类型不能表示大于`2^53-1`小于`-(2^53-1)`的整数。超出安全整数范围会出现精度问题。如果有时候需要使用这些超出范围的整数，则需要使用BigInt类型。可以在这些整数后面加上`n`显式指定其为BigInt类型。
+
+<br>
+
+对BigInt类型的所有操作的结果都是BigInt类型，且不能将使用`+`一元操作符将BigInt类型的数值转换为Number类型。
+
+<br>
+
+#### 1.4.6 String
+
+<br>
+
+String类型用于表示由零或多个16位Unicode字符的字符序列，字符串可以用双引号、单引号和反引号括起。反引号引起的字符串可以使用`${}`括起变量名将变量或者表达式的值加到字符串中。
+
+<br>
+
+``` javascript
+var name = "Izumi Sagiri";
+console.log(`I love ${name}!`);
+```
 
 <br>
 
@@ -305,7 +326,7 @@ JavaScript中有两个可以将其余数值转换为字符串的方法：
 
 <br>
 
-#### 1.4.6 Object类型
+#### 1.4.7 Object
 
 <br>
 
@@ -398,6 +419,31 @@ JavaScript的所有操作符均与C类似，需要的注意点如下：
     - 两个操作数为对象时，将比较它们是否是同一个对象。
   
     全等和不全等操作符不会对数据进行类型转换，在这里`null === undefined`会返回`false`。
+- ECMAScript 有求幂运算符`**`；
+- 二元运算符`+`按从左到右的顺序工作，遇到为字符串的操作数以后，它会将前面运算结果转换为字符串，并将后面所有操作数都转换为字符串；而其余运算符都是将字符串转换为数字：
+
+    ``` javascript
+    console.log(2 + 2 + "1");   // "41"
+    console.log("2" + 2 + 1);   // "221"
+    console.log("6"/"3");       // 2
+    console.log("5" - "2");     // 3
+    ```
+
+- 一元运算符`+`会对非数字强制转换为数字：
+
+    ``` javascript
+    var apple = "2";
+    var banana = "3";
+    console.log((+apple) + (+banana));  // 5
+    ```
+
+- 空值合并运算符用于确定一个变量是否是未定义的。当一个值既不是`null`也不是`undefined`时，我们称其为已定义的。空值合并运算符的写法、功能如下：`a ?? b`，如果`a`是已定义的，结果为`a`；如果`a`是未定义的，结果为`b`。它相当于以下代码：
+
+    ``` javascript
+    result = (a !== null && a !== undefined) ? a : b;
+    ```
+
+`??`与`||`运算符有些类似，但是它的适用范围更小，它可以用于判断一系列变量中第一个已定义的值，对它来说假值只有`null`和`undefiend`，不像`||`会将`0`和`""`也视作假值。`??`和`||`的运算级相同，ECMAScript不允许`??`和`||`或`&&`一起使用，除非有括号明确了求值顺序。
 
 <br>
 
@@ -463,7 +509,7 @@ with(location) {
 
 <br>
 
-#### 1.7 函数
+### 1.7 函数
 
 <br>
 
@@ -616,7 +662,7 @@ console.log(blueColor);
 
 <br>
 
-JavaScript没有块级作用域，这意味着流控制语句中的变量将被添加到当前的执行环境：
+较老的JavaScript没有块级作用域，这意味着流控制语句中的变量将被添加到当前的执行环境：
 
 <br>
 
@@ -631,7 +677,24 @@ console.log("Final result: " + sum);
 
 <br>
 
-使用`var`声明的变量会自动被添加到最接近的环境中，如果初始化变量时没有使用关键字`var`声明，该变量会被自动添加到全局环境中。建议只使用`var`声明变量，在严格模式下，初始化未经声明的变量将导致错误。
+使用`var`声明的变量会自动被添加到最接近的环境中，如果初始化变量时没有使用关键字`var`声明，该变量会被自动添加到全局环境中。在较老的脚本中大部分还是使用`var`的，但是在现代JavaScript中，常常使用`let`关键字，`let`与`var`的最大不同是其具有块级作用域：
+
+<br>
+
+``` javascript
+let numGroup = [12, 23, 15, 6, 10];
+let max = 0;
+for (let i = 0; i <= numGroup.length - 1; i++) {
+    if (numGroup[i] > max)
+        max = numGroup[i];
+}
+console.log(max);   // 23
+console.log(i);     // undefined variable
+```
+
+<br>
+
+可以看到`let`声明的变量`i`在离开循环之后就被销毁了，现代JavaScript的`let`具有了块级的作用域。注意`let`不能重复声明同一个名字的变量，否则会发生错误。如果想要保证变量的值不会被修改，可以使用`const`关键字声明变量。
 
 <br>
 
@@ -668,12 +731,16 @@ JavaScript具有垃圾收集机制，执行环境会负责管理代码执行过�
 
 <br>
 
+#### 3.1.1 对象的创建
+
+<br>
+
 除了使用`objectA.propertyName = `这样的添加属性或者方法的模式，还可以使用对象字面量表示法（当花括号内留空，则对象只包含默认属性和方法）：
 
 <br>
 
 ``` javascript
-var wife = {
+let wife = {
     name : "Izumi Sagiri",
     age  : 14
 };
@@ -692,6 +759,167 @@ wife["function"] = 2;
 
 <br>
 
+JavaScript的对象即使属性不存在也不会报错，读取不存在的属性只会得到`undefined`。可以使用`in`关键字来检查对象是否具有某个名字的属性：
+
+<br>
+
+``` javascript
+let objectA = {
+    name : "Izumi Sagiri",
+    age  : 14
+};
+console.log("name" in objectA);     // true
+console.log("height" in objectA);   // false
+```
+
+<br>
+
+需要注意的是使用`const`声明的对象中的属性可以被改变，即使在严格模式下也不会报错。
+
+<br>
+
+#### 3.1.2 对象的复制
+
+<br>
+
+之前说过对象的赋值只是将两个对象都指向了同一个地址，如果想做到完全的复制而不是指向同一个地址，可以采用遍历已有对象的属性并在原始类型值的层面复制它们，或者使用`Object.assign`方法：
+
+<br>
+
+``` javascript
+let objectC = {
+    name : "Izumi Sagiri",
+    age  : 14
+};
+let objectD = {};
+for (let prop in objectC) {
+    objectD[prop] = objectC[prop];
+}
+```
+
+<br>
+
+`Object.assign`方法的语法是：
+
+<br>
+
+``` plaintext
+Object.assign(dest, [src1, src2, src3...])
+```
+
+<br>
+
+第一个参数`dest`是目标对象，后面方括号内的参数是源对象。该方法将所有源对象的属性拷贝到目标对象中，调用结果返回`dest`。可以用这个方法将多个对象进行合并，如果被拷贝的属性的属性名已经存在，那么原先的属性会被覆盖：
+
+<br>
+
+``` javascript
+let user = { name : "AshGrey" };
+let permission1 = { canEdit : true};
+let permission2 = { canSave : true};
+user = Object.assign(user, permission1, permission2);
+console.log(user.canEdit);  // true
+console.log(user.canSave);  // true
+```
+
+<br>
+
+当对象内部还有用对象初始化的变量时，必须使用深拷贝的方式进行复制，而深拷贝则需要使用递归的方式进行复制：
+
+<br>
+
+``` javascript
+let player = {
+    name   : "AshGrey",
+    age    : 19,
+    school : {
+        primary    : "A",
+        junior     : "X",
+        senior     : "Y",
+        university : "T"
+    }
+};
+
+function copyObject(dest, src) {
+    for (let prop in src) {
+        if (typeof prop === "object") {
+            return arguments.callee(dest[prop], src[prop]);
+        }
+        else {
+            dest[prop] = src[prop];
+        }
+    }
+    return dest;
+}
+let anotherPlayer = copyObject({}, player);
+console.log(anotherPlayer.school.junior);
+```
+
+<br>
+
+#### 3.1.3 构造函数
+
+<br>
+
+当需要大批量构造同种对象时，可以使用构造函数（与C++不同，这里的构造函数在技术上是正常的函数），构造函数使用`new`关键字调用，相当于进行了隐式创建对象和隐式返回的过程，故构造函数内部并没有`return`关键字：
+
+<br>
+
+``` javascript
+function User(name) {
+    this.name = name;
+    this.isAdmin = false;
+}
+let user = new User("AshGrey");
+```
+
+<br>
+
+#### 3.1.4 可选链
+
+<br>
+
+可选链这一语法糖主要解决访问嵌套对象属性的安全问题，即使中间属性不存在也不会出现错误。假设这样一个场景，网站需要保存用户输入的姓名，但是有用户并没有提供任何姓名并恰巧网站没有检测空输入，则可能出现以下情况：
+
+<br>
+
+``` javascript
+let user = {};  // user doesn't have name
+console.log(user.name.lastName);    // Error!
+```
+
+<br>
+
+在大多数情况下，我们期望得到的是`undefined`而不是一个错误。在可选链出现之前也有一些解决方法，例如在访问该值的属性之前，使用`if`或者条件运算符`?`对值进行检查。可以看到`user.name`出现了两次，对于名称较长的属性，重复两次将加大代码量，不够优雅，于是可选链的语法糖被提出：
+
+<br>
+
+``` javascript
+let user = {};
+console.log(user.name ? user.name.lastName : undefined);
+console.log(user?.name?.lastName);
+```
+
+<br>
+
+可选链`?.`前的属性为`undefined`或者`null`时，它将返回`undefined`并结束继续调用。注意，不要过度使用可选链，只将它用在一些属性可以不存在的地方。`?.`并不是一个运算符，而是一种特殊的语法结构，它可以与函数和方括号一起使用：`?.()`用于调用一个可能不存在的函数，`?.[]`用于使用方括号读取可能不存在的对象的属性：
+
+<br>
+
+``` javascript
+let userAdmin = {
+    admin() {
+        console.log("$root>");
+    }
+}
+
+let userGuest = {};
+userGuest.admin?.();
+userAdmin.admin?.();
+```
+
+<br>
+
 ### 3.2 Array类型
 
 <br>
@@ -700,15 +928,15 @@ JavaScript中的数组是Array类型，该数组虽然是数据的有序列表�
 - 使用`Array`构造函数，其中`new`关键字可用可不用。当向构造函数传递一个Number类型的参数时，数组的大小将被设定为该Number类型的值；当向构造函数传递一个非Number类型的参数或者传递多个参数时，相当于传递给数组了具体的元素；
 
     ``` javascript
-    var names = new Array(3);           // length = 3
-    var names = new Array("Izumi");     // names[0] = "Izumi"
-    var names = new Array(3, "Izumi");  // names[0] = 3, names[1] = "Izumi"
+    let names = new Array(3);           // length = 3
+    let names = new Array("Izumi");     // names[0] = "Izumi"
+    let names = new Array(3, "Izumi");  // names[0] = 3, names[1] = "Izumi"
     ```
 
 - 使用数组字面量表示法：
 
     ``` javascript
-    var names = [3, "Izumi"];
+    let names = [3, "Izumi"];
     ```
 
 <br>
@@ -729,7 +957,7 @@ JavaScript中的数组是Array类型，该数组虽然是数据的有序列表�
 <br>
 
 ``` javascript
-var wife = ["IzumiSagiri", "Elaina", "Charolotte Soller"];
+let wife = ["IzumiSagiri", "Elaina", "Charolotte Soller"];
 console.log(wife);                    // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
 console.log(wife.valueOf());          // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
 console.log(wife.toString());         // "IzumiSagiri,Elaina,Charolotte Soller"
@@ -753,7 +981,7 @@ JavaScript为数组提供了重排序的方法，其中`reverse()`反转数组�
 <br>
 
 ``` javascript
-var values = [0, 1, 5, 10, 15];
+let values = [0, 1, 5, 10, 15];
 values.sort();
 console.log(values);  // Array(5) : [0, 1, 10, 15, 5]
 ```
@@ -777,8 +1005,10 @@ function compare(value1, value2) {
     }
 }
 
-var values = [0, 10, 5, 4, 12];
+let values = [0, 10, 5, 4, 12];
 console.log(values.sort(compare));  // Array(5) : [0, 4, 5, 10, 12]
+
+console.log(values.sort((a, b) => a - b));
 ```
 
 <br>
@@ -788,11 +1018,11 @@ console.log(values.sort(compare));  // Array(5) : [0, 4, 5, 10, 12]
 <br>
 
 JavaScript给数组提供了一些操作方法：
-- `concat()`方法基于当前数组中的所有项创建一个新的数组，这个方法会先创建当前数组的一个副本，并将接收到的参数添加到副本的末尾，最后返回新构建的函数；
+- `concat()`方法基于当前数组中的所有项创建一个新的数组，这个方法会先创建当前数组的一个副本，并将接收到的参数添加到副本的末尾，最后返回新构建的数组；
 
     ``` javascript
-    var wifes_1 = ["Izumi", "Sagiri"];
-    var wifes_2 = wifes_1.concat("Elaina", ["Charolotte", "Soller"]);
+    let wifes_1 = ["Izumi", "Sagiri"];
+    let wifes_2 = wifes_1.concat("Elaina", ["Charolotte", "Soller"]);
     console.log(wifes_1.toString());  // "Izumi,Sagiri"
     console.log(wifes_2.toString());  // "Izumi,Sagiri,Elaina,Charolotte,Soller"
     ```
@@ -802,9 +1032,9 @@ JavaScript给数组提供了一些操作方法：
     - 接受2个参数时，`slice()`方法返回起始和结束位置之间的项，但不包括结束位置的项，该操作方法不会修改原始数组。
 
     ``` javascript
-    var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    var wifes_2 = wifes_1.slice(1);
-    var wifes_3 = wifes_1.slice(2, 4);
+    let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let wifes_2 = wifes_1.slice(1);
+    let wifes_3 = wifes_1.slice(2, 4);
     console.log(wifes_2.toString());  // "Sagiri,Elaina,Charolotte,Soller"
     console.log(wifes_3.toString());  // "Elaina,Charolotte"
     ```
@@ -815,9 +1045,9 @@ JavaScript给数组提供了一些操作方法：
     - 替换：可以向指定位置插入任意数量的项，且同时删除任意数量的项，用这种方法可以做到项的替换。
 
     ```javascript
-    var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    var wifes_2 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    var wifes_3 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let wifes_2 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let wifes_3 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
     wifes_1.splice(1, 2);
     wifes_2.splice(1, 0, "AshGrey");
     wifes_3.splice(1, 2, "AshGrey", "Helix");
@@ -833,7 +1063,7 @@ JavaScript还为数组提供了位置的方法：`indexOf()`和`lastIndexOf()`�
 <br>
 
 ``` javascript
-var wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller", "Sagiri"];
+let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller", "Sagiri"];
 console.log(wifes_1.indexOf("Sagiri"));       // 1
 console.log(wifes_1.lastIndexOf("Sagiri"));   // 5
 console.log(wifes_1.indexOf(1));              // -1
@@ -845,8 +1075,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `every()`方法：对数组的每一项都执行给定的函数，如果给定函数对每一项都返回`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`；
 
     ``` javascript
-    var wifeAge = [12, 14, 9, 13, 15];
-    var result = wifeAge.every(function(item, index, array) {
+    let wifeAge = [12, 14, 9, 13, 15];
+    let result = wifeAge.every(function(item, index, array) {
 	      if (item >= 14)
             return true;
         else 
@@ -858,8 +1088,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `some()`方法：迭代执行，如果给定函数对某一项返回了`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`：
 
     ``` javascript
-     var wifeAge = [12, 14, 9, 13, 15];
-    var result = wifeAge.some(function(item, index, array) {
+     let wifeAge = [12, 14, 9, 13, 15];
+    let result = wifeAge.some(function(item, index, array) {
 	      if (item >= 14)
             return true;
         else 
@@ -871,9 +1101,9 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `filter()`方法：迭代执行，函数返回的是一个数组，数组内只包含使给定函数返回`true`（或者返回值经过强制类型转换得到`true`）的数组元素：
 
     ``` javascript
-    var wifeAge = [12, 14, 9, 13, 15];
-    var result = wifeAge.filter(function(item, index, array) {
-	      if (item >= 14)
+    let wifeAge = [12, 14, 9, 13, 15];
+    let result = wifeAge.filter(function(item, index, array) {
+	    if (item >= 14)
             return true;
         else 
             return false;
@@ -884,8 +1114,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `forEach()`方法：迭代执行，该函数没有返回值：
 
     ``` javascript
-    var wifeAge = [12, 14, 9, 13, 15];
-    var result = new Array();
+    let wifeAge = [12, 14, 9, 13, 15];
+    let result = new Array();
     wifeAge.forEach(function(item, index, array) {
         function format(n) {
             if (n === 0)
@@ -904,8 +1134,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `map`方法：迭代执行，返回每次函数调用的结果组成的数组：
 
     ``` javascript
-    var wifeAge = [12, 14, 9, 13, 15];
-    var result = wifeAge.map(function(item, index, array) {
+    let wifeAge = [12, 14, 9, 13, 15];
+    let result = wifeAge.map(function(item, index, array) {
         if (item >= 14)
             return "Hentai!";
         else
@@ -925,7 +1155,7 @@ JavaScript中的Date类型是在早期Java中的`java.util.Date`类基础上构�
 <br>
 
 ``` javascript
-var Today = new Date();
+let Today = new Date();
 ```
 
 <br>
@@ -934,10 +1164,10 @@ var Today = new Date();
 - `parse()`方法：接受一个表示日期的字符串参数，然后尝试根据这个字符串返回相应日期的毫秒数，接受的字符串参数因实现的不同而不同（如果字符串参数无法表示日期，函数将返回`NaN`）；
 
     ``` javascript
-    var day_1 = new Date(Date.parse("6/13/2004"));
-    var day_2 = new Date(Date.parse("January 12,2006"));
-    var day_3 = new Date(Date.parse("Tue May 25 2004 23:21:09 GMT+0800"));
-    var day_4 = new Date(Date.parse("2022-02-03T23:09:00"));
+    let day_1 = new Date(Date.parse("6/13/2004"));
+    let day_2 = new Date(Date.parse("January 12,2006"));
+    let day_3 = new Date(Date.parse("Tue May 25 2004 23:21:09 GMT+0800"));
+    let day_4 = new Date(Date.parse("2022-02-03T23:09:00"));
     ```
 
 - `UTC()`方法：UTC的参数分别是年份、基于0的月份（一月份是0，二月份是1）、月中的哪一天、小时数、分钟、秒及毫秒。
@@ -953,7 +1183,7 @@ JavaScript支持通RegExp类型来支持正则表达式。其语法如下：
 <br>
 
 ``` plaintext
-var expression = / pattern / flags
+let expression = / pattern / flags
 ```
 
 <br>
@@ -997,8 +1227,8 @@ var expression = / pattern / flags
     圆括号缓存的缓冲区最多能存储99个捕获的子表达式，可以通过`\`加一个一位或两位十进制数字访问缓存的子表达式：
 
     ``` javascript
-    var str = "Is is the cost of gasoline going up up";
-    var pattern1 = /\b([a-z]+) \1\b/igm;
+    let str = "Is is the cost of gasoline going up up";
+    let pattern1 = /\b([a-z]+) \1\b/igm;
     console.log(str.match(pattern1));
     // Array(3) : ["Is is", "of of", "up up"]
     ```
@@ -1033,8 +1263,8 @@ pattern3 : /<\w+?>/ =>  <h1>
 <br>
 
 ``` javascript
-var pattern1 = /[bc]at/i;
-var pattern2 = new RegExp("[bc]at", "i");
+let pattern1 = /[bc]at/i;
+let pattern2 = new RegExp("[bc]at", "i");
 ```
 
 <br>
@@ -1044,10 +1274,10 @@ var pattern2 = new RegExp("[bc]at", "i");
 <br>
 
 ``` javascript
-var pattern1 = /\[bc\]at/;  // RegExp("\\[bc\\]at")
-var pattern2 = /\.at/;      // RegExp("\\.at")
-var pattern3 = /name\/age/; // RegExp("name\\/age")
-var pattern4 = /\d.\d{1,2}/;// RegExp("\\d.\\d{1,2}")
+let pattern1 = /\[bc\]at/;  // RegExp("\\[bc\\]at")
+let pattern2 = /\.at/;      // RegExp("\\.at")
+let pattern3 = /name\/age/; // RegExp("name\\/age")
+let pattern4 = /\d.\d{1,2}/;// RegExp("\\d.\\d{1,2}")
 ```
 
 <br>
@@ -1065,11 +1295,11 @@ RegExp类型的每个实例都具有下列方法：
 - `exec()`：该方法接受一个参数，即要应用模式的字符串，然后返回包含第一个匹配项信息的数组，在没有匹配项的情况下返回`null`，返回的数组虽然是Array的实例，但包含两个额外的属性：`index`和`input`。其中`index`表示匹配项在字符串的位置，`input`表示应用正则表达式的字符串；
 
     ``` javascript
-    var str = "67root@123root12-90";
-    var pattern = /(?<=\d+)root/igm;
-    var matches1 = pattern.exec(str);
+    let str = "67root@123root12-90";
+    let pattern = /(?<=\d+)root/igm;
+    let matches1 = pattern.exec(str);
     console.log(matches1.index);
-    var matches2 = pattern.exec(str);
+    let matches2 = pattern.exec(str);
     console.log(matches2.index); 
     ```
 
@@ -1082,20 +1312,24 @@ RegExp类型的每个实例都具有下列方法：
 
 <br>
 
+#### 3.5.1 函数表达式
+
+<br>
+
 在JavaScript中，函数实际是一种对象。每个函数都是Function类型的实例，函数名实际上也是一个指向函数对象的指针，不会与某个函数绑定，于是函数的定义也可以这么写：
 
 <br>
 
 ``` javascript
-var sum = function(num1, num2) {
+let sum = function(num1, num2) {
     return num1 + num2;
 };
 
-// var sum = new Function("num1", "num2", "return num1 + num2");
-var result1 = sum(1, 2);
-var anotherSum = sum;
+// let sum = new Function("num1", "num2", "return num1 + num2");
+let result1 = sum(1, 2);
+let anotherSum = sum;
 sum = null;
-var result2 = anotherSum(1,2);
+let result2 = anotherSum(1,2);
 ```
 
 <br>
@@ -1111,7 +1345,7 @@ function haveHoisted() {
 }
 
 notHoisted();   // TypeError: notHoisted is not a function
-var notHoisted() {
+let notHoisted = function() {
     console.log("I love Sagiri!");
 };
 ```
@@ -1122,6 +1356,38 @@ var notHoisted() {
 
 <br>
 
+#### 3.5.2 箭头函数
+
+<br>
+
+箭头函数有一个`=>`的运算符，所以被命名为箭头函数，它的基本格式如下：
+
+<br>
+
+``` javascript
+let func = (arg1, arg2, ..., argN) => expression;
+```
+
+<br>
+
+这里创建了一个函数`func`，它接受参数`arg1,...,argN`，然后使用参数对右侧的`expression`求值并返回结果。箭头函数对于简单的单行行为函数来说非常方便。如果需要多行的箭头函数，则需要显式地使用`return`：
+
+<br>
+
+``` javascript
+let sum = (a, b) => {
+	let result = a + b;
+    return result + " = " + a + " + " + b;
+}
+console.log(sum(2, 3)); // "5 = 2 + 3"
+```
+
+<br>
+
+#### 3.5.3 函数对象的属性与方法
+
+<br>
+
 由于函数本身是一种对象，函数也能作为参数传入别的函数中。例如有`object1`和`object2`是一个类的两个对象，现在要根据两个对象的某个属性进行排序：
 
 <br>
@@ -1129,8 +1395,8 @@ var notHoisted() {
 ``` javascript
 function createComparisonFunction(propertyName) {
     return function(object1, object2) {
-        var value1 = object1[propertyName];
-        var value2 = object2[propertyName];
+        let value1 = object1[propertyName];
+        let value2 = object2[propertyName];
         if (value1 < value2) {
             return -1;
         }
@@ -1143,7 +1409,7 @@ function createComparisonFunction(propertyName) {
     };
 }
 
-var data = [
+let data = [
     { name : "AshGrey", age : 19},
     { name : "Sagiri" , age : 14}
 ];
@@ -1168,15 +1434,16 @@ console.log(data[0].name);  // Sagiri
             // return num * factorial(num - 1);
         }
     }
-    var anotherFactorial = factorial;
+    let anotherFactorial = factorial;
     factorial = null;
     console.log(anotherFactorial(5));
     ```
-- `this`对象：引用的是函数执行的环境对象，例如在网页中全局作用域调用函数时`this`对象引用的是`window`对象：
+
+- `this`对象：引用的是函数执行的环境对象，例如在网页中全局作用域调用函数时`this`对象引用的是`window`对象。如果在对象内部定义函数，则函数的`this`指向的就是对象。
 
     ``` javascript
     window.color  = "red";
-    var object = { color : "blue"};
+    let object = { color : "blue"};
     function colorOutput() {
         console.log(this.color);
     }
@@ -1184,4 +1451,475 @@ console.log(data[0].name);  // Sagiri
     object.colorOutput = colorOutput;
     object.colorOutput();   // "blue"
     ```
+
+    需要注意的是，箭头函数没有`this`，如果在箭头函数中调用`this`，其值取决于外部的函数：
+
+    ``` javascript
+    let hello = {
+        name : "AshGrey",
+        sayHello() {
+            let arrow = () => console.log("Hello, " + this.name);
+            arrow();
+        }
+    };
+    hello.sayHello();   // "Hello, AshGrey"
+    ```
+
 - `caller`对象：这个对象中保存着调用当前函数的函数的引用，如果在全局作用域调用当前函数，`caller`的值为`null`
+
+    ``` javascript
+    function outer() {
+        inner();
+    }
+    function inner() {
+        console.log(arguments.callee.caller);
+        alert(arguments.callee.caller);
+    }
+    inner();    // null
+    outer();    // function : outer()
+                // function outer() {
+                //     inner();
+                // }
+    ```
+
+    在严格模式下，访问`arguments.callee`会导致出错。ECMAScript 5还定义了`arguments.caller`属性，非严格模式下这个属性的值始终是`undefined`。
+
+<br>
+
+函数本身是一个对象，因此也有自己的属性和方法。每个函数都有两个属性：
+- `length`：表示函数希望接受的命名参数的个数；
+- `prototype`：所有引用类型的`toString()`、`valueOf()`方法都保存在`prototype`名下，只不过是通过各自对象的实例访问。在 ECMAScript 5 中，`prototype`属性是不可枚举的，不能使用`for-in`发现。
+
+<br>
+
+每个函数都有两个非继承得到的方法`apply()`和`call()`，这两个方法都是在特定的作用域中调用参数，实际上等同于设置函数体内`this`对象的值：
+- `apply()`方法接受两个参数：第一个是在其中运行函数的作用域，第二个是参数数组。参数数组可以是Array类型的实例，也可以是`arguments`对象。例如
+
+    ``` javascript
+    window.flag = "window";
+    window.order = 0;
+    let callObject = {
+        flag  : "Obejct",
+        order : 1
+    };
+    function testFunction(num, str) {
+        console.log("Flag : " + this.flag);
+        console.log("Order : " + this.order);
+        console.log(str + " : " + num);
+        return 0;
+    }
+    function callFunction(age, name) {
+        callFunction.flag = "Function";
+        callFunction.order = 2;
+        if (age >= 18)
+    	    return testFunction.apply(this, arguments);
+        else if (age >= 14)
+            return testFunction.apply(callFunction, [age, name]);
+        else
+            return "Hentai!"
+    }
+    callFunction(19, "wifeAge");
+    /*
+     *  Flag    : window
+     *  Order   : 0
+     *  wifeAge : 19
+     */
+    callObject.callFunction = callFunction;
+    callObject.callFunction(19, "wifeAge");
+    /*
+     *  Flag    : Object
+     *  Order   : 1
+     *  wifeAge : 19
+     */
+    callObject.callFunction(16, "wifeAge");
+    /*
+     *  Flag    : Function
+     *  Order   : 2
+     *  wifeAge : 16
+     */
+    ```
+
+- `call()`方法与`apply()`相似，只是传递参数时需要逐个传递：
+
+    ``` javascript
+    function callFunction(age, name) {
+        callFunction.flag = "Function";
+        callFunction.order = 2;
+        if (age >= 18)
+    	    return testFunction.call(this, age, name);
+        else if (age >= 14)
+            return testFunction.call(callFunction, age, name);
+        else
+            return "Hentai!"
+    }
+    ```
+
+<br>
+
+ECMAScript 5 还定义了一个方法：`bind()`，这个方法会创建一个函数的实例，其`this`值会绑定到传给`bind()`函数的值：
+
+<br>
+
+``` javascript
+window.wife = "Izumi Sagiri";
+let second = {
+    wife : "Elaina"
+}
+function outputWife() {
+    console.log(this.wife);
+}
+let objectOutputWife = outputWife.bind(second);
+objectOutputWife(); // Elaina
+```
+
+<br>
+
+函数继承的`toLocaleString()`、`toString()`和`valueOf()`方法始终都返回函数的代码。返回代码的格式则因浏览器而异：
+
+<br>
+
+``` javascript
+function output() {
+    console.log(output.toString());
+}
+output();
+```
+
+<br>
+
+### 3.6 Symbol类型
+
+<br>
+
+根据JavaScript规范，只有字符串类型和Symbol类型可以用作对象属性键，如果用其余类型，将自动转换为字符串类型。Symbol类型表示唯一的标识符，在创建Symbol类型变量时，可以给Symbol一个描述：
+
+<br>
+
+``` javascript
+let id1 = Symbol("id");
+let id2 = Symbol("id");
+console.log(id1 == id2);    // false
+```
+
+<br>
+
+Symbol类型保证了变量的唯一性，即使两个Symbol类型的变量具有相同的描述，它们也是不同的。还要注意，Symbol类型的变量不具有隐式转换的能力，如果想显示Symbol类型的变量，可以使用`toString`方法，它会返回`Symbol(name)`这样的结果，其中`name`是变量的名称；如果希望得到Symbol类型变量的描述，需要使用`description`属性。
+
+<br>
+
+在对象字面量中使用Symbol类型的变量，需要用方括号将属性名括起来。对象中的Symbol类型属性值会被`for-in`循环跳过，但是使用`Object.assign`方法复制对象时，会同时复制Symbol类型的属性。
+
+<br>
+
+``` javascript
+let user = {
+    name : "AshGrey",
+    age  : 20,
+    [id] : 2022012050
+};
+```
+
+<br>
+
+JavaScript维护了一个全局Symbol注册表，可以在其中创建Symbol类型并在稍后访问它们，它可以确保每次访问相同名字的Symbol变量时返回的都是相同的Symbol。要从注册表中读取（不存在的时候则创建）Symbol使用`Symbol.for(key)`方法：
+
+<br>
+
+``` javascript
+var backgroundColor = Symbol.for("red");
+var forgeColor = Symbol.for("red");
+console.log(forgeColor === backgroundColor);    // true
+```
+
+<br>
+
+### 3.7 基本包装类型
+
+<br>
+
+基本包装类型是程序在读取一个简单数据类型时在后台创建的对应的引用类型，从而能够调用一些方法操作这些数据。后台调用这些方法的过程：
+- 创建某种简单数据类型对应的基本包装类型的一个实例；
+- 在实例上调用指定的方法；
+- 销毁这个实例。
+
+<br>
+
+对基本包装类型使用`typeof`会返回`object`，而且所有基本包装类型的对象在转换为Boolean类型（简单数据类型）时都是`true`。创建基本包装类型的方法如下：
+
+<br>
+
+``` javascript
+let str = new String("Izumi");
+let value = 2;
+let num = new Number(value);
+console.log(typeof str);    // Object
+console.log(typeof num);    // Object
+```
+
+<br>
+
+#### 3.7.1 Number基本包装类型
+
+<br>
+
+- `valueOf()`方法返回数值；
+- `toString()`和`toLocaleString()`方法都返回字符串形式的数值，其中`toString()`方法还可以传递一个表示基数的参数，控制其返回某进制数值的字符串形式；
+- `toFixed()`方法按照指定的小数位返回数值的字符串表示，如果数值本身包含的小数位数比指定的小数位数多，可能会有数据的舍入；
+- `toExponential()`方法返回一个以指数表示法表示的数值的字符串形式，它接受一个参数，该参数表示输出结果中的小数位数；
+- `toPrecision()`方法接受一个参数，该参数表示有效位数。如果有效位数比原来数字的有效位数还小，有可能会导致数据的舍入。
+
+    ``` javascript
+    let num = new Number(1112.345);
+    console.log(num.toFixed(4));        // 1112.3450
+    console.log(num.toFixed(2));        // 1112.35
+    console.log(num.toExponential(4));  // 1.1123e+3
+    console.log(num.toExponential(7));  // 1.1123450e+3
+    console.log(num.toPrecision(8));    // 1112.3450
+    console.log(num.toPrecision(4));    // 1112
+    ```
+
+<br>
+
+#### 3.7.2 String基本包装类型
+
+<br>
+
+- `valueOf()`、`toString()`和`toLocaleString()`都是返回字面值；
+- `charAt()`方法接受一个参数，该参数是基于0的字符位置，返回值是该字符位置上的字符，部分浏览器还支持使用中括号访问的方法；
+- `charCodeAt()`方法与`charAt()`类似，但是返回字符位置上字符对应的编码；
+
+    ``` javascript
+    let loveString = "I love ";
+    loveString = loveString.concat("Izumi ", "Sagiri!");
+    console.log(loveString.charAt(14));     // "a"
+    console.log(loveString.charCodeAt(14)); // 97
+    console.log(loveString[14]);            // "a"
+    ```
+
+- `concat()`方法用于将一个或者多个字符串拼接在一起并返回拼接得到的新字符串，该方法接受任意多个参数。实践中将字符串拼接起来的方法更多用的是`+`运算；
+
+    ``` javascript
+    let loveString = "I love ";
+    console.log(loveString.concat("Izumi ", "Sagiri!"));
+    // "I love Izumi Sagiri!"
+    ```
+
+- `slice()`和`substring()`方法的第一个参数指定子字符串的开始位置，第二个参数（可选）指定子字符串最后一个字符后面的位置。`substr()`方法的第二个参数指定的是返回的字符个数。如果给这三个方法传入负数，则它们的行为分别是：`slice()`将传入的负值与字符串长度相加，`substr()`方法将负的第一个参数与字符串长度相加，负的第二个参数设置为0，`substring()`方法将负值全部设置为0；
+
+    ``` javascript
+    let stringObject = new String("Izumi Sagiri");
+
+    console.log(stringObject.slice(3, 8));      // "mi Sa"
+    console.log(stringObject.substr(3, 4));     // "mi S"
+    console.log(stringObject.substring(3, 8));  // "mi Sa"
+
+    console.log(stringObject.slice(-3));        // "iri"
+    console.log(stringObject.slice(4, -2));     // "i Sagi"
+    console.log(stringObject.substr(-8, 3));    // "i S"
+    console.log(stringObject.substr(4, -2));    // "" <empty string>
+    console.log(stringObject.substring(3, -4)); // "Izu"
+    ```
+
+- `indexOf()`和`lastIndexOf()`，功能与数组的这两个方法类似；
+- `trim()`方法返回一个删除了字符串前缀和后缀空格的字符串副本，现代浏览器还支持`trimLeft()`和`trimStart()`用于删除字符串前缀空格，`trimRight()`和`trimEnd()`用于删除字符串后缀空格；
+- `toLowerCase()`方法用于将字符串英文字母小写，`toUpperCase()`方法用于将字符串英文字母大写；
+- `match()`方法返回查找到的匹配正则表达式的子字符串数组，`search()`方法返回查找到的第一个匹配正则表达式的子字符串的索引；
+- `replace()`方法接受两个参数，第一个参数可以是RegExp对象或者字符串（这个字符串并不是RegExp对象的字符串形式，而是子字符串），第二个参数是一个字符串或者函数，是替换后的字符串。若第一个参数提供字符串，只会替换第一个匹配的子字符串，如果要替换所有的子字符串，则需要使用正则表达式并且指定全局标志，也可以使用`replaceAll()`方法：
+
+    ``` javascript
+    let text = "wife, life, knife, five";
+    let pattern = /ife/igm;
+    console.log(text.replace("ife", "ink"));
+    // wink, life, knife, five
+    console.log(text.replace(pattern, "ink"));
+    // wink, link, knink, five
+    ```
+
+    `replace()`函数的第二个参数也可以是一个函数，匹配字符串时会向这个函数传递这些参数：第一个参数是匹配项，之后几个参数是按顺序的捕获组的匹配项，最后两个参数分别是模式的匹配项在字符串中的位置和原始的字符串。
+
+    ``` javascript
+    function replaceHtmlChar(text) {
+        return text.replace(/[<>"&"]/g, function(match, pos, originalText) {
+            switch(match) {
+                case "<" :
+                    return "&lt;";
+                case ">" :
+                    return "&gt;";
+                case "&" :
+                    return "&amp;";
+                case "\"" :
+                    return "&quot;";
+            } 
+        });
+    }
+    console.log(replaceHtmlChar("<p class =\"greeting\">Hello World!</p>"));
+    // &lt;p class =&quot;greeting&quot;&gt;Hello World!&lt;/p&gt;
+    ```
+
+- `split()`方法可以基于指定的分隔符将一个字符串分成多个子字符串，并将结果放在一个数组中。指定的分隔符可以是字符串也可以是RegExp对象。`split()`方法可以接受可选的第二个参数，用于指定数组的大小：
+
+    ``` javascript
+    let wife = "Izumi Sagiri, Elaina, WanTerrier";
+    console.log(wife.split(","));
+    // Array (3) : ["Izumi Sagiri", " Elaina", " WanTerrier"]
+    ```
+
+- `localeCompare()`方法比较两个字符串：如果字符串的字典顺序排在参数前面，返回`-1`；如果相等，返回`0`；如果排在后面，返回`1`；
+
+<br>
+
+<br>
+
+<br>
+
+## 4 面向对象
+
+<br>
+
+### 4.1 对象的属性标志与属性描述符
+
+<br>
+
+ECMAScript为对象设计了两种属性：数据属性和访问器属性。
+
+<br>
+
+数据属性包含一个数据值的位置，在这个位置可以读取和写入值。数据属性有4个描述其行为的标志：
+- `[[Value]]`：包含这个属性的数据值，读取属性值时从这个位置读；写入属性值时把新值保存在这个位置，该标志的默认值为`undefined`；
+- `[[Writable]]`：表示能否修改属性的标志，即是否可以直接在对象上创建属性，该标志的默认值为`true`；
+- `[[Enumerable]]`：表示能否通过`for-in`循环列出属性，该标志的默认值为`true`；
+- `[[Configurable]]`：表示能否通过`delete`删除属性从而重新定义属性，能否修改属性的标志或者将属性修改为访问器属性，该标志的默认值为`true`。
+
+<br>
+
+要修改这些数据属性的标志，需要使用方法`Object.defineProperty()`方法，这个方法接受三个参数：属性所在的对象、属性的名字和一个描述符对象。其中描述符对象的可以用于设置以上四种标志的值（如果需要一次性定义多个属性的标志，则需要使用方法`Object.defineProperties()`）：
+
+<br>
+
+``` javascript
+let wife = {};
+Object.defineProperty(wife, "name", {
+    writable : false,
+    configurable : false,
+    value : "Izumi Sagiri"
+});
+console.log(wife.name);
+delete wife.name;
+console.log(wife.name); // "Izumi Sagiri"
+wife.name = "Elaina";
+console.log(wife.name); // "Izumi Sagiri"
+```
+
+<br>
+
+要获取这些数据属性的标志，需要使用方法`Object.getOwnPropertyDescriptor()`方法，这个方法接受两个参数：需要从中获取的对象和属性的名称：
+
+<br>
+
+``` javascript
+let wife = {
+    name : "Izumi Sagiri",
+    age : 14
+};
+let descriptor = Object.getOwnPropertyDescriptor(wife, "name");
+console.log(JSON.stringify(descriptor, null, 2));
+/*
+{
+  "value": "Izumi Sagiri",
+  "writable": true,
+  "enumerable": true,
+  "configurable": true
+}
+*/
+```
+
+<br>
+
+访问器属性不包含数据值，它们包含一对`getter()`和`setter()`函数，在读取访问器属性时会调用`getter()`函数，这个函数负责返回有效的值；在写入访问器属性时，会调用`setter()`函数，这个函数负责决定如何处理数据。访问器属性有以下4个描述其行为的标志：
+- `[[Configurable]]`：与数据属性类似，表示能否通过`delete`删除属性从而定义新的属性，能够修改属性的标志或者将属性修改为数据属性，该标志的默认值为`true`；
+- `[[Enumerable]]`：表示能否通过`for-in`循环返回属性，这个标志的默认值是`true`；
+- `[[Get]]`：在读取属性时调用的函数；
+- `[[Set]]`：在写入属性时调用的函数。
+
+<br>
+
+``` javascript
+let wife = {
+    _name : "Izumi Sagiri"
+};
+Object.defineProperties(wife, {
+    name : {
+        // get name() {}
+        get : function() {
+            console.log(`Get The Property : ${this._name}`);
+            return this._name;
+        },
+        // set name(value) {}
+        set : function(newValue) {
+            this._name = newValue;
+            console.log(`Set The Property : ${this._name}`);
+        }
+    }
+});
+console.log(wife.name);
+// "Get The Property : Izumi Sagiri"
+// "Izumi Sagiri"
+wife.name = "Elaina";
+// "Set The Property : Elaina"
+console.log(wife.name);
+// "Get The Property : Elaina"
+// "Elaina"
+```
+
+<br>
+
+### 4.2 原型与继承
+
+<br>
+
+在JavaScript中对象有一个特殊的隐藏属性`[[Prototype]]`，它要么为`null`，要么就是对另一个对象的引用，引用的这个对象称为原型。可以使用`__proto__`对对象的原型进行设置。如果访问一个对象没有的属性，JavaScript会尝试在其原型中查找：
+
+<br>
+
+``` javascript
+let girlfriend = {
+    hug : true,
+    kiss : true
+};
+let wife = {
+    sex : true
+};
+wife.__proto__ = girlfriend;
+console.log(wife.hug);  // true
+```
+
+<br>
+
+可以构造一个原型链不断继承对象的属性，JavaScript将在这些原型链中寻找没有的属性。注意引用不能形成闭环，如果对`__proto__`进行赋值并且形成了闭环，JavaScript将会抛出错误，并且一个`__proto__`不能从多个对象中获取属性。`__proto__`并不是对象内部的`[[Prototype]]`，而是它的`getter/setter`函数，而且它的存在是出于历史原因，现代JavaScript建议应该使用方法`Object.getPrototypeOf()`和`Object.setPrototypeOf()`。
+
+<br>
+
+如果直接在对象上添加与继承得到的属性名称相同的名称，继承得到的属性将不会被调用，这是因为JavaScript优先搜索对象自己的属性：
+
+<br>
+
+``` javascript
+var wife = {
+    name : "Izumi Sagiri",
+    age : 12,
+    love() {
+        console.log(`I love you, ${this.name}`);
+    }
+};
+var wifeForever = {};
+wifeForever.__proto__ = wife;
+wifeForever.love = function() {
+    console.log("I love you, Elaina");
+}
+wifeForever.love();
+console.log(wifeForever);
+```
+
+<br>
+
+创建的每个函数都有其`prototype`属性，默认的`prototype`是一个只有属性`constructor`的对象，该属性指向函数自身。
