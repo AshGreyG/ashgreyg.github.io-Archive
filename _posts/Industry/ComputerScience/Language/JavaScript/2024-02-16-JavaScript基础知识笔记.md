@@ -1077,7 +1077,7 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let wifeAge = [12, 14, 9, 13, 15];
     let result = wifeAge.every(function(item, index, array) {
-	      if (item >= 14)
+        if (item >= 14)
             return true;
         else 
             return false;
@@ -1088,9 +1088,9 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `some()`方法：迭代执行，如果给定函数对某一项返回了`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`：
 
     ``` javascript
-     let wifeAge = [12, 14, 9, 13, 15];
+    let wifeAge = [12, 14, 9, 13, 15];
     let result = wifeAge.some(function(item, index, array) {
-	      if (item >= 14)
+        if (item >= 14)
             return true;
         else 
             return false;
@@ -1103,7 +1103,7 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let wifeAge = [12, 14, 9, 13, 15];
     let result = wifeAge.filter(function(item, index, array) {
-	    if (item >= 14)
+        if (item >= 14)
             return true;
         else 
             return false;
@@ -1119,7 +1119,7 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     wifeAge.forEach(function(item, index, array) {
         function format(n) {
             if (n === 0)
-        	      return 1;
+                  return 1;
             else
                 return n;
         }
@@ -1376,7 +1376,7 @@ let func = (arg1, arg2, ..., argN) => expression;
 
 ``` javascript
 let sum = (a, b) => {
-	let result = a + b;
+    let result = a + b;
     return result + " = " + a + " + " + b;
 }
 console.log(sum(2, 3)); // "5 = 2 + 3"
@@ -1512,7 +1512,7 @@ console.log(data[0].name);  // Sagiri
         callFunction.flag = "Function";
         callFunction.order = 2;
         if (age >= 18)
-    	    return testFunction.apply(this, arguments);
+            return testFunction.apply(this, arguments);
         else if (age >= 14)
             return testFunction.apply(callFunction, [age, name]);
         else
@@ -1546,7 +1546,7 @@ console.log(data[0].name);  // Sagiri
         callFunction.flag = "Function";
         callFunction.order = 2;
         if (age >= 18)
-    	    return testFunction.call(this, age, name);
+            return testFunction.call(this, age, name);
         else if (age >= 14)
             return testFunction.call(callFunction, age, name);
         else
@@ -1873,7 +1873,7 @@ console.log(wife.name);
 
 <br>
 
-### 4.2 原型与继承
+### 4.2 原型
 
 <br>
 
@@ -1904,22 +1904,509 @@ console.log(wife.hug);  // true
 <br>
 
 ``` javascript
-var wife = {
+let wife = {
     name : "Izumi Sagiri",
     age : 12,
     love() {
         console.log(`I love you, ${this.name}`);
     }
 };
-var wifeForever = {};
+let wifeForever = {};
 wifeForever.__proto__ = wife;
 wifeForever.love = function() {
     console.log("I love you, Elaina");
-}
+};
 wifeForever.love();
 console.log(wifeForever);
 ```
 
 <br>
 
-创建的每个函数都有其`prototype`属性，默认的`prototype`是一个只有属性`constructor`的对象，该属性指向函数自身。
+#### 4.2.1 原型模式
+
+<br>
+
+创建的每个函数都有其`prototype`属性，默认的`prototype`是一个只有属性`constructor`的对象，该属性是一个指针，指向函数自身。当我们有一个对象，但不知道它使用了哪个构造函数，并且需要创建另一个类似的对象时，可以用以下的方法进行构造：
+
+<br>
+
+``` javascript
+function Wife(name) {
+    Wife.prototype.name = name;
+    console.log(this.name);
+}
+
+let sagiri = new Wife("Izumi Sagiri");
+let elaina = new sagiri.constructor("Elaina");
+```
+
+<br>
+
+如果将函数中默认的`prototype`替换掉，那么其中就不再有`constructor`对象，所以如果要保证仍然有这个对象，就必须选择添加/删除属性到默认的`prototype`中，而不是将整个覆盖。或者也可以手动重写一个`constructor`对象，但这样重写得到的`constructor`对象的`[[Enumerable]]`属性被设置为`true`。要注意的是，构造函数使用`prototype`增加属性，由构造函数创建的对象内部并没有构造函数的属性，它们是通过原型链进行调用的。
+
+<br>
+
+有以下几个可用的方法来研究对象的`prototype`：
+- 通过`prototype`属性的`isPrototypeOf()`方法确定对象之间是否有原型链关系，如果参数的`prototype`属性指向调用该方法的对象，那么返回`true`：
+
+    ``` javascript
+    function Wife(name) {
+        Wife.prototype.name = name;
+        console.log(this.name);
+    }
+
+    let sagiri = new Wife("Izumi Sagiri");
+    let elaina = new sagiri.constructor("Elaina");
+    console.log(Wife.prototype.isPrototypeOf(sagiri));  // true
+    console.log(Wife.prototype.isPrototypeOf(elaina));  // true
+    ```
+
+- 可以通过`Object.getPrototypeOf()`方法获取对象的原型：
+
+    ``` javascript
+    function Wife(name) {
+        Wife.prototype.name = name;
+        console.log(this.name);
+    }
+
+    let sagiri = new Wife("Izumi Sagiri");
+    let elaina = new sagiri.constructor("Elaina");
+    console.log(Object.getPrototypeOf(sagiri) === Wife.prototype);  // true
+    console.log(Object.getPrototypeOf(sagiri) === Wife.prototype);  // true
+    Object.getPrototypeOf(sagiri).age = 12;
+    console.log(sagiri.age);    // 12
+    ```
+
+- 可以使用`hasOwnProperty()`检验一个属性是在实例中还是在原型中：
+
+    ``` javascript
+    function Wife(name) {
+        this.name = name;
+        console.log(this.name);
+    }
+
+    let sagiri = new Wife("Izumi Sagiri");
+    sagiri.age = 12;
+    console.log(sagiri.hasOwnProperty("name")); // false
+    console.log(sagiri.hasOwnProperty("age"));  // true
+    ```
+
+<br>
+
+事实上JavaScript中的引用类型都有自己的构造函数，这些内建对象都在`prototype`上挂载了自己的方法。注意`null`和`undefined`比较特殊，它们没有基本包装类型，也不具有自己的方法和属性，没有相应的原型。例如以下的程序就为引用类型`Function`添加了内建方法：
+
+<br>
+
+``` javascript
+Function.prototype.defer = function(ms) {
+    setTimeout(this, ms);
+};
+function f() {
+    console.log("hei!");
+}
+f.defer(10000);
+```
+
+<br>
+
+因为原型中所有属性是被很多实例所共享的，如果只是基本数据类型，实例会创建自己的属性，但如果是引用类型，大部分情况下只是使用引用类型的方法对其进行修改而不是实例自定义属性进行覆盖，这种共享模式就出现了问题：
+
+<br>
+
+``` javascript
+function Person() {}
+Person.prototype = {
+    constructor : Person,
+    name : "AshGrey",
+    age : 19,
+    job : "Student",
+    wife : ["Izumi Sagiri"],
+};
+
+
+let person1 = new Person();
+let person2 = new Person();
+person1.wife.push("Elaina");
+console.log(person2.wife);  // Array(2) : ["Izumi Sagiri", "Elaina"]
+```
+
+<br>
+
+#### 4.2.2 构造函数模式+原型模式
+
+<br>
+
+可以采用以下方法解决共享的问题：构造函数模式用于定义实例属性（所有的引用类型都放在这），而原型模式用于定义方法和可以共享的属性。这样，每个实例都有自己的一份实例属性的副本，但同时又共享着对方法的引用。
+
+<br>
+
+``` javascript
+function Person() {
+    this.name = "AshGrey";
+    this.age = 19;
+    this.job = "Student";
+    this.wife = ["Izumi Sagiri"];
+}
+Person.prototype = {
+    constructor : Person,
+    printInfo : function() {
+        let wifeStr = "";
+        for (let i = 0; i <= this.wife.length - 1; i++) {
+            wifeStr += `${this.wife[i]}\n`;
+        }
+        console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nwife : ${wifeStr}`);
+    }
+};
+
+let person1 = new Person();
+let person2 = new Person();
+person1.wife.push("Elaina");
+person1.printInfo();
+person2.printInfo();
+```
+
+<br>
+
+#### 4.2.3 动态原型模式
+
+<br>
+
+可以通过检查某个应该存在的方法是否有效，来决定是否需要初始化原型。只有在方法不存在的情况下才会将它添加到原型中，即只在初次调用构造函数时才会执行：
+
+<br>
+
+``` javascript
+function Person() {
+    this.name = "AshGrey";
+    this.age = 19;
+    this.job = "Student";
+    this.wife = ["Izumi Sagiri"];
+    if (typeof this.printInfo !== "function") {
+        Person.prototype.printInfo = function() {
+            let wifeStr = "";
+            for (let i = 0; i <= this.wife.length - 1; i++) {
+                wifeStr += `${this.wife[i]}\n`;
+            }
+            console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nwife : ${wifeStr}`);
+        }
+    }
+}
+```
+
+<br>
+
+### 4.3 继承
+
+<br>
+
+#### 4.3.1 原型链
+
+<br>
+
+每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针，而实例都包含一个指向原型对象的内部指针，如果让某个原型对象等于另一个类的实例，此时原型对象将包含一个指向另一个原型的指针，这就形成了原型链。
+
+<br>
+
+``` javascript
+function SuperType() {
+    this.property = true;
+}
+SuperType.prototype.getSuperValue = function() {
+    return this.property;
+};
+
+function SubType() {
+    this.subProperty = false;
+}
+
+SubType.prototype = new SuperType();
+
+SubType.prototype.getSubValue = function() {
+    return this.subProperty
+};
+let instance = new SubType();
+console.log(instance.getSuperValue());  // true
+
+/*
+ *      |---------------------------------|
+ *  SuperType()  |> SuperType prototype   |
+ *               |  + constructor --------|
+ *               |  + getSuperValue() function
+ *               |
+ *               |------------------------|
+ *  SubType()       SubType prototype     |
+ *                  + [[prototye]] -------|
+ *                  + property : true
+ *                  + getSubValue() function
+*/
+```
+
+<br>
+
+与之前实例共享原型时一样，使用原型链继承时派生类的原型属性会从基类得到实例属性，派生类的所有实例都共享了类中的原型属性，这是不妥当的。
+
+<br>
+
+#### 4.3.2 经典继承
+
+<br>
+
+经典继承/借用构造函数（constructor stealing）的核心思想是在派生类的构造函数内部调用基类的构造函数。借用构造函数可以向基类构造函数传递参数，并且基类中的所有实例属性都会成为派生类构造出对象的属性，即进行了一次复制，并且还可以增添属性和覆盖基类方法的行为：
+
+<br>
+
+``` javascript
+function SuperType(name) {
+    this.name = name;
+    this.printInfo = function() {
+        console.log(this.name);
+    }
+}
+function SubType() {
+    SuperType.call(this, "Izumi Sagiri");
+    this.age = 12;
+    this.printInfo = function() {
+        console.log(this.name + "\n" + this.age);
+    }
+}
+let wife = new SubType();
+let girlfriend = new SuperType("Elaina");
+girlfriend.printInfo();
+wife.printInfo();
+```
+
+<br>
+
+#### 4.3.3 伪经典继承
+
+<br>
+
+伪经典继承/组合继承（combination inheritance）使用原型链实现对原型属性和方法的继承，而通过构造函数来实现对实例属性的继承：
+
+<br>
+
+``` javascript
+function SuperType(name, age) {
+    this.name = name;
+    this.age = age;
+}
+SuperType.prototype.printInfo = function() {
+    console.log(this.name + "\n" + this.age);
+}
+function SubType(name, age) {
+    SuperType.call(this, name, age);
+}
+SubType.prototype = new SuperType();
+SubType.prototype.constructor = SubType;
+let wife = new SubType("Elaina", 14);
+console.log(wife.printInfo());
+```
+
+<br>
+
+#### 4.3.4 原型式继承
+
+<br>
+
+原型式继承在对象复制函数内部临时创建一个构造函数，将构造函数的`prototype`设置为传入的对象，并返回根据该构造函数创建的新对象，这样创建的对象的原型是传入的对象，所以实际上对象的实例属性和原型属性都被复制了（这里可以称为继承），而且要注意的是，这些属性被共享了。
+
+<br>
+
+``` javascript
+function SuperType(name, age) {
+    this.name = name;
+    this.age = age;
+}
+SuperType.prototype.printInfo = function() {
+    console.log(this.name + "\n" + this.age);
+}
+function copy(object) {
+    function C() {}
+    C.prototype = object;
+    return new C();
+}
+var person1 = new SuperType("AshGrey", 19);
+var person2 = copy(person1);
+console.log(person2.printInfo());
+```
+
+<br>
+
+ECMAScript 5 新增了 `Object.create()` 方法规范化了原型式继承，这个方法接收两个参数，一个是用作新对象原型的对象和为新对象定义额外属性的对象（可选），第二个参数的格式就是对象的字面量。
+
+<br>
+
+### 4.4 现代 JavaScript 的类
+
+<br>
+
+#### 4.4.1 类作为语法糖的使用方法
+
+<br>
+
+现代 JavaScript 支持使用类（class）而不是`new Function`构造面向对象编程，其基本语法是在`class`代码块内编写一个构造函数，其中定义类的属性，再编写自定义的类的方法，然后创建对象时使用 `new ClassName()`来创建对象：
+
+<br>
+
+``` javascript
+let time = "2024-02-21";
+class Wife {
+    constructor(name, age, meetTime) {
+        this.name = name;
+        this.age = age;
+        this.meetTime = meetTime;
+    }
+    printInfo() {
+        console.log(this.name + "\n" + this.age);
+    }
+    celebrate() {
+        if (time.slice(5) === this.meetTime.slice(5))
+            console.log("You should celebrate the wedding anniversary");
+    }
+}
+
+let sagiri = new Wife("Izumi Sagiri", 12, "2020-02-21");
+sagiri.celebrate();
+```
+
+<br>
+
+`class`常被理解为一种语法糖，这是因为它的实际功能和之前使用的各种创建对象的方法类似。`class ClassName {...}`做了两件事：
+- 创建一个名为`ClassName`的函数，该函数成为类声明的结果，且该函数的代码来自`constructor`函数，如果不编写这个函数，则默认为空；
+- 存储类中的方法到`ClassName.prototype`下。
+
+<br>
+
+不过`class`确实和普通的构造函数不同：
+- 通过`class`创建的函数具有特殊的内部属性标记`[[IsClassConstructor]]: true`，JavaScript会在一些地方检查该属性，例如必须使用`new`来调用它，单独调用JavaScript引擎将抛出错误；
+- 类不存在类声明提升，必须在类定义之后才能调用它；
+- 类方法不可枚举，类定义将`prototype`中所有方法的`enumerable`标志设置为`false`；
+- 类自动使用严格模式，在类中编写的函数或其他代码都在严格模式下运行。
+
+<br>
+
+类中同样包括`getter/setter`，可以在类中的属性被读取或者设置时被调用：
+
+<br>
+
+``` javascript
+class User {
+    constructor(name) {
+        this.name = name;
+    }
+    get name() {
+        console.log("The 'name' is getted by somewhere");
+        return this._name;
+    }
+    set name(value) {
+        this._name = value;
+        console.log("The 'name' is setted by somewhere")
+    }
+}
+
+let ashgrey = new User("AshGreyG");
+console.log(ashgrey.name);
+ashgrey.name = "AshGrey-AshGrey";
+```
+
+<br>
+
+类和函数一样也具有类表达式：
+
+<br>
+
+``` javascript
+let User = class MyClass {
+    sayHello() {
+        console.log(MyClass);   // MyClass is only seen inside
+    }
+};
+
+new User().sayHello();
+console.log(MyClass);   // MyClass can't be seen outside
+```
+
+<br>
+
+<br>
+
+<br>
+
+## 5 深入函数
+
+<br>
+
+### 5.1 递归与堆栈
+
+<br>
+
+正在运行的函数的执行过程的相关信息存储在其执行上下文中，执行上下文是一个内部数据结构，它包含有关函数执行时的详细细节：当前控制流所在的位置，当前的变量，`this`的值以及一些内部细节。一个函数调用仅具有一个与其相关联的执行上下文。
+
+<br>
+
+当一个函数进行递归时将发生下列事情：
+- 当前函数被暂停；
+- 与它关联的执行上下文被一个叫做**执行上下文堆栈**的数据结构保存；
+- 执行嵌套调用；
+- 嵌套调用结束后，从堆栈中恢复之前的执行上下文，并从停止的位置恢复外部函数。
+
+<br>
+
+``` javascript
+function pow(x, n) {
+    if (n === 1) {
+        return x;
+    }
+    else {
+        return x * pow(x, n - 1);
+    }
+}
+```
+
+上述递归函数`pow()`在计算`pow(2,3)`时它进入了第二个条件分支，并打算执行一个函数调用，此时外部函数的执行上下文`Context: { x: 2, n: 3, at line 5 }`被存入了执行上下文堆栈。
+
+<br>
+
+### 5.2 函数绑定
+
+<br>
+
+当将对象方法作为回调进行传递时，例如传递给`setTimeout`时会发生丢失`this`的问题，一旦方法被传递到与对象分开的某个地方，`this`就会丢失：
+
+<br>
+
+``` javascript
+let users = {
+    name : "AshGrey",
+    age : 19,
+    printInfo() {
+        console.log(this.name + "\n" + this.age);
+    }
+};
+setTimeout(users.printInfo, 1000); // undefined
+```
+
+<br>
+
+解决方法有以下几种：
+- 包装器：可以将包装函数传递给`setTimeout`函数，这里的包装函数既可以是完整的`function`函数也可以是更简短的箭头函数：
+
+    ``` javascript
+    let users = {
+        name : "AshGrey",
+        age : 19,
+        printInfo() {
+            console.log(this.name + "\n" + this.age);
+        }
+    };
+    setTimeout(() => users.printInfo(), 1000);
+    ```
+
+    对于该场景我们的方法还是有漏洞，例如如果`users`的信息突然改变，此时对象打印的信息就会出现问题；
+- `bind`函数：函数的内建方法`bind`的基本语法如下：
+
+    ``` javascript
+    let boundFunc = func.bind(context);
+    ```
+
+    上述代码的结果是一个特殊的类似于函数的外来对象，它可以像函数一样被调用，并且将调用传递给`func`并设置`this=context`。`boundFunc`的行为就类似于绑定了`context`的`func`；
