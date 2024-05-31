@@ -16,7 +16,7 @@ timezone: Asia/Shanghai
 
 title: AshGrey # the main title
 
-tagline: AshGrey & Sagiri's Blog # it will display as the sub-title
+tagline: AshGrey & Huaier's Blog # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   AshGrey has been working on his Cyber wifu.
@@ -35,7 +35,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: AshGrey-Izumi Sagiri
-  email: ashgrey_f@petalmail.com # change to your email address
+  email: sagiri.ashgrey@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/AshGrey__sagiri # change to your twitter homepage
