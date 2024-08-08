@@ -19,11 +19,11 @@ title: AshGrey # the main title
 tagline: AshGrey & Huaier's Blog # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
-  AshGrey has been working on his Cyber wifu.
+  He loves Huaier forever.
 
 # Fill in the protocol & hostname for your site.
 # e.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://www.ashgrey-sagiri.top"
+url: "https://www.huaier-ashgrey.top"
 
 github:
   username: AshGreyG # change to your github username
@@ -35,7 +35,7 @@ social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
   name: AshGrey-Izumi Sagiri
-  email: sagiri.ashgrey@gmail.com # change to your email address
+  email: ashgrey.huaier@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/AshGrey__sagiri # change to your twitter homepage
@@ -74,7 +74,7 @@ theme_mode: dark # [light | dark]
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: "https://picbed.ashgrey-sagiri.top"
+img_cdn: "https://picbed.huaier-ashgrey.top"
 
 # the avatar on sidebar, support local or CORS resources
 avatar: "/image/image-0.jpg"
