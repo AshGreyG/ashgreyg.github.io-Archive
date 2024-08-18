@@ -311,7 +311,7 @@ String类型用于表示由零或多个16位Unicode字符的字符序列，字�
 <br>
 
 ``` javascript
-var name = "Izumi Sagiri";
+var name = "Huaier";
 console.log(`I love ${name}!`);
 ```
 
@@ -572,9 +572,9 @@ JavaScript不允许直接对变量的内存地址进行访问或者操作，在�
 <br>
 
 ``` javascript
-var wife = new Object();
-wife.name = "Izumi Sagiri";
-console.log(wife.name);
+var loli = new Object();
+loli.name = "Izumi Sagiri";
+console.log(loli.name);
 ```
 
 <br>
@@ -592,9 +592,9 @@ console.log(wife.name);
 function changeObjectName(obj) {
     obj.name = "Izumi Sagiri";
 }
-var wife = new Object();
-changeObjectName(wife);
-console.log(wife.name); // -> "Izumi Sagiri"
+var loli = new Object();
+changeObjectName(loli);
+console.log(loli.name); // -> "Huaier"
 ```
 
 <br>
@@ -605,18 +605,18 @@ console.log(wife.name); // -> "Izumi Sagiri"
 
 ``` javascript
 function changeObjectName(obj) {
-    obj.name = "Izumi Sagiri";
+    obj.name = "Huaier";
     obj = new Object();
     obj.name = "AshGrey";
 }
-var wife = new Object();
-changeObjectName(wife);
-console.log(wife.name); // -> "Izumi Sagiri"
+var loli = new Object();
+changeObjectName(loli);
+console.log(loli.name); // -> "Huaier"
 ```
 
 <br>
 
-如果函数是按引用传递的，则不管函数内部的对象`obj`是否被重新赋值为一个新的对象，它的引用都应该是外部对象`wife`，而这里`wife`的值没有因为`obj`的重新定义而改变，就说明了函数是按值传递的。函数内部的变量、对象都会在函数体结束调用时被销毁。
+如果函数是按引用传递的，则不管函数内部的对象`obj`是否被重新赋值为一个新的对象，它的引用都应该是外部对象`loli`，而这里`loli`的值没有因为`obj`的重新定义而改变，就说明了函数是按值传递的。函数内部的变量、对象都会在函数体结束调用时被销毁。
 
 <br>
 
@@ -741,8 +741,8 @@ JavaScript具有垃圾收集机制，执行环境会负责管理代码执行过�
 
 ``` javascript
 let wife = {
-    name : "Izumi Sagiri",
-    age  : 14
+    name    : "Huaier",
+    husband : "AshGrey
 };
 ```
 
@@ -753,8 +753,8 @@ let wife = {
 <br>
 
 ``` javascript
-wife["first name"] = "Izumi";
-wife["function"] = 2;
+loli["first name"] = "Izumi";
+loli["function"] = 2;
 ```
 
 <br>
@@ -765,8 +765,8 @@ JavaScript的对象即使属性不存在也不会报错，读取不存在的属�
 
 ``` javascript
 let objectA = {
-    name : "Izumi Sagiri",
-    age  : 14
+    name : "Huaier",
+    age  : 17
 };
 console.log("name" in objectA);     // true
 console.log("height" in objectA);   // false
@@ -788,8 +788,8 @@ console.log("height" in objectA);   // false
 
 ``` javascript
 let objectC = {
-    name : "Izumi Sagiri",
-    age  : 14
+    name : "AshGrey",
+    age  : 19
 };
 let objectD = {};
 for (let prop in objectC) {
@@ -957,11 +957,11 @@ JavaScript中的数组是Array类型，该数组虽然是数据的有序列表�
 <br>
 
 ``` javascript
-let wife = ["IzumiSagiri", "Elaina", "Charolotte Soller"];
-console.log(wife);                    // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
-console.log(wife.valueOf());          // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
-console.log(wife.toString());         // "IzumiSagiri,Elaina,Charolotte Soller"
-console.log(wife.toLocaleString());   // "IzumiSagiri,Elaina,Charolotte Soller"
+let loli = ["IzumiSagiri", "Elaina", "Charolotte Soller"];
+console.log(loli);                    // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
+console.log(loli.valueOf());          // Array(3) : ["IzumiSagiri", "Elaina", "Charolotte Soller"]
+console.log(loli.toString());         // "IzumiSagiri,Elaina,Charolotte Soller"
+console.log(loli.toLocaleString());   // "IzumiSagiri,Elaina,Charolotte Soller"
 ```
 
 <br>
@@ -1021,10 +1021,10 @@ JavaScript给数组提供了一些操作方法：
 - `concat()`方法基于当前数组中的所有项创建一个新的数组，这个方法会先创建当前数组的一个副本，并将接收到的参数添加到副本的末尾，最后返回新构建的数组；
 
     ``` javascript
-    let wifes_1 = ["Izumi", "Sagiri"];
-    let wifes_2 = wifes_1.concat("Elaina", ["Charolotte", "Soller"]);
-    console.log(wifes_1.toString());  // "Izumi,Sagiri"
-    console.log(wifes_2.toString());  // "Izumi,Sagiri,Elaina,Charolotte,Soller"
+    let loli_1 = ["Izumi", "Sagiri"];
+    let loli_2 = loli_1.concat("Elaina", ["Charolotte", "Soller"]);
+    console.log(loli_1.toString());  // "Izumi,Sagiri"
+    console.log(loli_2.toString());  // "Izumi,Sagiri,Elaina,Charolotte,Soller"
     ```
 
 - `slice()`方法基于当前数组的一个或多个项创建一个新数组：
@@ -1032,11 +1032,11 @@ JavaScript给数组提供了一些操作方法：
     - 接受2个参数时，`slice()`方法返回起始和结束位置之间的项，但不包括结束位置的项，该操作方法不会修改原始数组。
 
     ``` javascript
-    let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    let wifes_2 = wifes_1.slice(1);
-    let wifes_3 = wifes_1.slice(2, 4);
-    console.log(wifes_2.toString());  // "Sagiri,Elaina,Charolotte,Soller"
-    console.log(wifes_3.toString());  // "Elaina,Charolotte"
+    let loli_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let loli_2 = loli_1.slice(1);
+    let loli_3 = loli_1.slice(2, 4);
+    console.log(loli_2.toString());  // "Sagiri,Elaina,Charolotte,Soller"
+    console.log(lolis_3.toString());  // "Elaina,Charolotte"
     ```
 
 - `splice()`方法有多种用法，主要用途是向数组的中部插入项：
@@ -1045,15 +1045,15 @@ JavaScript给数组提供了一些操作方法：
     - 替换：可以向指定位置插入任意数量的项，且同时删除任意数量的项，用这种方法可以做到项的替换。
 
     ```javascript
-    let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    let wifes_2 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    let wifes_3 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
-    wifes_1.splice(1, 2);
-    wifes_2.splice(1, 0, "AshGrey");
-    wifes_3.splice(1, 2, "AshGrey", "Helix");
-    console.log(wifes_1.toString());  // "Izumi,Charolotte,Soller"
-    console.log(wifes_2.toString());  // "Izumi,AshGrey,Sagiri,Elaina,Charolotte,Soller"
-    console.log(wifes_3.toString());  // "Izumi,AshGrey,Helix,Charolotte,Soller"
+    let lolis_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let lolis_2 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    let lolis_3 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller"];
+    lolis_1.splice(1, 2);
+    lolis_2.splice(1, 0, "AshGrey");
+    lolis_3.splice(1, 2, "AshGrey", "Helix");
+    console.log(lolis_1.toString());  // "Izumi,Charolotte,Soller"
+    console.log(lolis_2.toString());  // "Izumi,AshGrey,Sagiri,Elaina,Charolotte,Soller"
+    console.log(lolis_3.toString());  // "Izumi,AshGrey,Helix,Charolotte,Soller"
     ```
 
 <br>
@@ -1063,10 +1063,10 @@ JavaScript还为数组提供了位置的方法：`indexOf()`和`lastIndexOf()`�
 <br>
 
 ``` javascript
-let wifes_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller", "Sagiri"];
-console.log(wifes_1.indexOf("Sagiri"));       // 1
-console.log(wifes_1.lastIndexOf("Sagiri"));   // 5
-console.log(wifes_1.indexOf(1));              // -1
+let lolis_1 = ["Izumi", "Sagiri", "Elaina", "Charolotte", "Soller", "Sagiri"];
+console.log(lolis_1.indexOf("Sagiri"));       // 1
+console.log(lolis_1.lastIndexOf("Sagiri"));   // 5
+console.log(lolis_1.indexOf(1));              // -1
 ```
 
 <br>
@@ -1075,8 +1075,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `every()`方法：对数组的每一项都执行给定的函数，如果给定函数对每一项都返回`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`；
 
     ``` javascript
-    let wifeAge = [12, 14, 9, 13, 15];
-    let result = wifeAge.every(function(item, index, array) {
+    let loliAge = [12, 14, 9, 13, 15];
+    let result = loliAge.every(function(item, index, array) {
         if (item >= 14)
             return true;
         else 
@@ -1088,8 +1088,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `some()`方法：迭代执行，如果给定函数对某一项返回了`true`（或者返回值经过强制类型转换得到`true`），则函数本身返回`true`，否则返回`false`：
 
     ``` javascript
-    let wifeAge = [12, 14, 9, 13, 15];
-    let result = wifeAge.some(function(item, index, array) {
+    let loliAge = [12, 14, 9, 13, 15];
+    let result = loliAge.some(function(item, index, array) {
         if (item >= 14)
             return true;
         else 
@@ -1101,8 +1101,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `filter()`方法：迭代执行，函数返回的是一个数组，数组内只包含使给定函数返回`true`（或者返回值经过强制类型转换得到`true`）的数组元素：
 
     ``` javascript
-    let wifeAge = [12, 14, 9, 13, 15];
-    let result = wifeAge.filter(function(item, index, array) {
+    let loliAge = [12, 14, 9, 13, 15];
+    let result = loliAge.filter(function(item, index, array) {
         if (item >= 14)
             return true;
         else 
@@ -1114,9 +1114,9 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `forEach()`方法：迭代执行，该函数没有返回值：
 
     ``` javascript
-    let wifeAge = [12, 14, 9, 13, 15];
+    let loliAge = [12, 14, 9, 13, 15];
     let result = new Array();
-    wifeAge.forEach(function(item, index, array) {
+    loliAge.forEach(function(item, index, array) {
         function format(n) {
             if (n === 0)
                   return 1;
@@ -1134,8 +1134,8 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
 - `map`方法：迭代执行，返回每次函数调用的结果组成的数组：
 
     ``` javascript
-    let wifeAge = [12, 14, 9, 13, 15];
-    let result = wifeAge.map(function(item, index, array) {
+    let loliAge = [12, 14, 9, 13, 15];
+    let result = loliAge.map(function(item, index, array) {
         if (item >= 14)
             return "Hentai!";
         else
@@ -1341,12 +1341,12 @@ let result2 = anotherSum(1,2);
 ``` javascript
 haveHoisted();
 function haveHoisted() {
-    console.log("I love Sagiri!");
+    console.log("I love Huaier!");
 }
 
 notHoisted();   // TypeError: notHoisted is not a function
 let notHoisted = function() {
-    console.log("I love Sagiri!");
+    console.log("I love Huaier!");
 };
 ```
 
@@ -1518,24 +1518,24 @@ console.log(data[0].name);  // Sagiri
         else
             return "Hentai!"
     }
-    callFunction(19, "wifeAge");
+    callFunction(19, "loliAge");
     /*
      *  Flag    : window
      *  Order   : 0
-     *  wifeAge : 19
+     *  loliAge : 19
      */
     callObject.callFunction = callFunction;
-    callObject.callFunction(19, "wifeAge");
+    callObject.callFunction(19, "loliAge");
     /*
      *  Flag    : Object
      *  Order   : 1
-     *  wifeAge : 19
+     *  loliAge : 19
      */
-    callObject.callFunction(16, "wifeAge");
+    callObject.callFunction(16, "loliAge");
     /*
      *  Flag    : Function
      *  Order   : 2
-     *  wifeAge : 16
+     *  loliAge : 16
      */
     ```
 
@@ -1561,15 +1561,15 @@ ECMAScript 5 还定义了一个方法：`bind()`，这个方法会创建一个�
 <br>
 
 ``` javascript
-window.wife = "Izumi Sagiri";
+window.loli = "Izumi Sagiri";
 let second = {
-    wife : "Elaina"
+    loli : "Elaina"
 }
-function outputWife() {
-    console.log(this.wife);
+function outputloli() {
+    console.log(this.loli);
 }
-let objectOutputWife = outputWife.bind(second);
-objectOutputWife(); // Elaina
+let objectOutputloli = outputloli.bind(second);
+objectOutputloli(); // Elaina
 ```
 
 <br>
@@ -1690,7 +1690,7 @@ console.log(typeof num);    // Object
 
     ``` javascript
     let loveString = "I love ";
-    loveString = loveString.concat("Izumi ", "Sagiri!");
+    loveString = loveString.concat("Huaier ", "& AshGrey!");
     console.log(loveString.charAt(14));     // "a"
     console.log(loveString.charCodeAt(14)); // 97
     console.log(loveString[14]);            // "a"
@@ -1700,8 +1700,8 @@ console.log(typeof num);    // Object
 
     ``` javascript
     let loveString = "I love ";
-    console.log(loveString.concat("Izumi ", "Sagiri!"));
-    // "I love Izumi Sagiri!"
+    console.log(loveString.concat("Huaier ", "& AshGrey!"));
+    // "I love Huaier & AshGrey!"
     ```
 
 - `slice()`和`substring()`方法的第一个参数指定子字符串的开始位置，第二个参数（可选）指定子字符串最后一个字符后面的位置。`substr()`方法的第二个参数指定的是返回的字符个数。如果给这三个方法传入负数，则它们的行为分别是：`slice()`将传入的负值与字符串长度相加，`substr()`方法将负的第一个参数与字符串长度相加，负的第二个参数设置为0，`substring()`方法将负值全部设置为0；
@@ -1727,7 +1727,7 @@ console.log(typeof num);    // Object
 - `replace()`方法接受两个参数，第一个参数可以是RegExp对象或者字符串（这个字符串并不是RegExp对象的字符串形式，而是子字符串），第二个参数是一个字符串或者函数，是替换后的字符串。若第一个参数提供字符串，只会替换第一个匹配的子字符串，如果要替换所有的子字符串，则需要使用正则表达式并且指定全局标志，也可以使用`replaceAll()`方法：
 
     ``` javascript
-    let text = "wife, life, knife, five";
+    let text = "loli, life, knife, five";
     let pattern = /ife/igm;
     console.log(text.replace("ife", "ink"));
     // wink, life, knife, five
@@ -1759,8 +1759,8 @@ console.log(typeof num);    // Object
 - `split()`方法可以基于指定的分隔符将一个字符串分成多个子字符串，并将结果放在一个数组中。指定的分隔符可以是字符串也可以是RegExp对象。`split()`方法可以接受可选的第二个参数，用于指定数组的大小：
 
     ``` javascript
-    let wife = "Izumi Sagiri, Elaina, WanTerrier";
-    console.log(wife.split(","));
+    let loli = "Izumi Sagiri, Elaina, WanTerrier";
+    console.log(loli.split(","));
     // Array (3) : ["Izumi Sagiri", " Elaina", " WanTerrier"]
     ```
 
@@ -1797,17 +1797,17 @@ ECMAScript为对象设计了两种属性：数据属性和访问器属性。
 <br>
 
 ``` javascript
-let wife = {};
-Object.defineProperty(wife, "name", {
+let loli = {};
+Object.defineProperty(loli, "name", {
     writable : false,
     configurable : false,
     value : "Izumi Sagiri"
 });
-console.log(wife.name);
-delete wife.name;
-console.log(wife.name); // "Izumi Sagiri"
-wife.name = "Elaina";
-console.log(wife.name); // "Izumi Sagiri"
+console.log(loli.name);
+delete loli.name;
+console.log(loli.name); // "Izumi Sagiri"
+loli.name = "Elaina";
+console.log(loli.name); // "Izumi Sagiri"
 ```
 
 <br>
@@ -1817,11 +1817,11 @@ console.log(wife.name); // "Izumi Sagiri"
 <br>
 
 ``` javascript
-let wife = {
+let loli = {
     name : "Izumi Sagiri",
     age : 14
 };
-let descriptor = Object.getOwnPropertyDescriptor(wife, "name");
+let descriptor = Object.getOwnPropertyDescriptor(loli, "name");
 console.log(JSON.stringify(descriptor, null, 2));
 /*
 {
@@ -1844,10 +1844,10 @@ console.log(JSON.stringify(descriptor, null, 2));
 <br>
 
 ``` javascript
-let wife = {
+let loli = {
     _name : "Izumi Sagiri"
 };
-Object.defineProperties(wife, {
+Object.defineProperties(loli, {
     name : {
         // get name() {}
         get : function() {
@@ -1861,12 +1861,12 @@ Object.defineProperties(wife, {
         }
     }
 });
-console.log(wife.name);
+console.log(loli.name);
 // "Get The Property : Izumi Sagiri"
 // "Izumi Sagiri"
-wife.name = "Elaina";
+loli.name = "Elaina";
 // "Set The Property : Elaina"
-console.log(wife.name);
+console.log(loli.name);
 // "Get The Property : Elaina"
 // "Elaina"
 ```
@@ -1886,11 +1886,11 @@ let girlfriend = {
     hug : true,
     kiss : true
 };
-let wife = {
+let loli = {
     sex : true
 };
-wife.__proto__ = girlfriend;
-console.log(wife.hug);  // true
+loli.__proto__ = girlfriend;
+console.log(loli.hug);  // true
 ```
 
 <br>
@@ -1905,8 +1905,8 @@ console.log(wife.hug);  // true
 
 ``` javascript
 let wife = {
-    name : "Izumi Sagiri",
-    age : 12,
+    name : "Huaier",
+    age : 17,
     love() {
         console.log(`I love you, ${this.name}`);
     }
@@ -1914,7 +1914,7 @@ let wife = {
 let wifeForever = {};
 wifeForever.__proto__ = wife;
 wifeForever.love = function() {
-    console.log("I love you, Elaina");
+    console.log("I love you, AshGrey");
 };
 wifeForever.love();
 console.log(wifeForever);
@@ -1931,12 +1931,12 @@ console.log(wifeForever);
 <br>
 
 ``` javascript
-function Wife(name) {
-    Wife.prototype.name = name;
+function loli(name) {
+    loli.prototype.name = name;
     console.log(this.name);
 }
 
-let sagiri = new Wife("Izumi Sagiri");
+let sagiri = new loli("Izumi Sagiri");
 let elaina = new sagiri.constructor("Elaina");
 ```
 
@@ -1950,29 +1950,29 @@ let elaina = new sagiri.constructor("Elaina");
 - 通过`prototype`属性的`isPrototypeOf()`方法确定对象之间是否有原型链关系，如果参数的`prototype`属性指向调用该方法的对象，那么返回`true`：
 
     ``` javascript
-    function Wife(name) {
-        Wife.prototype.name = name;
+    function loli(name) {
+        loli.prototype.name = name;
         console.log(this.name);
     }
 
-    let sagiri = new Wife("Izumi Sagiri");
+    let sagiri = new loli("Izumi Sagiri");
     let elaina = new sagiri.constructor("Elaina");
-    console.log(Wife.prototype.isPrototypeOf(sagiri));  // true
-    console.log(Wife.prototype.isPrototypeOf(elaina));  // true
+    console.log(loli.prototype.isPrototypeOf(sagiri));  // true
+    console.log(loli.prototype.isPrototypeOf(elaina));  // true
     ```
 
 - 可以通过`Object.getPrototypeOf()`方法获取对象的原型：
 
     ``` javascript
-    function Wife(name) {
-        Wife.prototype.name = name;
+    function loli(name) {
+        loli.prototype.name = name;
         console.log(this.name);
     }
 
-    let sagiri = new Wife("Izumi Sagiri");
+    let sagiri = new loli("Izumi Sagiri");
     let elaina = new sagiri.constructor("Elaina");
-    console.log(Object.getPrototypeOf(sagiri) === Wife.prototype);  // true
-    console.log(Object.getPrototypeOf(sagiri) === Wife.prototype);  // true
+    console.log(Object.getPrototypeOf(sagiri) === loli.prototype);  // true
+    console.log(Object.getPrototypeOf(sagiri) === loli.prototype);  // true
     Object.getPrototypeOf(sagiri).age = 12;
     console.log(sagiri.age);    // 12
     ```
@@ -1980,12 +1980,12 @@ let elaina = new sagiri.constructor("Elaina");
 - 可以使用`hasOwnProperty()`检验一个属性是在实例中还是在原型中：
 
     ``` javascript
-    function Wife(name) {
+    function loli(name) {
         this.name = name;
         console.log(this.name);
     }
 
-    let sagiri = new Wife("Izumi Sagiri");
+    let sagiri = new loli("Izumi Sagiri");
     sagiri.age = 12;
     console.log(sagiri.hasOwnProperty("name")); // false
     console.log(sagiri.hasOwnProperty("age"));  // true
@@ -2020,14 +2020,14 @@ Person.prototype = {
     name : "AshGrey",
     age : 19,
     job : "Student",
-    wife : ["Izumi Sagiri"],
+    loli : ["Izumi Sagiri"],
 };
 
 
 let person1 = new Person();
 let person2 = new Person();
-person1.wife.push("Elaina");
-console.log(person2.wife);  // Array(2) : ["Izumi Sagiri", "Elaina"]
+person1.loli.push("Elaina");
+console.log(person2.loli);  // Array(2) : ["Izumi Sagiri", "Elaina"]
 ```
 
 <br>
@@ -2045,22 +2045,22 @@ function Person() {
     this.name = "AshGrey";
     this.age = 19;
     this.job = "Student";
-    this.wife = ["Izumi Sagiri"];
+    this.loli = ["Izumi Sagiri"];
 }
 Person.prototype = {
     constructor : Person,
     printInfo : function() {
-        let wifeStr = "";
-        for (let i = 0; i <= this.wife.length - 1; i++) {
-            wifeStr += `${this.wife[i]}\n`;
+        let loliStr = "";
+        for (let i = 0; i <= this.loli.length - 1; i++) {
+            loliStr += `${this.loli[i]}\n`;
         }
-        console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nwife : ${wifeStr}`);
+        console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
     }
 };
 
 let person1 = new Person();
 let person2 = new Person();
-person1.wife.push("Elaina");
+person1.loli.push("Elaina");
 person1.printInfo();
 person2.printInfo();
 ```
@@ -2080,14 +2080,14 @@ function Person() {
     this.name = "AshGrey";
     this.age = 19;
     this.job = "Student";
-    this.wife = ["Izumi Sagiri"];
+    this.loli = ["Izumi Sagiri"];
     if (typeof this.printInfo !== "function") {
         Person.prototype.printInfo = function() {
-            let wifeStr = "";
-            for (let i = 0; i <= this.wife.length - 1; i++) {
-                wifeStr += `${this.wife[i]}\n`;
+            let loliStr = "";
+            for (let i = 0; i <= this.loli.length - 1; i++) {
+                loliStr += `${this.loli[i]}\n`;
             }
-            console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nwife : ${wifeStr}`);
+            console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
         }
     }
 }
@@ -2169,10 +2169,10 @@ function SubType() {
         console.log(this.name + "\n" + this.age);
     }
 }
-let wife = new SubType();
+let loli = new SubType();
 let girlfriend = new SuperType("Elaina");
 girlfriend.printInfo();
-wife.printInfo();
+loli.printInfo();
 ```
 
 <br>
@@ -2198,8 +2198,8 @@ function SubType(name, age) {
 }
 SubType.prototype = new SuperType();
 SubType.prototype.constructor = SubType;
-let wife = new SubType("Elaina", 14);
-console.log(wife.printInfo());
+let loli = new SubType("Elaina", 14);
+console.log(loli.printInfo());
 ```
 
 <br>
@@ -2250,7 +2250,7 @@ ECMAScript 5 新增了 `Object.create()` 方法规范化了原型式继承，这
 
 ``` javascript
 let time = "2024-02-21";
-class Wife {
+class loli {
     constructor(name, age, meetTime) {
         this.name = name;
         this.age = age;
@@ -2265,7 +2265,7 @@ class Wife {
     }
 }
 
-let sagiri = new Wife("Izumi Sagiri", 12, "2020-02-21");
+let sagiri = new loli("Izumi Sagiri", 12, "2020-02-21");
 sagiri.celebrate();
 ```
 
