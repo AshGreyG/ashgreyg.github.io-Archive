@@ -1,0 +1,80 @@
+---
+---
+
+@import 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* append your custom style below */
+
+div[class^=language-] .code-header::before{
+  background-color: #fc625d;
+  box-shadow: 1.25rem 0 0 #fdbc40, 2.5rem 0 0 #35cd4b;
+}
+
+div[class^=language-] .code-header {
+  background-color: #101213;
+}
+
+div[class^=language-] .highlight {
+  background-color: #101213;
+}
+
+#main-wrapper {
+  background-color: #101213;
+}
+
+#topbar {
+  background-color: #101213;
+}
+
+#tail-wrapper footer {
+  background-color: #101213;
+}
+
+#post-list .card-wrapper a {
+  background-color: #101213 !important;
+}
+
+.table-wrapper table{
+  margin: auto;
+}
+
+.table-wrapper td {
+  background-color: #101213;
+}
+
+#sidebar {
+  background-color: #121314;
+}
+
+/*
+#sidebar {
+  background-image: url(https://cdn.jsdelivr.net/gh/huanyushi/huanyushi.github.io@main/assets/img/background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+*/
+
+#sidebar .site-title a {
+    color: #ffffff; 
+    text-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+#sidebar .site-subtitle {
+    color: #ffffff;
+    text-shadow: 2px 2px 3px rgba(0,0,0, 0.7);
+    font-style: normal !important;
+}
+#sidebar .sidebar-bottom .mode-toggle, #sidebar a {
+    color: #ffffff;
+}
+#sidebar .sidebar-bottom .btn {
+    color: var(--sidebar-btn-color);
+}
+
+.is-collapsed {
+  max-height: none !important;
+}

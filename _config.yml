@@ -46,6 +46,7 @@ social:
 
 google_site_verification: # fill in to your verification string
 
+
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings
 
@@ -128,6 +129,8 @@ paginate: 10
 
 # The base URL of your site
 baseurl: ""
+
+backgroud_animation: true
 
 # ------------ The following options are not recommended to be modified ------------------
 
