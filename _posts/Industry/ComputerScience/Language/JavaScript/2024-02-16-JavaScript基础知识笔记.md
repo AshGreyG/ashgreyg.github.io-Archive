@@ -33,9 +33,9 @@ tags: [Computer Science, JavaScript]
 
 ``` html
 <script type="text/javascript">
-    function alertHello() {
-        alert("Hi!");
-    }
+  function alertHello() {
+    alert("Hi!");
+  }
 </script>
 ```
 
@@ -47,9 +47,9 @@ tags: [Computer Science, JavaScript]
 
 ``` html
 <script type="text/javascript">
-    function alertScript() {
-        alert("<\/script>");
-    }
+  function alertScript() {
+    alert("<\/script>");
+  }
 </script>
 ```
 
@@ -135,7 +135,7 @@ tags: [Computer Science, JavaScript]
 
     ``` javascript
     function doSomething() {
-        "use strict";
+      "use strict";
     }
     ```
 - JavaScript中的语句以一个分号结尾，如果省略分号，则由解析器确定语句的结尾。虽然语句结尾的分号不是必须的，但最好不要省略它。这样开发人员才可以通过删除多余的空格来压缩JavaScript代码，代码行结尾处没有分号将导致压缩错误。
@@ -457,7 +457,7 @@ JavaScript的分支和循环语句与C/C++基本一致（其中`switch`语句用
 
 ``` javascript
 for (var propName in window) {
-    document.write(propName);
+  document.write(propName);
 }
 ```
 
@@ -475,11 +475,11 @@ for (var propName in window) {
 var num = 0;
 START:
 for (var i = 0; i < 10; i++) {
-    for (var j = 0; j < 10; j++) {
-        if ( i === 5 && j === 5)
-            break START;
-        num++;
-    }
+  for (var j = 0; j < 10; j++) {
+    if ( i === 5 && j === 5)
+      break START;
+    num++;
+  }
 }
 ```
 
@@ -497,9 +497,9 @@ for (var i = 0; i < 10; i++) {
  */
 
 with(location) {
-    var qs = search.substring(1);
-    var hostName = hostname;
-    var url = href;
+  var qs = search.substring(1);
+  var hostName = hostname;
+  var url = href;
 }
 ```
 
@@ -519,7 +519,7 @@ JavaScript中的函数体不需要函数原型，也不需要定义返回类型�
 
 ``` javascript
 function sayHi(name, message) {
-    alert("Hello " + name + ", " + message);
+  alert("Hello " + name + ", " + message);
 }
 ```
 
@@ -531,7 +531,7 @@ function sayHi(name, message) {
 
 ``` javascript
 function sayHi(name, message) {
-    alert("Hello " + arguments[0] + ", " + arguments[1]);
+  alert("Hello " + arguments[0] + ", " + arguments[1]);
 }
 ```
 
@@ -543,7 +543,7 @@ JavaScript中的函数并不会和C++等语言那样创建一个函数签名，�
 
 ``` javascript
 function howManyArgs() {
-    console.log(arguments.length);
+  console.log(arguments.length);
 }
 howManyArgs("1", 2, null);
 howManyArgs(12, undefined);
@@ -590,7 +590,7 @@ console.log(loli.name);
 
 ``` javascript
 function changeObjectName(obj) {
-    obj.name = "Izumi Sagiri";
+  obj.name = "Izumi Sagiri";
 }
 var loli = new Object();
 changeObjectName(loli);
@@ -605,9 +605,9 @@ console.log(loli.name); // -> "Huaier"
 
 ``` javascript
 function changeObjectName(obj) {
-    obj.name = "Huaier";
-    obj = new Object();
-    obj.name = "AshGrey";
+  obj.name = "Huaier";
+  obj = new Object();
+  obj.name = "AshGrey";
 }
 var loli = new Object();
 changeObjectName(loli);
@@ -643,13 +643,13 @@ console.log(loli.name); // -> "Huaier"
 ``` javascript
 var blueColor = "blue";
 function ChangeColor() {
-    var redColor = "red";
-    function SwapColors() {
-        var tempColor = redColor;
-        redColor = blueColor;
-        blueColor = tempColor;
-    }
-    SwapColors();
+  var redColor = "red";
+  function SwapColors() {
+    var tempColor = redColor;
+    redColor = blueColor;
+    blueColor = tempColor;
+  }
+  SwapColors();
 }
 ChangeColor();
 console.log(blueColor);
@@ -669,8 +669,8 @@ console.log(blueColor);
 ``` javascript
 var sum = 0;
 for (var i = 1; i <= 10; i++) {
-    sum += i;
-    console.log(sum);
+  sum += i;
+  console.log(sum);
 }
 console.log("Final result: " + sum);
 ```
@@ -685,8 +685,8 @@ console.log("Final result: " + sum);
 let numGroup = [12, 23, 15, 6, 10];
 let max = 0;
 for (let i = 0; i <= numGroup.length - 1; i++) {
-    if (numGroup[i] > max)
-        max = numGroup[i];
+  if (numGroup[i] > max)
+    max = numGroup[i];
 }
 console.log(max);   // 23
 console.log(i);     // undefined variable
@@ -708,10 +708,10 @@ JavaScript具有垃圾收集机制，执行环境会负责管理代码执行过�
 
     ``` javascript
     function problem() {
-        var objectA = new Object();
-        var objectB = new Object();
-        objectA.friend = objectB;
-        objectB.friend = objectA;
+      var objectA = new Object();
+      var objectB = new Object();
+      objectA.friend = objectB;
+      objectB.friend = objectA;
     }
     ```
 
@@ -741,8 +741,8 @@ JavaScript具有垃圾收集机制，执行环境会负责管理代码执行过�
 
 ``` javascript
 let wife = {
-    name    : "Huaier",
-    husband : "AshGrey
+  name    : "Huaier",
+  husband : "AshGrey"
 };
 ```
 
@@ -765,8 +765,8 @@ JavaScript的对象即使属性不存在也不会报错，读取不存在的属�
 
 ``` javascript
 let objectA = {
-    name : "Huaier",
-    age  : 17
+  name : "Huaier",
+  age  : 17
 };
 console.log("name" in objectA);     // true
 console.log("height" in objectA);   // false
@@ -788,12 +788,12 @@ console.log("height" in objectA);   // false
 
 ``` javascript
 let objectC = {
-    name : "AshGrey",
-    age  : 19
+  name : "AshGrey",
+  age  : 19
 };
 let objectD = {};
 for (let prop in objectC) {
-    objectD[prop] = objectC[prop];
+  objectD[prop] = objectC[prop];
 }
 ```
 
@@ -830,26 +830,26 @@ console.log(user.canSave);  // true
 
 ``` javascript
 let player = {
-    name   : "AshGrey",
-    age    : 19,
-    school : {
-        primary    : "A",
-        junior     : "X",
-        senior     : "Y",
-        university : "T"
-    }
+  name   : "AshGrey",
+  age    : 19,
+  school : {
+    primary    : "A",
+    junior     : "X",
+    senior     : "Y",
+    university : "T"
+  }
 };
 
 function copyObject(dest, src) {
-    for (let prop in src) {
-        if (typeof prop === "object") {
-            return arguments.callee(dest[prop], src[prop]);
-        }
-        else {
-            dest[prop] = src[prop];
-        }
+  for (let prop in src) {
+    if (typeof prop === "object") {
+      return arguments.callee(dest[prop], src[prop]);
     }
-    return dest;
+    else {
+      dest[prop] = src[prop];
+    }
+  }
+  return dest;
 }
 let anotherPlayer = copyObject({}, player);
 console.log(anotherPlayer.school.junior);
@@ -867,8 +867,8 @@ console.log(anotherPlayer.school.junior);
 
 ``` javascript
 function User(name) {
-    this.name = name;
-    this.isAdmin = false;
+  this.name = name;
+  this.isAdmin = false;
 }
 let user = new User("AshGrey");
 ```
@@ -908,9 +908,9 @@ console.log(user?.name?.lastName);
 
 ``` javascript
 let userAdmin = {
-    admin() {
-        console.log("$root>");
-    }
+  admin() {
+    console.log("$root>");
+  }
 }
 
 let userGuest = {};
@@ -994,15 +994,15 @@ console.log(values);  // Array(5) : [0, 1, 10, 15, 5]
 
 ``` javascript
 function compare(value1, value2) {
-    if (value1 < value2) {
-        return -1;
-    }
-    else if (value1 > value2) {
-        return 1;
-    }
-    else {
-        return 0;
-    }
+  if (value1 < value2) {
+    return -1;
+  }
+  else if (value1 > value2) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
 }
 
 let values = [0, 10, 5, 4, 12];
@@ -1077,10 +1077,10 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let loliAge = [12, 14, 9, 13, 15];
     let result = loliAge.every(function(item, index, array) {
-        if (item >= 14)
-            return true;
-        else 
-            return false;
+      if (item >= 14)
+        return true;
+      else 
+        return false;
     });
     console.log(result);  // false
     ```
@@ -1090,10 +1090,10 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let loliAge = [12, 14, 9, 13, 15];
     let result = loliAge.some(function(item, index, array) {
-        if (item >= 14)
-            return true;
-        else 
-            return false;
+      if (item >= 14)
+        return true;
+      else 
+        return false;
     });
     console.log(result);  // true
     ```
@@ -1103,10 +1103,10 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let loliAge = [12, 14, 9, 13, 15];
     let result = loliAge.filter(function(item, index, array) {
-        if (item >= 14)
-            return true;
-        else 
-            return false;
+      if (item >= 14)
+        return true;
+      else 
+        return false;
     });
     console.log(result);  // Array(2) : [14, 15]
     ```
@@ -1117,16 +1117,16 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     let loliAge = [12, 14, 9, 13, 15];
     let result = new Array();
     loliAge.forEach(function(item, index, array) {
-        function format(n) {
-            if (n === 0)
-                  return 1;
-            else
-                return n;
-        }
-        if (item >= 14)
-            result.splice(format(result.length), 0, "Hentai!");
-        else 
-            result.splice(format(result.length), 0, "Law!");
+      function format(n) {
+        if (n === 0)
+          return 1;
+        else
+          return n;
+      }
+      if (item >= 14)
+        result.splice(format(result.length), 0, "Hentai!");
+      else 
+        result.splice(format(result.length), 0, "Law!");
     });
     console.log(result);  // Array(5) : ["Law!", "Hentai!", "Law!", "Law!", "Hentai!"]
     ```
@@ -1136,10 +1136,10 @@ JavaScript还为数组提供了5个迭代的方法，每个方法都接受两个
     ``` javascript
     let loliAge = [12, 14, 9, 13, 15];
     let result = loliAge.map(function(item, index, array) {
-        if (item >= 14)
-            return "Hentai!";
-        else
-            return "Law!";
+      if (item >= 14)
+        return "Hentai!";
+      else
+        return "Law!";
     });
     console.log(result);  // Array(5) : ["Law!", "Hentai!", "Law!", "Law!", "Hentai!"]
     ```
@@ -1322,7 +1322,7 @@ RegExp类型的每个实例都具有下列方法：
 
 ``` javascript
 let sum = function(num1, num2) {
-    return num1 + num2;
+  return num1 + num2;
 };
 
 // let sum = new Function("num1", "num2", "return num1 + num2");
@@ -1341,12 +1341,12 @@ let result2 = anotherSum(1,2);
 ``` javascript
 haveHoisted();
 function haveHoisted() {
-    console.log("I love Huaier!");
+  console.log("I love Huaier!");
 }
 
 notHoisted();   // TypeError: notHoisted is not a function
 let notHoisted = function() {
-    console.log("I love Huaier!");
+  console.log("I love Huaier!");
 };
 ```
 
@@ -1376,8 +1376,8 @@ let func = (arg1, arg2, ..., argN) => expression;
 
 ``` javascript
 let sum = (a, b) => {
-    let result = a + b;
-    return result + " = " + a + " + " + b;
+  let result = a + b;
+  return result + " = " + a + " + " + b;
 }
 console.log(sum(2, 3)); // "5 = 2 + 3"
 ```
@@ -1394,24 +1394,24 @@ console.log(sum(2, 3)); // "5 = 2 + 3"
 
 ``` javascript
 function createComparisonFunction(propertyName) {
-    return function(object1, object2) {
-        let value1 = object1[propertyName];
-        let value2 = object2[propertyName];
-        if (value1 < value2) {
-            return -1;
-        }
-        else if (value1 > value2) {
-            return 1;
-        }
-        else {
-            return 0;
-        }
+  return function(object1, object2) {
+    let value1 = object1[propertyName];
+    let value2 = object2[propertyName];
+      if (value1 < value2) {
+        return -1;
+      }
+      else if (value1 > value2) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
     };
 }
 
 let data = [
-    { name : "AshGrey", age : 19},
-    { name : "Sagiri" , age : 14}
+  { name : "AshGrey", age : 19},
+  { name : "Sagiri" , age : 14}
 ];
 data.sort(createComparisonFunction("name"));
 console.log(data[0].name);  // AshGrey
@@ -1426,13 +1426,13 @@ console.log(data[0].name);  // Sagiri
 
     ``` javascript
     function factorial(num) {
-        if (num <= 1) {
-            return 1;
-        }
-        else {
-            return num * arguments.callee(num - 1);
-            // return num * factorial(num - 1);
-        }
+      if (num <= 1) {
+        return 1;
+      }
+      else {
+        return num * arguments.callee(num - 1);
+        // return num * factorial(num - 1);
+      }
     }
     let anotherFactorial = factorial;
     factorial = null;
@@ -1445,7 +1445,7 @@ console.log(data[0].name);  // Sagiri
     window.color  = "red";
     let object = { color : "blue"};
     function colorOutput() {
-        console.log(this.color);
+      console.log(this.color);
     }
     colorOutput();  // "red"
     object.colorOutput = colorOutput;
@@ -1456,11 +1456,11 @@ console.log(data[0].name);  // Sagiri
 
     ``` javascript
     let hello = {
-        name : "AshGrey",
-        sayHello() {
-            let arrow = () => console.log("Hello, " + this.name);
-            arrow();
-        }
+      name : "AshGrey",
+      sayHello() {
+        let arrow = () => console.log("Hello, " + this.name);
+          arrow();
+      }
     };
     hello.sayHello();   // "Hello, AshGrey"
     ```
@@ -1469,11 +1469,11 @@ console.log(data[0].name);  // Sagiri
 
     ``` javascript
     function outer() {
-        inner();
+      inner();
     }
     function inner() {
-        console.log(arguments.callee.caller);
-        alert(arguments.callee.caller);
+      console.log(arguments.callee.caller);
+      alert(arguments.callee.caller);
     }
     inner();    // null
     outer();    // function : outer()
@@ -1499,24 +1499,24 @@ console.log(data[0].name);  // Sagiri
     window.flag = "window";
     window.order = 0;
     let callObject = {
-        flag  : "Obejct",
-        order : 1
+      flag  : "Obejct",
+      order : 1
     };
     function testFunction(num, str) {
-        console.log("Flag : " + this.flag);
-        console.log("Order : " + this.order);
-        console.log(str + " : " + num);
-        return 0;
+      console.log("Flag : " + this.flag);
+      console.log("Order : " + this.order);
+      console.log(str + " : " + num);
+      return 0;
     }
     function callFunction(age, name) {
-        callFunction.flag = "Function";
-        callFunction.order = 2;
-        if (age >= 18)
-            return testFunction.apply(this, arguments);
-        else if (age >= 14)
-            return testFunction.apply(callFunction, [age, name]);
-        else
-            return "Hentai!"
+      callFunction.flag = "Function";
+      callFunction.order = 2;
+      if (age >= 18)
+        return testFunction.apply(this, arguments);
+      else if (age >= 14)
+        return testFunction.apply(callFunction, [age, name]);
+      else
+        return "Hentai!"
     }
     callFunction(19, "loliAge");
     /*
@@ -1543,14 +1543,14 @@ console.log(data[0].name);  // Sagiri
 
     ``` javascript
     function callFunction(age, name) {
-        callFunction.flag = "Function";
-        callFunction.order = 2;
-        if (age >= 18)
-            return testFunction.call(this, age, name);
-        else if (age >= 14)
-            return testFunction.call(callFunction, age, name);
-        else
-            return "Hentai!"
+      callFunction.flag = "Function";
+      callFunction.order = 2;
+      if (age >= 18)
+        return testFunction.call(this, age, name);
+      else if (age >= 14)
+        return testFunction.call(callFunction, age, name);
+      else
+        return "Hentai!"
     }
     ```
 
@@ -1563,10 +1563,10 @@ ECMAScript 5 还定义了一个方法：`bind()`，这个方法会创建一个�
 ``` javascript
 window.loli = "Izumi Sagiri";
 let second = {
-    loli : "Elaina"
+  loli : "Elaina"
 }
 function outputloli() {
-    console.log(this.loli);
+  console.log(this.loli);
 }
 let objectOutputloli = outputloli.bind(second);
 objectOutputloli(); // Elaina
@@ -1580,7 +1580,7 @@ objectOutputloli(); // Elaina
 
 ``` javascript
 function output() {
-    console.log(output.toString());
+  console.log(output.toString());
 }
 output();
 ```
@@ -1613,9 +1613,9 @@ Symbol类型保证了变量的唯一性，即使两个Symbol类型的变量具�
 
 ``` javascript
 let user = {
-    name : "AshGrey",
-    age  : 20,
-    [id] : 2022012050
+  name : "AshGrey",
+  age  : 20,
+  [id] : 2022012050
 };
 ```
 
@@ -1739,17 +1739,17 @@ console.log(typeof num);    // Object
 
     ``` javascript
     function replaceHtmlChar(text) {
-        return text.replace(/[<>"&"]/g, function(match, pos, originalText) {
-            switch(match) {
-                case "<" :
-                    return "&lt;";
-                case ">" :
-                    return "&gt;";
-                case "&" :
-                    return "&amp;";
-                case "\"" :
-                    return "&quot;";
-            } 
+      return text.replace(/[<>"&"]/g, function(match, pos, originalText) {
+        switch(match) {
+          case "<" :
+            return "&lt;";
+          case ">" :
+            return "&gt;";
+          case "&" :
+            return "&amp;";
+          case "\"" :
+            return "&quot;";
+          } 
         });
     }
     console.log(replaceHtmlChar("<p class =\"greeting\">Hello World!</p>"));
@@ -1799,9 +1799,9 @@ ECMAScript为对象设计了两种属性：数据属性和访问器属性。
 ``` javascript
 let loli = {};
 Object.defineProperty(loli, "name", {
-    writable : false,
-    configurable : false,
-    value : "Izumi Sagiri"
+  writable : false,
+  configurable : false,
+  value : "Izumi Sagiri"
 });
 console.log(loli.name);
 delete loli.name;
@@ -1818,8 +1818,8 @@ console.log(loli.name); // "Izumi Sagiri"
 
 ``` javascript
 let loli = {
-    name : "Izumi Sagiri",
-    age : 14
+  name : "Izumi Sagiri",
+  age : 14
 };
 let descriptor = Object.getOwnPropertyDescriptor(loli, "name");
 console.log(JSON.stringify(descriptor, null, 2));
@@ -1845,21 +1845,21 @@ console.log(JSON.stringify(descriptor, null, 2));
 
 ``` javascript
 let loli = {
-    _name : "Izumi Sagiri"
+  _name : "Izumi Sagiri"
 };
 Object.defineProperties(loli, {
-    name : {
-        // get name() {}
-        get : function() {
-            console.log(`Get The Property : ${this._name}`);
-            return this._name;
-        },
-        // set name(value) {}
-        set : function(newValue) {
-            this._name = newValue;
-            console.log(`Set The Property : ${this._name}`);
-        }
+  name : {
+    // get name() {}
+    get : function() {
+      console.log(`Get The Property : ${this._name}`);
+      return this._name;
+    },
+    // set name(value) {}
+    set : function(newValue) {
+      this._name = newValue;
+      console.log(`Set The Property : ${this._name}`);
     }
+  }
 });
 console.log(loli.name);
 // "Get The Property : Izumi Sagiri"
@@ -1883,11 +1883,11 @@ console.log(loli.name);
 
 ``` javascript
 let girlfriend = {
-    hug : true,
-    kiss : true
+  hug : true,
+  kiss : true
 };
 let loli = {
-    sex : true
+  sex : true
 };
 loli.__proto__ = girlfriend;
 console.log(loli.hug);  // true
@@ -1905,16 +1905,16 @@ console.log(loli.hug);  // true
 
 ``` javascript
 let wife = {
-    name : "Huaier",
-    age : 17,
-    love() {
-        console.log(`I love you, ${this.name}`);
-    }
+  name : "Huaier",
+  age : 17,
+  love() {
+    console.log(`I love you, ${this.name}`);
+  }
 };
 let wifeForever = {};
 wifeForever.__proto__ = wife;
 wifeForever.love = function() {
-    console.log("I love you, AshGrey");
+  console.log("I love you, AshGrey");
 };
 wifeForever.love();
 console.log(wifeForever);
@@ -1932,8 +1932,8 @@ console.log(wifeForever);
 
 ``` javascript
 function loli(name) {
-    loli.prototype.name = name;
-    console.log(this.name);
+  loli.prototype.name = name;
+  console.log(this.name);
 }
 
 let sagiri = new loli("Izumi Sagiri");
@@ -1951,8 +1951,8 @@ let elaina = new sagiri.constructor("Elaina");
 
     ``` javascript
     function loli(name) {
-        loli.prototype.name = name;
-        console.log(this.name);
+      loli.prototype.name = name;
+      console.log(this.name);
     }
 
     let sagiri = new loli("Izumi Sagiri");
@@ -1965,8 +1965,8 @@ let elaina = new sagiri.constructor("Elaina");
 
     ``` javascript
     function loli(name) {
-        loli.prototype.name = name;
-        console.log(this.name);
+      loli.prototype.name = name;
+      console.log(this.name);
     }
 
     let sagiri = new loli("Izumi Sagiri");
@@ -1981,8 +1981,8 @@ let elaina = new sagiri.constructor("Elaina");
 
     ``` javascript
     function loli(name) {
-        this.name = name;
-        console.log(this.name);
+      this.name = name;
+      console.log(this.name);
     }
 
     let sagiri = new loli("Izumi Sagiri");
@@ -1999,10 +1999,10 @@ let elaina = new sagiri.constructor("Elaina");
 
 ``` javascript
 Function.prototype.defer = function(ms) {
-    setTimeout(this, ms);
+  setTimeout(this, ms);
 };
 function f() {
-    console.log("hei!");
+  console.log("hei!");
 }
 f.defer(10000);
 ```
@@ -2016,11 +2016,11 @@ f.defer(10000);
 ``` javascript
 function Person() {}
 Person.prototype = {
-    constructor : Person,
-    name : "AshGrey",
-    age : 19,
-    job : "Student",
-    loli : ["Izumi Sagiri"],
+  constructor : Person,
+  name : "AshGrey",
+  age : 19,
+  job : "Student",
+  loli : ["Izumi Sagiri"],
 };
 
 
@@ -2042,20 +2042,20 @@ console.log(person2.loli);  // Array(2) : ["Izumi Sagiri", "Elaina"]
 
 ``` javascript
 function Person() {
-    this.name = "AshGrey";
-    this.age = 19;
-    this.job = "Student";
-    this.loli = ["Izumi Sagiri"];
+  this.name = "AshGrey";
+  this.age = 19;
+  this.job = "Student";
+  this.loli = ["Izumi Sagiri"];
 }
 Person.prototype = {
-    constructor : Person,
-    printInfo : function() {
-        let loliStr = "";
-        for (let i = 0; i <= this.loli.length - 1; i++) {
-            loliStr += `${this.loli[i]}\n`;
-        }
-        console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
-    }
+  constructor : Person,
+  printInfo : function() {
+  let loliStr = "";
+  for (let i = 0; i <= this.loli.length - 1; i++) {
+    loliStr += `${this.loli[i]}\n`;
+  }
+  console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
+  }
 };
 
 let person1 = new Person();
@@ -2077,19 +2077,19 @@ person2.printInfo();
 
 ``` javascript
 function Person() {
-    this.name = "AshGrey";
-    this.age = 19;
-    this.job = "Student";
-    this.loli = ["Izumi Sagiri"];
-    if (typeof this.printInfo !== "function") {
-        Person.prototype.printInfo = function() {
-            let loliStr = "";
-            for (let i = 0; i <= this.loli.length - 1; i++) {
-                loliStr += `${this.loli[i]}\n`;
-            }
-            console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
-        }
+  this.name = "AshGrey";
+  this.age = 19;
+  this.job = "Student";
+  this.loli = ["Izumi Sagiri"];
+  if (typeof this.printInfo !== "function") {
+    Person.prototype.printInfo = function() {
+      let loliStr = "";
+      for (let i = 0; i <= this.loli.length - 1; i++) {
+        loliStr += `${this.loli[i]}\n`;
+      }
+      console.log(`name : ${this.name}\nage : ${this.age}\njob : ${this.job}\nloli : ${loliStr}`);
     }
+  }
 }
 ```
 
@@ -2109,20 +2109,20 @@ function Person() {
 
 ``` javascript
 function SuperType() {
-    this.property = true;
+  this.property = true;
 }
 SuperType.prototype.getSuperValue = function() {
-    return this.property;
+  return this.property;
 };
 
 function SubType() {
-    this.subProperty = false;
+  this.subProperty = false;
 }
 
 SubType.prototype = new SuperType();
 
 SubType.prototype.getSubValue = function() {
-    return this.subProperty
+  return this.subProperty
 };
 let instance = new SubType();
 console.log(instance.getSuperValue());  // true
@@ -2157,17 +2157,17 @@ console.log(instance.getSuperValue());  // true
 
 ``` javascript
 function SuperType(name) {
-    this.name = name;
-    this.printInfo = function() {
-        console.log(this.name);
-    }
+  this.name = name;
+  this.printInfo = function() {
+    console.log(this.name);
+  }
 }
 function SubType() {
-    SuperType.call(this, "Izumi Sagiri");
-    this.age = 12;
-    this.printInfo = function() {
-        console.log(this.name + "\n" + this.age);
-    }
+  SuperType.call(this, "Izumi Sagiri");
+  this.age = 12;
+  this.printInfo = function() {
+    console.log(this.name + "\n" + this.age);
+  }
 }
 let loli = new SubType();
 let girlfriend = new SuperType("Elaina");
@@ -2187,14 +2187,14 @@ loli.printInfo();
 
 ``` javascript
 function SuperType(name, age) {
-    this.name = name;
-    this.age = age;
+  this.name = name;
+  this.age = age;
 }
 SuperType.prototype.printInfo = function() {
-    console.log(this.name + "\n" + this.age);
+  console.log(this.name + "\n" + this.age);
 }
 function SubType(name, age) {
-    SuperType.call(this, name, age);
+  SuperType.call(this, name, age);
 }
 SubType.prototype = new SuperType();
 SubType.prototype.constructor = SubType;
@@ -2214,16 +2214,16 @@ console.log(loli.printInfo());
 
 ``` javascript
 function SuperType(name, age) {
-    this.name = name;
-    this.age = age;
+  this.name = name;
+  this.age = age;
 }
 SuperType.prototype.printInfo = function() {
-    console.log(this.name + "\n" + this.age);
+  console.log(this.name + "\n" + this.age);
 }
 function copy(object) {
-    function C() {}
-    C.prototype = object;
-    return new C();
+  function C() {}
+  C.prototype = object;
+  return new C();
 }
 var person1 = new SuperType("AshGrey", 19);
 var person2 = copy(person1);
@@ -2249,24 +2249,24 @@ ECMAScript 5 新增了 `Object.create()` 方法规范化了原型式继承，这
 <br>
 
 ``` javascript
-let time = "2024-02-21";
-class loli {
-    constructor(name, age, meetTime) {
-        this.name = name;
-        this.age = age;
-        this.meetTime = meetTime;
-    }
-    printInfo() {
-        console.log(this.name + "\n" + this.age);
-    }
-    celebrate() {
-        if (time.slice(5) === this.meetTime.slice(5))
-            console.log("You should celebrate the wedding anniversary");
-    }
+let time = "2024-08-19";
+class wife {
+  constructor(name, age, meetTime) {
+    this.name = name;
+    this.age = age;
+    this.meetTime = meetTime;
+  }
+  printInfo() {
+    console.log(this.name + "\n" + this.age);
+  }
+  celebrate() {
+    if (time.slice(5) === this.meetTime.slice(5))
+      console.log("You should celebrate the wedding anniversary");
+  }
 }
 
-let sagiri = new loli("Izumi Sagiri", 12, "2020-02-21");
-sagiri.celebrate();
+let huaier = new wife('Huaier', 17, '2022-06-19');
+huaier.celebrate();
 ```
 
 <br>
@@ -2291,17 +2291,17 @@ sagiri.celebrate();
 
 ``` javascript
 class User {
-    constructor(name) {
-        this.name = name;
-    }
-    get name() {
-        console.log("The 'name' is getted by somewhere");
-        return this._name;
-    }
-    set name(value) {
-        this._name = value;
-        console.log("The 'name' is setted by somewhere")
-    }
+  constructor(name) {
+    this.name = name;   // set name()
+  }
+  get name() {
+    console.log("The 'name' is getted by somewhere");
+    return this.name_;
+  }
+  set name(value) {
+    this.name_ = value;
+    console.log("The 'name' is setted by somewhere")
+  }
 }
 
 let ashgrey = new User("AshGreyG");
@@ -2311,19 +2311,46 @@ ashgrey.name = "AshGrey-AshGrey";
 
 <br>
 
-类和函数一样也具有类表达式：
+以上代码中使用`name_`是为了防止无限递归，简洁的写法（即不期望在调用或传入参数时有额外行为时）也可以不需要`getter/setter`。注意，类和函数一样也具有类表达式：
 
 <br>
 
 ``` javascript
 let User = class MyClass {
-    sayHello() {
-        console.log(MyClass);   // MyClass is only seen inside
-    }
+  sayHello() {
+    console.log(MyClass);   // MyClass is only seen inside
+  }
 };
 
 new User().sayHello();
 console.log(MyClass);   // MyClass can't be seen outside
+```
+
+<br>
+
+#### 4.4.2 类中的函数绑定
+
+<br>
+
+在 5.2 节中写到过对象方法被传递到某处，或者在另一个上下文中被调用时，对象的方法内部的`this`不再是对象本身，这样就丢失了`this`。除了函数包装器以及`bind`函数的使用，类还提供了一种优雅的语法：在类中使用箭头函数：
+
+<br>
+
+``` javascript
+class User {
+  constructor(name) {
+    this.name = name;
+  }
+  printInfo = () => {
+    alert(this.name);
+  }
+  changeInfo = (value) => {
+    this.name = value;
+  }
+}
+
+let user = new User('AshGrey');
+setTimeout(user.printInfo, 100)
 ```
 
 <br>
@@ -2354,12 +2381,12 @@ console.log(MyClass);   // MyClass can't be seen outside
 
 ``` javascript
 function pow(x, n) {
-    if (n === 1) {
-        return x;
-    }
-    else {
-        return x * pow(x, n - 1);
-    }
+  if (n === 1) {
+    return x;
+  }
+  else {
+    return x * pow(x, n - 1);
+  }
 }
 ```
 
@@ -2377,11 +2404,11 @@ function pow(x, n) {
 
 ``` javascript
 let users = {
-    name : "AshGrey",
-    age : 19,
-    printInfo() {
-        console.log(this.name + "\n" + this.age);
-    }
+  name : "AshGrey",
+  age : 19,
+  printInfo() {
+    console.log(this.name + "\n" + this.age);
+  }
 };
 setTimeout(users.printInfo, 1000); // undefined
 ```
@@ -2393,11 +2420,11 @@ setTimeout(users.printInfo, 1000); // undefined
 
     ``` javascript
     let users = {
-        name : "AshGrey",
-        age : 19,
-        printInfo() {
-            console.log(this.name + "\n" + this.age);
-        }
+      name : "AshGrey",
+      age : 19,
+      printInfo() {
+        console.log(this.name + "\n" + this.age);
+      }
     };
     setTimeout(() => users.printInfo(), 1000);
     ```
@@ -2406,7 +2433,171 @@ setTimeout(users.printInfo, 1000); // undefined
 - `bind`函数：函数的内建方法`bind`的基本语法如下：
 
     ``` javascript
-    let boundFunc = func.bind(context);
+    let user = {
+      name : 'AshGrey',
+      age : 20
+    };
+    function func() {
+      alert(this.name);
+    }
+    let funcUser = func.bind(user);
+    setTimeout(funcUser, 1000)
     ```
 
-    上述代码的结果是一个特殊的类似于函数的外来对象，它可以像函数一样被调用，并且将调用传递给`func`并设置`this=context`。`boundFunc`的行为就类似于绑定了`context`的`func`；
+    这里将`func`函数的`this`绑定为`user`对象，所以可以调用`user`的属性。如果一个对象中的方法特别多而想要批量绑定的话，需要使用以下`for`循环：
+
+    ``` javascript
+    let user = {
+      name : 'AshGrey',
+      password : 'HuaierLove',
+      printInfo() {
+        let encryptPassword = '*'.repeat(this.password.length);
+        alert(`name : ${this.name}\npassword : ${encryptPassword}`);
+      },
+      sudoPrintInfo() {
+        alert(`name : ${this.name}\npassword : ${this.password}`);
+      }
+    };
+
+    for (let key in user) {
+      if (typeof user[key] === 'function') {
+        user[key] = user[key].bind(user);
+      }
+    }
+
+    setTimeout(user.printInfo, 100);
+    setTimeout(user.sudoPrintInfo, 100);
+    ```
+
+<br>
+
+### 5.3 Rest 参数和 Spread 语法
+
+<br>
+
+与 Python 中的`*`可变参数一样，JavaScript 中也有可变参数，其使用`...`来声明可变参数（Rest 参数，指剩下所有参数），其接受多个参数并将其收集到数组里，这种参数会自动收集后续所有的元素，所以只能放在参数列表的末尾，否则会出现语法错误：
+
+<br>
+
+``` javascript
+function sumAll(name, ...args) {
+  let sum = 0;
+  for (value of args) {
+    sum += value;
+  }
+  alert(`${name} : ${sum}`);
+} 
+
+sumAll('AshGrey', 1, 2, 3, 4, 5);
+// AshGrey : 15
+```
+
+<br>
+
+与 Python 中的将 tuple/list 传入可变参数需要添加`*`一样，JavaScript 将数组传入 Rest 参数中也需要在数组前加上`...`，这种语法称为 Spread 语法：
+
+<br>
+
+``` javascript
+function sumAll(name, ...args) {
+  let sum = 0;
+  for (value of args) {
+    sum += value;
+  }
+  alert(`${name} : ${sum}`);
+} 
+
+let array = [1, 2, 2, 3];
+sumAll('Huaier', ...array);
+```
+
+<br>
+
+Spread 语法不仅可以用于将数组拆成多个元素传入到函数中，它可以传入到任何需要拆分数组的地方，而且这种语法不是针对数组的，它对所有的可迭代对象都可适用，这是因为 Spread 语法内部使用`for-of`来迭代参数。所以将迭代器对象转换成数组时，`...`等同于`Array.from`；将对象复制给另一个对象时，`...`等同于`Object.assign`：
+
+<br>
+
+``` javascript
+let array = [1, 2, 2, 3];
+let merge = [0, ...array];
+alert(merge);
+// 0, 1, 2, 2, 3
+
+let testObject1 = {
+  name : 'AshGrey',
+  age : 20,
+  id : 2022012050
+}
+let testObject2 = {...testObject1};
+alert(JSON.stringify(testObject2));
+// {name:'AshGrey',age:20,id:2022012050}
+```
+
+<br>
+
+### 5.4 闭包
+
+<br>
+
+JavaScript 是天然具有闭包的语言，要讲清楚闭包就必须从 JavaScript 的词法环境（lexical environment）讲起：
+- 在 JavaScript 中，每个运行的函数、代码块`{}`以及整个脚本都有一个被称为**词法环境**的隐藏关联对象，其由两部分组成：
+  - **环境记录**：一个存储所有局部变量作为其属性（包括`this`的值）的对象；
+  - 对**外部词法环境**的引用，与外部代码关联；
+
+  所以一个变量只是环境记录这个特殊对象的内部属性，「获取或更改变量的值」即意味着「获取或更改环境记录对象的属性」。对于以下的代码，其只有一个词法环境，环境记录是这么变化的：
+
+  ``` javascript
+  //                    ┌─────────────────────┐
+  // execution start ───│love: <uninitialized>│──> null
+  //                    └─────────────────────┘
+  //                    ┌───────────────┐
+  let love; // ─────────│love: undefined│
+  //                    └───────────────┘
+  //                    ┌──────────────┐
+  love = "Huaier"; // ──│love: "Huaier"│
+  //                    └──────────────┘
+  //                    ┌───────────────┐
+  love = "AshGrey"; // ─│love: "AshGrey"│
+  //                    └───────────────┘
+  ```
+
+  最开始变量处于未初始化的状态，此时只有引擎知道变量，而编写的脚本的代码是无法获取这个变量的，这是一种特殊的内部状态，在使用`let`声明这个变量前这个变量几乎就等于不存在；
+- 我们说过函数就是一种变量，但是和普通变量不同的是，函数声明的初始化会被立即完成，当创建了一个词法环境的时候，函数声明会立即成为**即用型函数**，例如
+
+  ``` javascript
+  //                    ┌─────────────────────┐
+  // execution start ───│love: <uninitialized>│──> null
+  //                    │say: function        │
+  //                    └─────────────────────┘
+  let love = "Huaier&AshGrey";
+  function say(name) {
+    alert(`${love} : ${name}`);
+  }
+  ```
+
+  注意这种词法环境的变化只适用于函数声明而不适用于函数表达式；
+- 在函数运行调用刚开始时，会自动创建一个新的词法环境以存储这个调用的局部变量和参数，在这个函数调用期间总共有两个词法环境：内部用于函数调用、外部的全局环境，而内部的词法环境引用了外部的全局环境。**当代码要访问一个变量时，首先会搜索内部的词法环境，然后搜索外部词法环境，以此类推知道全局词法环境**；
+- 接下来就是**返回函数**的词法环境分析。所有的函数在创建时都会存储创建他们的词法环境，这是因为所有的函数都有名为`[[Environment]]`的隐藏属性，该属性保存了对创建该函数的词法环境的引用：
+
+  ``` javascript
+  function makeCounter() {
+    let count = 0;
+    return function() {
+      return count++;
+    };
+  }
+
+  let counter = makeCounter();
+  // [[Environment]]
+  //        │
+  //        │
+  //        V            ┌─────────────────────┐
+  //   ┌────────┐ outer  │makeCounter: function│ outer
+  //   │count: 0│───────>│counter: undefined   │──────> null
+  //   └────────┘        └─────────────────────┘
+  ```
+
+  因此`counter.[[Enumerable]]`有对`{count: 0}`词法环境的引用，由于函数的`[[Environment]]`属性在函数创建时被永久设置，这和函数在哪里调用都无关。当我们调用`count()`时，它就会更新对它而言的外部变量，即函数`makeCounter()`内部的`count`变量。
+
+<br>
+
