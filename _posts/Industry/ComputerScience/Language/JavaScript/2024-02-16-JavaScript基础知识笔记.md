@@ -2601,3 +2601,28 @@ JavaScript 是天然具有闭包的语言，要讲清楚闭包就必须从 JavaS
 
 <br>
 
+### 5.5 调度函数
+
+<br>
+
+有两种计划调度的函数：
+- `setTimeout()`允许函数推迟一段时间运行，`clearTimeout()`将定时器清除；
+- `setInterval()`允许重复运行一个函数，从一段时间间隔之后开始运行，之后以该时间间隔连续重复运行该函数，`clearInterval()`将循环器清除。
+
+<br>
+
+注意在大多数浏览器中弹出`alert/confirm/prompt`弹窗时，内部的定时器仍旧在运行。周期性调度的`setInterval()`函数不能精确地设置两次执行之间的延时，这是因为执行的函数也需要消耗时间，使用嵌套的`setTimeout()`则要比`setInterval()`函数更好：
+
+<br>
+
+``` javascript
+let i = 1;
+setTimeout(function run() {
+  alert(i++);
+  setTimeout(run, 100);
+}, 100);
+```
+
+<br>
+
+在这里实际就是使用了`setTimeout()`函数的无穷递归调用。
