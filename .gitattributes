@@ -16,3 +16,4 @@
 *.ico binary
 
 .md linguist-language=markdown
+*.md linguist-detectable=true
