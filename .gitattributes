@@ -14,3 +14,5 @@
 *.png binary
 *.jpg binary
 *.ico binary
+
+.md linguist-language=markdown
