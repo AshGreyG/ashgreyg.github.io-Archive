@@ -47,6 +47,7 @@
       }
 
       .card-text.content {
+        display: none !important;
         @extend %muted;
 
         p {
@@ -113,7 +114,7 @@
     &:not(.active) {
       .page-link {
         &:hover {
-          box-shadow: inset var(--btn-border-color) 0 0 0 1px;
+          box-shadow: inset var(--btn-border-color) 0 0 0 0;
         }
       }
     }
