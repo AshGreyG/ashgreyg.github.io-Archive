@@ -2,7 +2,7 @@
 title: JavaScript中的高级数据类型
 author: AshGrey
 date: 2024-09-09 00:00:00 +0800
-categories: [Coumputer Science, Language]
+categories: [Computer Science, Language]
 tags: [Computer Science, JavaScript]
 ---
 

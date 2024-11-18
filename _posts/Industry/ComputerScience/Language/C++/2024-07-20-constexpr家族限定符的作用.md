@@ -2,7 +2,7 @@
 title: constexpr家族限定符的作用
 author: AshGrey
 date: 2024-07-20 00:00:00 +0800
-categories: [Coumputer Science, Language]
+categories: [Computer Science, Language]
 tags: [Computer Science, C++]
 excerpt: 本文章所属领域：实践产业知识 - 工业产业 - 计算机科学 - 编程语言 - C++
 ---

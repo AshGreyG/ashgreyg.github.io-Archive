@@ -2,7 +2,7 @@
 title: Common Lisp基础知识笔记
 author: AshGrey
 date: 2024-11-05 00:00:00 +0800
-categories: [Coumputer Science, Language]
+categories: [Computer Science, Language]
 tags: [Computer Science, Common Lisp]
 math: true
 ---

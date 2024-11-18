@@ -2,7 +2,7 @@
 title: React Native学习笔记
 author: AshGrey
 date: 2024-09-16 00:00:00 +0800
-categories: [Coumputer Science, Language]
+categories: [Computer Science, Language]
 tags: [Computer Science, JavaScript]
 ---
 

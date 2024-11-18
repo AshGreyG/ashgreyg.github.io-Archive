@@ -2,7 +2,7 @@
 title: JavaScript基础知识笔记
 author: AshGrey
 date: 2024-02-16 00:00:00 +0800
-categories: [Coumputer Science, Language]
+categories: [Computer Science, Language]
 tags: [Computer Science, JavaScript]
 ---
 
